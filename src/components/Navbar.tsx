@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import logo from '../assets/logo.svg';
@@ -57,7 +58,7 @@ const StyledHeader = styled.header`
     margin-right: -2rem;
     padding-left: 2rem;
     padding-right: 2rem;
-    background: var(--primary500);
+    background: var(--grey900);
   }
 `;
 
@@ -177,9 +178,9 @@ const Navbar = () => {
 
   return (
     <StyledHeader>
-      <div>
+      <Link to="/">
         <img src={logo} width={40} height={40} alt="" aria-hidden />
-      </div>
+      </Link>
       <button type="button" className="menuToggle" onClick={openMenu}>
         <MenuIconSvg />
       </button>
@@ -190,10 +191,10 @@ const Navbar = () => {
         <StyledNavLinks>
           <ul>
             <li>
-              <a href="#">Movies</a>
+              <Link to="movies">Movies</Link>
             </li>
             <li>
-              <a href="#">TV Shows</a>
+              <Link to="shows">TV Shows</Link>
             </li>
             <li>
               <a href="#">
