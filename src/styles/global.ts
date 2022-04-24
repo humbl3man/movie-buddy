@@ -88,6 +88,7 @@ export const GlobalStyle = createGlobalStyle`
     padding: 0; 
     background-color: var(--grey900);
     font-family: var(--baseFont);
+    overflow-x: hidden;
   }
 
   // typography   
@@ -128,7 +129,7 @@ export const GlobalStyle = createGlobalStyle`
   .h2,
   .h3 {
     font-weight: 600;
-    letter-spacing: -2%;
+    letter-spacing: -0.02em;
     margin: 0 0 4rem;
   }
 
@@ -139,7 +140,7 @@ export const GlobalStyle = createGlobalStyle`
   .h5,
   .h6 {
     font-weight: 700;
-    letter-spacing: -1.5%;
+    letter-spacing: -0.015em;
     margin: 0 0 3.2rem;
   }
 
@@ -176,6 +177,11 @@ export const GlobalStyle = createGlobalStyle`
   .caption {
     font-size: 1.4rem;
     line-height: 1.6rem;
+  }
+
+  *:focus {
+      outline-offset: 4px;
+      outline: 2px dashed var(--primary200);
   }
 
 `;

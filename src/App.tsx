@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import logoImg from './assets/logo.svg';
+import Navbar from './components/Navbar';
 
 const StyledPage = styled.div`
   margin-left: auto;
@@ -14,12 +14,7 @@ const StyledPage = styled.div`
 function App() {
   return (
     <StyledPage>
-      <img src={logoImg} alt="" />
-      <h1>Movie Recommendation App</h1>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni excepturi quidem necessitatibus ipsam sed modi aliquam vero! A explicabo, quod laborum maxime in,
-        perspiciatis eligendi ex odit voluptatum molestiae sit!
-      </p>
+      <Navbar />
     </StyledPage>
   );
 }
