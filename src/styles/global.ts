@@ -156,12 +156,11 @@ export const GlobalStyle = createGlobalStyle`
   .h4,
   .h5,
   .h6 {
-    color: var(--white);
+    color: var(--grey50);
   }
 
-  p {
+  p, a {
     line-height: 2.4rem;
-    color: var(--white75);
     &.large {
       font-size: 2rem;
       line-height: 3.2rem;
@@ -173,14 +172,25 @@ export const GlobalStyle = createGlobalStyle`
       font-size: 1.2rem;
     }
   }
-
+  p {
+    color: var(--grey300);
+  }
+  a {
+    color: var(--grey100);
+    font-weight: 600;
+    transition: color 200ms ease;
+    text-decoration: none; 
+    &:hover {
+      color: var(--white);
+    }
+  }
   .caption {
     font-size: 1.4rem;
     line-height: 1.6rem;
   }
-
-  *:focus {
-      outline-offset: 4px;
+  a:focus,
+  button:focus {
+      outline-offset: 2px;
       outline: 2px dashed var(--primary200);
   }
 

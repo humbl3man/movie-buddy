@@ -13,6 +13,7 @@ const StyledHeader = styled.header`
   position: relative;
   z-index: 1;
   overflow-y: hidden;
+  margin-bottom: 8rem;
 
   .menuToggle,
   .menuClose {
