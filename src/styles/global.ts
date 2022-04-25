@@ -9,12 +9,18 @@ export const GlobalStyle = createGlobalStyle`
     --black65: rgba(0, 0, 0, .65);
     --black50: rgba(0, 0, 0, .5);
     --black40: rgba(0, 0, 0, .4);
+    --black30: rgba(0, 0, 0, .3);
+    --black20: rgba(0, 0, 0, .2);
+    --black10: rgba(0, 0, 0, .1);
 
     --white: #fff;
     --white75: rgba(255, 255, 255, .75);
     --white65: rgba(255, 255, 255, .65);
     --white50: rgba(255, 255, 255, .5);
     --white40: rgba(255, 255, 255, .4);
+    --white30: rgba(255, 255, 255, .3);
+    --white20: rgba(255, 255, 255, .2);
+    --white10: rgba(255, 255, 255, .1);
 
     --primary50:  #EBE9FE;
     --primary100: #DEDBFD;
@@ -61,6 +67,16 @@ export const GlobalStyle = createGlobalStyle`
     --grey900: #121829;
 
     // TODO: add warning, error, success colors
+    --error50:  #FFECEC;
+    --error100: #FFDFDF;
+    --error200: #FFC0C0;
+    --error300: #FFA0A0;
+    --error400: #FF8181;
+    --error500: #FF6161;
+    --error600: #CC4E4E;
+    --error700: #993A3A;
+    --error800: #662727;
+    --error900: #331313;
 
     // typography
     --baseFont: 'Poppins', arial, sans-serif;
