@@ -84,7 +84,7 @@ export const GlobalStyle = createGlobalStyle`
     --warning300: #FFCE92;
     --warning400: #FFBD6D;
     --warning500: #FFAD49;
-    --warning600: #FFAD49;
+    --warning600: #CC8A3A;
     --warning700: #99682C;
     --warning800: #66451D;
     --warning900: #33230F;

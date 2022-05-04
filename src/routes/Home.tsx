@@ -24,6 +24,15 @@ const StyledHero = styled.div`
   }
 `;
 
+const StyledFeaturedContainer = styled.div`
+  margin-top: 2.4rem;
+  margin-bottom: 15.6rem;
+  .featured-title {
+    color: var(--grey400);
+    margin-bottom: 2.4rem;
+  }
+`;
+
 type SearchInput = {
   searchTerm: string;
 };
@@ -65,26 +74,32 @@ const Home = () => {
           }}
         />
       </StyledHero>
-      <div>
+      <StyledFeaturedContainer>
         {filter === 'all' && allLoaded && (
           <div>
-            <h2>All ({movies.data?.data.results.length + tvshows.data?.data.results.length})</h2>
+            <h3 className="featured-title">
+              All <span className="caption">({movies.data?.data.results.length + tvshows.data?.data.results.length})</span>
+            </h3>
             <ContentList data={[...movies.data?.data.results, ...tvshows.data?.data.results]} />
           </div>
         )}
         {filter === 'movies' && moviesLoaded && (
           <div>
-            <h2>Movies ({movies.data?.data.results.length ?? 0})</h2>
+            <h3 className="featured-title">
+              Movies <span className="caption">({movies.data?.data.results.length ?? 0})</span>
+            </h3>
             <ContentList data={movies.data?.data.results} />
           </div>
         )}
         {filter === 'tv' && tvShowsLoaded && (
           <div>
-            <h2>TV Shows ({tvshows.data?.data.results.length ?? 0})</h2>
+            <h3 className="featured-title">
+              TV Shows <span className="caption">({tvshows.data?.data.results.length ?? 0})</span>
+            </h3>
             <ContentList data={tvshows.data?.data.results} />
           </div>
         )}
-      </div>
+      </StyledFeaturedContainer>
     </div>
   );
 };
