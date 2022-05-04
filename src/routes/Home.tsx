@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import searchIcon from '../assets/search-icon.svg';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { InputWrapper } from '../components/Input';
+import { API_KEY_v3 } from '../api/config';
+import { useQuery, useQueryClient } from 'react-query';
+import getPopular from '../api/getPopular';
+import { Filter } from '../typings';
+import FilterSelect from '../components/FilterSelect';
 
 const StyledHero = styled.div`
   width: 100%;
@@ -12,6 +17,9 @@ const StyledHero = styled.div`
   }
   p {
     color: var(--grey300);
+  }
+  form {
+    margin-bottom: 8rem;
   }
 `;
 
@@ -25,7 +33,13 @@ const Home = () => {
     handleSubmit,
     formState: { errors }
   } = useForm<SearchInput>();
+
+  const [filter, setFilter] = useState<Filter>('all');
+
   const onSubmit: SubmitHandler<SearchInput> = (data) => console.log(data);
+  const queryClient = useQueryClient();
+  const movieQuery = useQuery(['movies'], () => getPopular({ type: 'movie' }), { enabled: filter === 'all' || filter === 'movies' });
+  const tvQuery = useQuery(['tv'], () => getPopular({ type: 'tv' }), { enabled: filter === 'all' || filter === 'tv' });
 
   return (
     <StyledHero>
@@ -37,6 +51,14 @@ const Home = () => {
           <label htmlFor="searchTerm">Search Movies or TV Shows</label>
         </InputWrapper>
       </form>
+
+      <FilterSelect
+        selectedFilter={filter}
+        onFilterSelect={(filter) => {
+          setFilter(filter);
+          queryClient.invalidateQueries(['movies', 'tv']);
+        }}
+      />
     </StyledHero>
   );
 };

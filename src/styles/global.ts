@@ -78,6 +78,17 @@ export const GlobalStyle = createGlobalStyle`
     --error800: #662727;
     --error900: #331313;
 
+    --warning50:  #FFF5E9;
+    --warning100: #FFEFDB;
+    --warning200: #FFDEB6;
+    --warning300: #FFCE92;
+    --warning400: #FFBD6D;
+    --warning500: #FFAD49;
+    --warning600: #FFAD49;
+    --warning700: #99682C;
+    --warning800: #66451D;
+    --warning900: #33230F;
+
     // typography
     --baseFont: 'Poppins', arial, sans-serif;
 
