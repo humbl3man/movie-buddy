@@ -218,7 +218,7 @@ export const GlobalStyle = createGlobalStyle`
   a:focus,
   button:focus {
       outline-offset: 2px;
-      outline: 2px dashed var(--primary200);
+      outline: 2px solid var(--primary200);
   }
 
 `;

@@ -22,18 +22,19 @@ const StyledFilterSelect = styled.ul`
   }
 `;
 const StyledFilterButton = styled.button<StyledFilterButtonProps>`
-  display: flex;
-  height: 4rem;
   align-items: center;
-  justify-content: center;
-  font-size: inherit;
+  appearance: none;
+  border-radius: 8px;
   border: 0;
-  min-width: 80px;
   cursor: pointer;
+  display: flex;
+  font-size: inherit;
+  height: 4rem;
+  justify-content: center;
+  min-width: 80px;
   ${(props) => {
     if (props.active) {
       return `
-      border-radius: 8px;
         background-color: var(--primary400);
         color: var(--primary50);
       `;
