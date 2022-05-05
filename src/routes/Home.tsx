@@ -13,6 +13,7 @@ import ContentList from '../components/ContentList';
 
 const StyledHero = styled.div`
   width: 100%;
+  margin-top: 8rem;
   @media screen and (min-width: 767px) {
     max-width: 600px;
   }

@@ -10,6 +10,7 @@ import placeholderImg from '../assets/imagePlaceholder.svg';
 const StyledBackdropImage = styled.header<{ src: string }>`
   overflow: hidden;
   border-radius: 40px;
+  margin-top: 4rem;
   background-image: url(${(props) => props.src});
   background-size: cover;
   background-repeat: no-repeat;
@@ -42,8 +43,10 @@ const StyledDetailHeader = styled.header`
 `;
 const StyledDetailBody = styled.section`
   display: grid;
-  grid-template-columns: 500px 1fr;
   gap: 8rem;
+  @media screen and (min-width: 1024px) {
+    grid-template-columns: 500px 1fr;
+  }
 `;
 const StyledPosterImage = styled.div`
   border-radius: 24px;
@@ -72,6 +75,12 @@ const StyledMetaInfo = styled.div`
     color: var(--grey100);
     margin: 0;
   }
+`;
+
+const StyledColumns = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2.4rem;
 `;
 
 const StyledSkeletonText = styled.div<{ full?: boolean }>`
@@ -157,6 +166,7 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
           <StyledPosterImage>
             <img src={buildImageUrl({ posterSize: 'w500', src: detail.poster_path })} alt={detail.title} />
           </StyledPosterImage>
+
           <div>
             <h4>{detail.tagline}</h4>
             <p>{detail.overview}</p>
@@ -164,18 +174,57 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
               <StarIcon gold />
               <p>{detail.vote_average.toFixed(1)}</p>
             </StyledRating>
-            <StyledMetaInfo>
-              <p className="label">Type</p>
-              <p className="large">{props.type === 'movie' ? 'Movie' : 'TV'}</p>
-            </StyledMetaInfo>
-            <StyledMetaInfo>
-              <p className="label">Release Date</p>
-              <p className="large">{detail.release_date}</p>
-            </StyledMetaInfo>
-            <StyledMetaInfo>
-              <p className="label">Run time</p>
-              <p className="large">{detail.runtime} min</p>
-            </StyledMetaInfo>
+            {props.type === 'movie' && (
+              <div>
+                <StyledMetaInfo>
+                  <p className="label">Type</p>
+                  <p className="large">Movie</p>
+                </StyledMetaInfo>
+                <StyledMetaInfo>
+                  <p className="label">Release Date</p>
+                  <p className="large">{detail.release_date}</p>
+                </StyledMetaInfo>
+                <StyledMetaInfo>
+                  <p className="label">Run time</p>
+                  <p className="large">{detail.runtime} min</p>
+                </StyledMetaInfo>
+              </div>
+            )}
+            {props.type === 'tv' && (
+              <div>
+                <StyledColumns>
+                  <StyledMetaInfo>
+                    <p className="label">Type</p>
+                    <p className="large">TV Show</p>
+                  </StyledMetaInfo>
+                  <StyledMetaInfo>
+                    <p className="label">Status</p>
+                    <p className="large">{detail.status}</p>
+                  </StyledMetaInfo>
+                  <StyledMetaInfo>
+                    <p className="label">First air date</p>
+                    <p className="large">{detail.first_air_date}</p>
+                  </StyledMetaInfo>
+                  <StyledMetaInfo>
+                    <p className="label">Last air date</p>
+                    <p className="large">{detail.last_air_date}</p>
+                  </StyledMetaInfo>
+                  <StyledMetaInfo>
+                    <p className="label">No. of seasons</p>
+                    <p className="large">{detail.number_of_seasons}</p>
+                  </StyledMetaInfo>
+                  <StyledMetaInfo>
+                    <p className="label">No. of episodes</p>
+                    <p className="large">{detail.number_of_episodes}</p>
+                  </StyledMetaInfo>
+                </StyledColumns>
+                <StyledMetaInfo>
+                  <p className="label">Episode run time</p>
+                  <p className="large">{detail.episode_run_time[0]} min</p>
+                </StyledMetaInfo>
+              </div>
+            )}
+
             {genresList && (
               <StyledMetaInfo>
                 <p className="label">Genres</p>
