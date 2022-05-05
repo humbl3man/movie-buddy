@@ -9,6 +9,7 @@ import Movies from './routes/Movies';
 import Shows from './routes/Shows';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import Detail from './routes/Detail';
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
             <Route path="/" element={<Home />} />
             <Route path="/movies" element={<Movies />} />
             <Route path="/shows" element={<Shows />} />
+            <Route path="/movie/:id" element={<Detail type="movie" />} />
+            <Route path="/tv/:id" element={<Detail type="tv" />} />
           </Route>
         </Routes>
       </BrowserRouter>

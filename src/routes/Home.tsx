@@ -7,7 +7,7 @@ import { InputWrapper } from '../components/Input';
 import { API_KEY_v3 } from '../api/config';
 import { useQuery, useQueryClient } from 'react-query';
 import getPopular from '../api/getPopular';
-import { Filter } from '../typings';
+import { Content, Filter } from '../typings';
 import FilterSelect from '../components/FilterSelect';
 import ContentList from '../components/ContentList';
 
@@ -36,6 +36,10 @@ const StyledFeaturedContainer = styled.div`
 type SearchInput = {
   searchTerm: string;
 };
+
+function setContentType(contentList: Content[], type: 'movie' | 'tv') {
+  return contentList.map((c) => ({ ...c, type }));
+}
 
 const Home = () => {
   const {
@@ -80,7 +84,7 @@ const Home = () => {
             <h3 className="featured-title">
               All <span className="caption">({movies.data?.data.results.length + tvshows.data?.data.results.length})</span>
             </h3>
-            <ContentList data={[...movies.data?.data.results, ...tvshows.data?.data.results]} />
+            <ContentList data={[...setContentType(movies.data?.data.results, 'movie'), ...setContentType(tvshows.data?.data.results, 'tv')]} />
           </div>
         )}
         {filter === 'movies' && moviesLoaded && (
@@ -88,7 +92,7 @@ const Home = () => {
             <h3 className="featured-title">
               Movies <span className="caption">({movies.data?.data.results.length ?? 0})</span>
             </h3>
-            <ContentList data={movies.data?.data.results} />
+            <ContentList data={setContentType(movies.data?.data.results, 'movie')} />
           </div>
         )}
         {filter === 'tv' && tvShowsLoaded && (
@@ -96,7 +100,7 @@ const Home = () => {
             <h3 className="featured-title">
               TV Shows <span className="caption">({tvshows.data?.data.results.length ?? 0})</span>
             </h3>
-            <ContentList data={tvshows.data?.data.results} />
+            <ContentList data={setContentType(tvshows.data?.data.results, 'tv')} />
           </div>
         )}
       </StyledFeaturedContainer>

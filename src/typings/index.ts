@@ -5,4 +5,5 @@ export interface Content {
   title?: string;
   name?: string;
   poster_path?: string;
+  type: 'movie' | 'tv';
 }

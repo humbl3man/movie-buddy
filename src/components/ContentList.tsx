@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Content } from '../typings';
 import ContentCard from './ContentCard';
@@ -22,7 +23,12 @@ const ContentList: React.FC<ContentListProps> = (props) => {
   const list = props.data ?? [];
 
   function renderContent(content: Content) {
-    return <ContentCard key={content.id} content={content} />;
+    const detailURL = content.type === 'movie' ? `/movie/${content.id}` : `/tv/${content.id}`;
+    return (
+      <Link to={detailURL}>
+        <ContentCard key={content.id} content={content} />
+      </Link>
+    );
   }
 
   return <StyledContentList>{list.length > 0 && list.map(renderContent)}</StyledContentList>;

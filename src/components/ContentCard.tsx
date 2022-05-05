@@ -1,11 +1,7 @@
 import styled from 'styled-components';
-import { BASE_URL } from '../api/config';
 import { Content } from '../typings';
+import { buildImageUrl } from '../utils/buildImageUrl';
 import StarIcon from './StarIcon';
-
-const imageBaseURL = 'https://image.tmdb.org/t/p/';
-const imageSize = 'w500';
-const imageUrl = `${imageBaseURL}/${imageSize}`;
 
 type ContentCardProps = {
   content: Content;
@@ -58,7 +54,7 @@ const ContentCard: React.FC<ContentCardProps> = (props) => {
       </StyledRating>
       {props.content.poster_path && (
         <div className="card-image-container">
-          <img src={`${imageUrl}/${props.content.poster_path}`} alt={props.content.name || props.content.title} />
+          <img src={buildImageUrl({ src: props.content.poster_path, posterSize: 'w500' })} alt={props.content.name || props.content.title} />
         </div>
       )}
       <p>
