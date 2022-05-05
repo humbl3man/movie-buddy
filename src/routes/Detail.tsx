@@ -6,18 +6,15 @@ import getDetail from '../api/getDetail';
 import StarIcon from '../components/StarIcon';
 import { buildImageUrl } from '../utils/buildImageUrl';
 
-const StyledBackdropImage = styled.header`
+const StyledBackdropImage = styled.header<{ src: string }>`
   overflow: hidden;
   border-radius: 40px;
-  img {
-    object-fit: cover;
-    object-position: center;
-    width: 100%;
-    display: block;
-    height: auto;
-    max-height: 480px;
-    filter: opacity(0.75);
-  }
+  background-image: url(${(props) => props.src});
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: 480px;
+  background-position: top;
+  background-blend-mode: darken;
 `;
 const StyledDetailContainer = styled.div`
   padding-left: 8rem;
@@ -88,9 +85,7 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
 
   return (
     <div>
-      <StyledBackdropImage>
-        <img src={buildImageUrl({ backdropSize: 'w1280', src: detail.backdrop_path })} alt={detail.title} width={1280} height={720} />
-      </StyledBackdropImage>
+      <StyledBackdropImage src={buildImageUrl({ backdropSize: 'w1280', src: detail.backdrop_path })} />
       <StyledDetailContainer>
         <StyledDetailHeader>
           <Link to="/">
@@ -111,7 +106,7 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
             </StyledRating>
             <StyledMetaInfo>
               <p className="label">Type</p>
-              <p className="large">{props.type.slice(0, 1).toUpperCase() + props.type.slice(1).toLowerCase()}</p>
+              <p className="large">{props.type === 'movie' ? 'Movie' : 'TV'}</p>
             </StyledMetaInfo>
             <StyledMetaInfo>
               <p className="label">Release Date</p>
