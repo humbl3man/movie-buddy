@@ -4,6 +4,8 @@ import searchIcon from '../assets/search-icon.svg';
 import styled from 'styled-components';
 import getMultiSearchResults from '../api/getMultiSearchResults';
 import { Link } from 'react-router-dom';
+import { buildImageUrl } from '../utils/buildImageUrl';
+import placeholderImg from '../assets/imagePlaceholder.svg';
 
 const StyledSearchWrapper = styled.div`
   position: relative;
@@ -23,6 +25,17 @@ const StyledSearchResult = styled(Link)`
     color: var(--grey100);
     background: var(--grey400);
   }
+
+  display: flex;
+  align-items: center;
+
+  img {
+    width: 100%;
+    max-width: 42px;
+    height: auto;
+    margin-right: 1.2rem;
+    display: block;
+  }
 `;
 
 const Search = () => {
@@ -36,7 +49,7 @@ const Search = () => {
       window.setTimeout(() => {
         getMultiSearchResults({ query: e.target.value })
           .then((data) => {
-            setSearchResults(data.data.results);
+            setSearchResults(data.data.results.filter((result: any) => result.media_type !== 'person'));
           })
           .catch((err) => {
             console.error(err);
@@ -59,6 +72,11 @@ const Search = () => {
             const url = result.media_type === 'movie' ? `/movie/${result.id}` : `tv/${result.id}`;
             return (
               <StyledSearchResult to={url} key={result.id}>
+                {result.poster_path ? (
+                  <img src={buildImageUrl({ src: result.poster_path, posterSize: 'w92' })} width={192} height={138} alt={result.title || result.name} />
+                ) : (
+                  <img src={placeholderImg} alt={result.title || result.name} width={512} height={512} />
+                )}{' '}
                 {result.title || result.name}
               </StyledSearchResult>
             );
