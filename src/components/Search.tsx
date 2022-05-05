@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { InputWrapper } from './Input';
 import searchIcon from '../assets/search-icon.svg';
 import styled from 'styled-components';
-import { useQuery } from 'react-query';
 import getMultiSearchResults from '../api/getMultiSearchResults';
 import { Link } from 'react-router-dom';
 
