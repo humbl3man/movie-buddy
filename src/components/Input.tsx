@@ -7,7 +7,7 @@ interface InputWrapperProps {
   icon?: React.ReactElement;
   iconPosition?: 'left' | 'right';
   children: JSX.Element | JSX.Element[];
-  error: FieldError | undefined;
+  error?: FieldError | undefined;
 }
 type StyledInputWrapperProps = {
   hasIcon?: boolean;

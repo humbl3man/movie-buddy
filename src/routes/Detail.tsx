@@ -154,7 +154,17 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
 
   return (
     <div>
-      <StyledBackdropImage src={buildImageUrl({ backdropSize: 'w1280', src: detail.backdrop_path })} />
+      {detail.backdrop_path ? (
+        <StyledBackdropImage src={buildImageUrl({ backdropSize: 'w1280', src: detail.backdrop_path })} />
+      ) : (
+        <StyledBackdropImage
+          src={placeholderImg}
+          style={{
+            backgroundPosition: 'center'
+          }}
+        />
+      )}
+
       <StyledDetailContainer>
         <StyledDetailHeader>
           <Link to="/">
@@ -164,7 +174,7 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
         </StyledDetailHeader>
         <StyledDetailBody>
           <StyledPosterImage>
-            <img src={buildImageUrl({ posterSize: 'w500', src: detail.poster_path })} alt={detail.title} />
+            {detail.poster_path ? <img src={buildImageUrl({ posterSize: 'w500', src: detail.poster_path })} alt="" /> : <img src={placeholderImg} alt="" />}
           </StyledPosterImage>
 
           <div>
@@ -218,10 +228,12 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
                     <p className="large">{detail.number_of_episodes}</p>
                   </StyledMetaInfo>
                 </StyledColumns>
-                <StyledMetaInfo>
-                  <p className="label">Episode run time</p>
-                  <p className="large">{detail.episode_run_time[0]} min</p>
-                </StyledMetaInfo>
+                {detail.episode_run_time && detail.episode_run_time[0] && (
+                  <StyledMetaInfo>
+                    <p className="label">Episode run time</p>
+                    <p className="large">{detail.episode_run_time[0]} min</p>
+                  </StyledMetaInfo>
+                )}
               </div>
             )}
 

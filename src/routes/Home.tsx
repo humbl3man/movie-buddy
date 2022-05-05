@@ -1,15 +1,13 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import searchIcon from '../assets/search-icon.svg';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { InputWrapper } from '../components/Input';
-import { API_KEY_v3 } from '../api/config';
 import { useQuery, useQueryClient } from 'react-query';
 import getPopular from '../api/getPopular';
 import { Content, Filter } from '../typings';
 import FilterSelect from '../components/FilterSelect';
 import ContentList from '../components/ContentList';
+import Search from '../components/Search';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 const StyledHero = styled.div`
   width: 100%;
@@ -20,7 +18,7 @@ const StyledHero = styled.div`
   p {
     color: var(--grey300);
   }
-  form {
+  .search-wrapper {
     margin-bottom: 8rem;
   }
 `;
@@ -34,24 +32,12 @@ const StyledFeaturedContainer = styled.div`
   }
 `;
 
-type SearchInput = {
-  searchTerm: string;
-};
-
 function setContentType(contentList: Content[], type: 'movie' | 'tv') {
   return contentList.map((c) => ({ ...c, type }));
 }
 
 const Home = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors }
-  } = useForm<SearchInput>();
-
-  const [filter, setFilter] = useState<Filter>('all');
-
-  const onSubmit: SubmitHandler<SearchInput> = (data) => console.log(data);
+  const [filter, setFilter] = useLocalStorage<Filter>('home_filter_active', 'movies');
   const queryClient = useQueryClient();
   const movies = useQuery(['movies'], () => getPopular({ type: 'movie' }), { enabled: filter === 'all' || filter === 'movies' });
   const tvshows = useQuery(['tv'], () => getPopular({ type: 'tv' }), { enabled: filter === 'all' || filter === 'tv' });
@@ -64,13 +50,9 @@ const Home = () => {
       <StyledHero>
         <h1>MoviePal</h1>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo voluptatum assumenda repellendus est sunt delectus architecto voluptate fugit quae molestias.</p>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <InputWrapper error={errors.searchTerm} label="Search Movies or TV Shows" iconPosition="left" icon={<img src={searchIcon} alt="" aria-hidden />}>
-            <input placeholder=" " {...register('searchTerm', { required: 'Please enter movie or TV name' })} />
-            <label htmlFor="searchTerm">Search Movies or TV Shows</label>
-          </InputWrapper>
-        </form>
-
+        <div className="search-wrapper">
+          <Search />
+        </div>
         <FilterSelect
           selectedFilter={filter}
           onFilterSelect={(filter) => {
