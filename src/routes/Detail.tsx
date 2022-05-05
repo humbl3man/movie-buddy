@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import getDetail from '../api/getDetail';
 import StarIcon from '../components/StarIcon';
 import { buildImageUrl } from '../utils/buildImageUrl';
+import placeholderImg from '../assets/imagePlaceholder.svg';
 
 const StyledBackdropImage = styled.header<{ src: string }>`
   overflow: hidden;
@@ -73,14 +74,73 @@ const StyledMetaInfo = styled.div`
   }
 `;
 
+const StyledSkeletonText = styled.div<{ full?: boolean }>`
+  height: 16px;
+  width: ${(props) => (props.full ? '100%' : '50%')};
+  background-color: var(--grey800);
+  border-radius: 8px;
+`;
+
 const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
   const { id } = useParams();
-  const { data, isLoading, isError } = useQuery(['detail'], () => getDetail({ type: props.type, id }));
+  const { data, isLoading, isError } = useQuery(['detail'], () => getDetail({ type: props.type, id }), {
+    retry: false,
+    refetchInterval: false
+  });
   const detail = data?.data;
   const genresList = detail?.genres?.map((g: any) => g.name).join(', ');
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return (
+      <div>
+        <StyledBackdropImage
+          src={placeholderImg}
+          style={{
+            backgroundPosition: 'center'
+          }}
+        />
+        <div
+          style={{
+            marginTop: '15.2rem'
+          }}>
+          <StyledDetailBody>
+            <StyledPosterImage>
+              <img src={placeholderImg} alt="" />
+            </StyledPosterImage>
+            <div>
+              <h4>
+                <StyledSkeletonText full />
+              </h4>
+              <p>
+                <StyledSkeletonText />
+              </p>
+              <p>
+                <StyledSkeletonText />
+              </p>
+              <p>
+                <StyledSkeletonText />
+              </p>
+              <p>
+                <StyledSkeletonText />
+              </p>
+            </div>
+          </StyledDetailBody>
+        </div>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div>
+        <h1
+          style={{
+            color: 'var(--error500)'
+          }}>
+          Sorry, we encountered an error trying to get content. Please try again.
+        </h1>
+      </div>
+    );
   }
 
   return (
