@@ -23,8 +23,8 @@ const StyledSearchResult = styled(Link)`
   display: block;
   &:hover,
   &:focus {
-    color: var(--grey100);
-    background: var(--grey400);
+    color: var(--primary800);
+    background: var(--grey300);
   }
 
   display: flex;
