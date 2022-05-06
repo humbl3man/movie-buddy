@@ -16,6 +16,8 @@ const StyledSearchResults = styled.div`
   background: var(--grey100);
   margin-top: 2rem;
   border-radius: 8px;
+  max-height: 500px;
+  overflow-y: auto;
 `;
 const StyledSearchResult = styled(Link)`
   padding: 1.4rem;
