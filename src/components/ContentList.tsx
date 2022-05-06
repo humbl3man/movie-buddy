@@ -25,7 +25,7 @@ const ContentList: React.FC<ContentListProps> = (props) => {
   function renderContent(content: Content) {
     const detailURL = content.type === 'movie' ? `/movie/${content.id}` : `/tv/${content.id}`;
     return (
-      <Link to={detailURL}>
+      <Link key={content.id} to={detailURL}>
         <ContentCard key={content.id} content={content} />
       </Link>
     );
