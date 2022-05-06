@@ -8,34 +8,50 @@ import { buildImageUrl } from '../utils/buildImageUrl';
 import placeholderImg from '../assets/imagePlaceholder.svg';
 
 const StyledBackdropImage = styled.header<{ src: string }>`
-  overflow: hidden;
-  border-radius: 40px;
-  margin-top: 4rem;
-  background-image: url(${(props) => props.src});
-  background-size: cover;
-  background-repeat: no-repeat;
-  min-height: 480px;
-  background-position: top;
-  background-blend-mode: darken;
+  display: none;
+  @media screen and (min-width: 767px) {
+    display: block;
+    overflow: hidden;
+    border-radius: 40px;
+    margin-top: 4rem;
+    background-image: url(${(props) => props.src});
+    background-size: cover;
+    background-repeat: no-repeat;
+    min-height: 480px;
+    background-position: top;
+    background-blend-mode: darken;
+  }
 `;
 const StyledDetailContainer = styled.div`
-  padding-left: 8rem;
-  padding-right: 8rem;
-  position: relative;
-  top: -6rem;
+  @media screen and (min-width: 767px) {
+    padding-left: 2rem;
+    padding-right: 2rem;
+    position: relative;
+    top: -6rem;
+  }
+  @media screen and (min-width: 1024px) {
+    padding-left: 8rem;
+    padding-right: 8rem;
+  }
 `;
 const StyledDetailHeader = styled.header`
   background: rgba(32, 40, 62, 0.806);
-  padding: 4rem;
   border-radius: 24px;
-  display: inline-block;
-  min-width: 340px;
-  margin-bottom: 8rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  padding: 2rem;
   .h3 {
     margin-bottom: 0;
   }
   p {
     display: inline-block;
+  }
+  @media screen and (min-width: 767px) {
+    padding: 4rem;
+    display: inline-block;
+    min-width: 340px;
+    margin-bottom: 8rem;
+    margin-top: 0;
   }
   @media screen and (min-width: 1024px) {
     min-width: 540px;
@@ -43,14 +59,22 @@ const StyledDetailHeader = styled.header`
 `;
 const StyledDetailBody = styled.section`
   display: grid;
-  gap: 8rem;
+  gap: 2rem;
+  @media screen and (min-width: 767px) {
+    gap: 3rem;
+    grid-template-columns: 300px 1fr;
+  }
   @media screen and (min-width: 1024px) {
+    gap: 8rem;
     grid-template-columns: 500px 1fr;
   }
 `;
 const StyledPosterImage = styled.div`
   border-radius: 24px;
   overflow: hidden;
+  img {
+    width: 100%;
+  }
 `;
 const StyledRating = styled.div`
   background-color: var(--black65);
