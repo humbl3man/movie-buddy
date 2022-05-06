@@ -46,7 +46,7 @@ const StyledRating = styled.div`
   padding: 0.8rem 1.2rem;
   border-radius: 8px;
   p {
-    margin: 0;
+    margin: 0 0 0 0.4rem;
     color: var(--warning500);
   }
 `;
