@@ -180,10 +180,12 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
           <div>
             <h4>{detail.tagline}</h4>
             <p>{detail.overview}</p>
-            <StyledRating>
-              <StarIcon gold />
-              <p>{detail.vote_average.toFixed(1)}</p>
-            </StyledRating>
+            {detail.vote_average !== 0 && (
+              <StyledRating>
+                <StarIcon gold />
+                <p>{detail.vote_average.toFixed(1)}</p>
+              </StyledRating>
+            )}
             {props.type === 'movie' && (
               <div>
                 <StyledMetaInfo>
