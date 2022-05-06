@@ -72,6 +72,7 @@ const StyledDetailBody = styled.section`
 const StyledPosterImage = styled.div`
   border-radius: 24px;
   overflow: hidden;
+  height: max-content;
   img {
     width: 100%;
   }

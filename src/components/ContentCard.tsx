@@ -12,10 +12,8 @@ const StyledCard = styled.article`
   z-index: 1;
   padding: 0.8rem;
   background: rgba(32, 40, 62, 0.8);
-  p {
-    color: var(--grey50);
-    padding-left: 0.8rem;
-  }
+  border-radius: 12px;
+
   .card-image-container {
     overflow: hidden;
     border-radius: 8px;
@@ -25,6 +23,14 @@ const StyledCard = styled.article`
       height: auto;
       display: block;
     }
+  }
+`;
+
+const StyledCardBody = styled.section`
+  p {
+    color: var(--grey50);
+    padding-left: 0.8rem;
+    margin-top: 2.4rem;
   }
 `;
 
@@ -57,10 +63,12 @@ const ContentCard: React.FC<ContentCardProps> = (props) => {
           <img src={buildImageUrl({ src: props.content.poster_path, posterSize: 'w500' })} alt={props.content.name || props.content.title} />
         </div>
       )}
-      <p>
-        {props.content.title && <>{props.content.title}</>}
-        {props.content.name && <>{props.content.name}</>}
-      </p>
+      <StyledCardBody>
+        <p>
+          {props.content.title && <>{props.content.title}</>}
+          {props.content.name && <>{props.content.name}</>}
+        </p>
+      </StyledCardBody>
     </StyledCard>
   );
 };
