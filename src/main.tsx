@@ -10,6 +10,7 @@ import Shows from './routes/Shows';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import Detail from './routes/Detail';
+import NotFound from './routes/NotFound';
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
             <Route path="/tv" element={<Sort category="tv" />} />
             <Route path="/movie/:id" element={<Detail type="movie" />} />
             <Route path="/tv/:id" element={<Detail type="tv" />} />
+            <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
       </BrowserRouter>
