@@ -11,7 +11,7 @@ const StyledHeader = styled.header`
   padding-bottom: 2rem;
   padding-top: 2rem;
   position: relative;
-  z-index: 1;
+  z-index: 100;
   overflow-y: hidden;
 
   .menuToggle,
@@ -71,13 +71,13 @@ const StyledNavWrapper = styled.div<StyledNavProps>`
   left: 0;
   width: 100%;
   height: 100%;
-  background: var(--grey900);
+  background: var(--primary800);
   padding: 2rem;
   ${(prop) => {
     if (prop.isOpen) {
       return `
         visibility: visible;
-        z-index: 100;
+        z-index: 101;
       `;
     }
     return `
@@ -87,7 +87,6 @@ const StyledNavWrapper = styled.div<StyledNavProps>`
   }}
   @media screen and (min-width: 767px) {
     visibility: visible !important;
-    z-index: 1;
     position: static;
     width: auto;
     height: auto;
@@ -191,10 +190,14 @@ const Navbar = () => {
         <StyledNavLinks>
           <ul>
             <li>
-              <Link to="movies">Movies</Link>
+              <Link to="movies" onClick={closeMenu}>
+                Movies
+              </Link>
             </li>
             <li>
-              <Link to="tv">TV Shows</Link>
+              <Link to="tv" onClick={closeMenu}>
+                TV Shows
+              </Link>
             </li>
             <li>
               <a href="#">
