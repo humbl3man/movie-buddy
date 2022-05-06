@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { useQuery } from 'react-query';
+import { useInfiniteQuery, useQuery } from 'react-query';
 import styled from 'styled-components';
 import getPopular from '../api/getPopular';
 import ContentList from '../components/ContentList';
 import Search from '../components/Search';
+import { setContentType } from '../utils/setContentType';
 
 const StyledContainer = styled.section`
   margin-top: 6.4rem;
@@ -15,11 +16,17 @@ const StyledHeader = styled.header`
     margin: 0;
   }
 `;
+const StyledLoadMoreButton = styled.button`
+  width: 320px;
+  margin: 2rem auto;
+  display: block;
+`;
 
 const MoviesSort = () => {
   const [page, setPage] = useState(1);
-  const movies = useQuery(['movies', page], () => getPopular({ type: 'movie', page }), { keepPreviousData: true });
-  const { data, isLoading, isError, isFetching, isPreviousData } = movies;
+  const { data, isLoading, isError, fetchNextPage, isFetchingNextPage, hasNextPage } = useInfiniteQuery(['movies'], ({ pageParam }) =>
+    getPopular({ type: 'movie', page: pageParam })
+  );
 
   if (isLoading) {
     return (
@@ -48,18 +55,24 @@ const MoviesSort = () => {
         }}>
         <Search />
       </div>
-      <p>{movies.data?.data?.results.length || 0} items</p>
-      <ContentList data={data?.data.results} />
-      <button
+      {Boolean(data?.pages) &&
+        data?.pages.map((page, i) => {
+          return (
+            <React.Fragment key={i}>
+              <ContentList data={setContentType(page.data.results, 'movie')} />
+            </React.Fragment>
+          );
+        })}
+      <StyledLoadMoreButton
         type="button"
+        className="btn"
+        disabled={page >= 1000}
         onClick={() => {
-          debugger;
-          if (!isPreviousData && data.hasMore) {
-            setPage((prev) => prev + 1);
-          }
+          setPage((prev) => prev + 1);
+          fetchNextPage({ pageParam: page });
         }}>
         Load More
-      </button>
+      </StyledLoadMoreButton>
     </StyledContainer>
   );
 };

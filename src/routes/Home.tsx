@@ -8,6 +8,7 @@ import FilterSelect from '../components/FilterSelect';
 import ContentList from '../components/ContentList';
 import Search from '../components/Search';
 import useLocalStorage from '../hooks/useLocalStorage';
+import { setContentType } from '../utils/setContentType';
 
 const StyledHero = styled.div`
   width: 100%;
@@ -32,17 +33,13 @@ const StyledFeaturedContainer = styled.div`
   }
 `;
 
-function setContentType(contentList: Content[], type: 'movie' | 'tv') {
-  return contentList.map((c) => ({ ...c, type }));
-}
-
 const Home = () => {
   const [filter, setFilter] = useLocalStorage<Filter>('home_filter_active', 'movies');
   const queryClient = useQueryClient();
   const movies = useQuery(['movies'], () => getPopular({ type: 'movie' }), { enabled: filter === 'all' || filter === 'movies' });
   const tvshows = useQuery(['tv'], () => getPopular({ type: 'tv' }), { enabled: filter === 'all' || filter === 'tv' });
-  const moviesLoaded = !movies.isLoading && !movies.isError && movies.data?.data.results;
-  const tvShowsLoaded = !tvshows.isLoading && !tvshows.isError && tvshows.data?.data.results;
+  const moviesLoaded = !movies.isLoading && !movies.isError;
+  const tvShowsLoaded = !tvshows.isLoading && !tvshows.isError;
   const allLoaded = moviesLoaded && tvShowsLoaded;
 
   return (
@@ -62,7 +59,7 @@ const Home = () => {
         />
       </StyledHero>
       <StyledFeaturedContainer>
-        {filter === 'all' && allLoaded && (
+        {filter === 'all' && allLoaded && Boolean(movies.data?.data?.results) && Boolean(tvshows.data?.data?.results) && (
           <div>
             <h3 className="featured-title">
               All <span className="caption">({movies.data?.data.results.length + tvshows.data?.data.results.length})</span>
@@ -70,7 +67,7 @@ const Home = () => {
             <ContentList data={[...setContentType(movies.data?.data.results, 'movie'), ...setContentType(tvshows.data?.data.results, 'tv')]} />
           </div>
         )}
-        {filter === 'movies' && moviesLoaded && (
+        {filter === 'movies' && moviesLoaded && Boolean(movies.data?.data?.results) && (
           <div>
             <h3 className="featured-title">
               Movies <span className="caption">({movies.data?.data.results.length ?? 0})</span>
@@ -78,7 +75,7 @@ const Home = () => {
             <ContentList data={setContentType(movies.data?.data.results, 'movie')} />
           </div>
         )}
-        {filter === 'tv' && tvShowsLoaded && (
+        {filter === 'tv' && tvShowsLoaded && Boolean(tvshows.data?.data?.results) && (
           <div>
             <h3 className="featured-title">
               TV Shows <span className="caption">({tvshows.data?.data.results.length ?? 0})</span>

@@ -221,4 +221,30 @@ export const GlobalStyle = createGlobalStyle`
       outline: 2px solid var(--primary200);
   }
 
+  .btn {
+    padding: 1.6rem 3.2rem;
+    appearance: none;
+    border: 0;
+    color: var(--white);
+    background: var(--primary400);
+    font-size: inherit;
+    font-weight: inherit;
+    border-radius: 12px;
+    text-align: center;
+    display: inline-block;
+    cursor: pointer;
+    &:hover,
+    &:focus,
+    &:active {
+      background: var(--primary500);
+    }
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+  a.btn {
+    text-decoration: none;
+  }
+
 `;

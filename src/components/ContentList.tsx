@@ -4,7 +4,7 @@ import { Content } from '../typings';
 import ContentCard from './ContentCard';
 
 type ContentListProps = {
-  data?: Content[];
+  data?: Content[] | undefined;
 };
 
 const StyledContentList = styled.section`
