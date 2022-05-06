@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useInfiniteQuery, useQuery } from 'react-query';
+import { useInfiniteQuery } from 'react-query';
 import styled from 'styled-components';
 import getPopular from '../api/getPopular';
 import ContentList from '../components/ContentList';
@@ -22,11 +22,13 @@ const StyledLoadMoreButton = styled.button`
   display: block;
 `;
 
-const MoviesSort = () => {
+interface SortProps {
+  category: 'movie' | 'tv';
+}
+
+const Sort: React.FC<SortProps> = (props) => {
   const [page, setPage] = useState(1);
-  const { data, isLoading, isError, fetchNextPage, isFetchingNextPage, hasNextPage } = useInfiniteQuery(['movies'], ({ pageParam }) =>
-    getPopular({ type: 'movie', page: pageParam })
-  );
+  const { data, isLoading, isError, fetchNextPage } = useInfiniteQuery([props.category], ({ pageParam }) => getPopular({ type: props.category, page: pageParam }));
 
   if (isLoading) {
     return (
@@ -47,7 +49,7 @@ const MoviesSort = () => {
     <StyledContainer>
       <StyledHeader>
         <p className="xSmall">MoviePal</p>
-        <h1>Movies</h1>
+        <h1>{props.category === 'movie' ? 'Movies' : 'TV Shows'}</h1>
       </StyledHeader>
       <div
         style={{
@@ -59,7 +61,7 @@ const MoviesSort = () => {
         data?.pages.map((page, i) => {
           return (
             <React.Fragment key={i}>
-              <ContentList data={setContentType(page.data.results, 'movie')} />
+              <ContentList data={setContentType(page.data.results, props.category)} />
             </React.Fragment>
           );
         })}
@@ -77,4 +79,4 @@ const MoviesSort = () => {
   );
 };
 
-export default MoviesSort;
+export default Sort;

@@ -58,8 +58,8 @@ const ContentCard: React.FC<ContentCardProps> = (props) => {
         </div>
       )}
       <p>
-        {props.content.title && <div>{props.content.title}</div>}
-        {props.content.name && <div>{props.content.name}</div>}
+        {props.content.title && <>{props.content.title}</>}
+        {props.content.name && <>{props.content.name}</>}
       </p>
     </StyledCard>
   );

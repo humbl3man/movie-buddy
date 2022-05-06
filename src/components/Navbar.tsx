@@ -194,7 +194,7 @@ const Navbar = () => {
               <Link to="movies">Movies</Link>
             </li>
             <li>
-              <Link to="shows">TV Shows</Link>
+              <Link to="tv">TV Shows</Link>
             </li>
             <li>
               <a href="#">

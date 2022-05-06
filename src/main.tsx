@@ -5,7 +5,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { GlobalStyle } from './styles/global';
 import App from './App';
 import Home from './routes/Home';
-import MoviesSort from './routes/MoviesSort';
+import Sort from './routes/Sort';
 import Shows from './routes/Shows';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
@@ -22,7 +22,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Routes>
           <Route path="/" element={<App />}>
             <Route path="/" element={<Home />} />
-            <Route path="/movies" element={<MoviesSort />} />
+            <Route path="/movies" element={<Sort category="movie" />} />
+            <Route path="/tv" element={<Sort category="tv" />} />
             <Route path="/movie/:id" element={<Detail type="movie" />} />
             <Route path="/tv/:id" element={<Detail type="tv" />} />
           </Route>
