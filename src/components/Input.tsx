@@ -46,10 +46,11 @@ const StyledInputWrapper = styled.div<StyledInputWrapperProps>`
     height: 64px;
     border-radius: 12px;
     background: var(--black10);
-    padding: 1.2rem 1.6rem;
     font-size: inherit;
     color: var(--grey500);
     min-width: 344px;
+    display: block;
+    width: 100%;
 
     &:focus {
       border-color: var(--primary500);
@@ -60,7 +61,7 @@ const StyledInputWrapper = styled.div<StyledInputWrapperProps>`
     ${(props) => {
       if (props.hasIcon && props.iconPosition === 'left') {
         return `
-          padding: 1.2rem 1.2rem 1.2rem 5.6rem;
+          padding: 1.2rem 5.6rem 1.2rem 5.2rem;
         `;
       }
 
