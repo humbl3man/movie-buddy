@@ -6,9 +6,9 @@ import getDetail from '../api/getDetail';
 import StarIcon from '../components/StarIcon';
 import { buildImageUrl } from '../utils/buildImageUrl';
 import placeholderImg from '../assets/imagePlaceholder.svg';
-import { Redirect } from 'react-router-dom';
-import { AxiosError, AxiosResponse } from 'axios';
+import { AxiosError } from 'axios';
 import { Content } from '../typings';
+import { useEffect, useState } from 'react';
 
 const StyledBackdropImage = styled.header<{ src: string }>`
   display: none;
@@ -124,6 +124,12 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
     retry: false,
     refetchInterval: false
   });
+
+  useEffect(() => {
+    if (data?.title || data?.name) {
+      document.title = `MoviePal | ${data.title || data.name}`;
+    }
+  }, [data]);
 
   if (isLoading) {
     return (

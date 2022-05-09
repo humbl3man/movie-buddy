@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useInfiniteQuery } from 'react-query';
 import styled from 'styled-components';
 import getPopular from '../api/getPopular';
@@ -29,6 +29,11 @@ interface SortProps {
 const Sort: React.FC<SortProps> = (props) => {
   const [page, setPage] = useState(1);
   const { data, isLoading, isError, fetchNextPage } = useInfiniteQuery([props.category], ({ pageParam }) => getPopular({ type: props.category, page: pageParam }));
+  const heading = props.category === 'movie' ? 'Movies' : 'TV Shows';
+
+  useEffect(() => {
+    document.title = `MoviePal | ${props.category === 'movie' ? 'Movies' : 'TV Shows'}`;
+  }, [props.category]);
 
   if (isLoading) {
     return (
@@ -49,7 +54,7 @@ const Sort: React.FC<SortProps> = (props) => {
     <StyledContainer>
       <StyledHeader>
         <p className="xSmall">MoviePal</p>
-        <h1>{props.category === 'movie' ? 'Movies' : 'TV Shows'}</h1>
+        <h1>{heading}</h1>
       </StyledHeader>
       <div
         style={{
