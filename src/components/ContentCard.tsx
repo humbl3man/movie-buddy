@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { Content } from '../typings';
 import { buildImageUrl } from '../utils/buildImageUrl';
 import StarIcon from './StarIcon';
+import placeholderImg from '../assets/imagePlaceholder.svg';
 
 type ContentCardProps = {
   content: Content;
@@ -13,6 +14,7 @@ const StyledCard = styled.article`
   padding: 0.8rem;
   background: rgba(32, 40, 62, 0.8);
   border-radius: 12px;
+  height: 100%;
 
   .card-image-container {
     overflow: hidden;
@@ -54,15 +56,19 @@ const StyledRating = styled.div`
 const ContentCard: React.FC<ContentCardProps> = (props) => {
   return (
     <StyledCard>
-      <StyledRating>
-        <StarIcon gold />
-        <p className="large">{props.content.vote_average.toFixed(1)}</p>
-      </StyledRating>
-      {props.content.poster_path && (
-        <div className="card-image-container">
-          <img src={buildImageUrl({ src: props.content.poster_path, posterSize: 'w500' })} alt={props.content.name || props.content.title} />
-        </div>
+      {props.content.vote_average > 0 && (
+        <StyledRating>
+          <StarIcon gold />
+          <p className="large">{props.content.vote_average.toFixed(1)}</p>
+        </StyledRating>
       )}
+      <div className="card-image-container">
+        {props.content.poster_path ? (
+          <img src={buildImageUrl({ src: props.content.poster_path, posterSize: 'w500' })} width="500" height="750" alt={props.content.name || props.content.title} />
+        ) : (
+          <img src={placeholderImg} width="512" height="512" alt={props.content.name || props.content.title} />
+        )}
+      </div>
       <StyledCardBody>
         <p>
           {props.content.title && <>{props.content.title}</>}

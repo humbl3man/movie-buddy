@@ -1,11 +1,14 @@
 import { useQuery } from 'react-query';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import getDetail from '../api/getDetail';
 import StarIcon from '../components/StarIcon';
 import { buildImageUrl } from '../utils/buildImageUrl';
 import placeholderImg from '../assets/imagePlaceholder.svg';
+import { Redirect } from 'react-router-dom';
+import { AxiosError, AxiosResponse } from 'axios';
+import { Content } from '../typings';
 
 const StyledBackdropImage = styled.header<{ src: string }>`
   display: none;
@@ -117,12 +120,10 @@ const StyledSkeletonText = styled.div<{ full?: boolean }>`
 
 const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
   const { id } = useParams();
-  const { data, isLoading, isError } = useQuery(['detail'], () => getDetail({ type: props.type, id }), {
+  const { data, isLoading, isError, error } = useQuery<Content, AxiosError>(['detail'], () => getDetail({ type: props.type, id }), {
     retry: false,
     refetchInterval: false
   });
-  const detail = data?.data;
-  const genresList = detail?.genres?.map((g: any) => g.name).join(', ');
 
   if (isLoading) {
     return (
@@ -165,13 +166,17 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
   }
 
   if (isError) {
+    // redirect to homepage if content was not found
+    if (error?.response?.status === 404) {
+      return <Navigate to="/" />;
+    }
     return (
       <div>
         <h1
           style={{
             color: 'var(--error500)'
           }}>
-          Sorry, we encountered an error trying to get content. Please try again.
+          Sorry, we encountered an error. Please try again.
         </h1>
       </div>
     );
@@ -179,8 +184,8 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
 
   return (
     <div>
-      {detail.backdrop_path ? (
-        <StyledBackdropImage src={buildImageUrl({ backdropSize: 'w1280', src: detail.backdrop_path })} />
+      {data?.backdrop_path ? (
+        <StyledBackdropImage src={buildImageUrl({ backdropSize: 'w1280', src: data.backdrop_path })} />
       ) : (
         <StyledBackdropImage
           src={placeholderImg}
@@ -195,20 +200,20 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
           <Link to="/">
             <p className="xSmall">MoviePal</p>
           </Link>
-          <h1 className="h3">{detail.title || detail.name}</h1>
+          <h1 className="h3">{data?.title || data?.name || ''}</h1>
         </StyledDetailHeader>
         <StyledDetailBody>
           <StyledPosterImage>
-            {detail.poster_path ? <img src={buildImageUrl({ posterSize: 'w500', src: detail.poster_path })} alt="" /> : <img src={placeholderImg} alt="" />}
+            {data?.poster_path ? <img src={buildImageUrl({ posterSize: 'w500', src: data.poster_path })} alt="" /> : <img src={placeholderImg} alt="" />}
           </StyledPosterImage>
 
           <div>
-            <h4>{detail.tagline}</h4>
-            <p>{detail.overview}</p>
-            {detail.vote_average !== 0 && (
+            {data?.tagline && <h4>{data?.tagline}</h4>}
+            {data?.overview && <p>{data?.overview}</p>}
+            {data?.vote_average && data.vote_average !== 0 && (
               <StyledRating>
                 <StarIcon gold />
-                <p>{detail.vote_average.toFixed(1)}</p>
+                <p>{data.vote_average.toFixed(1)}</p>
               </StyledRating>
             )}
             {props.type === 'movie' && (
@@ -217,14 +222,18 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
                   <p className="label">Type</p>
                   <p className="large">Movie</p>
                 </StyledMetaInfo>
-                <StyledMetaInfo>
-                  <p className="label">Release Date</p>
-                  <p className="large">{detail.release_date}</p>
-                </StyledMetaInfo>
-                <StyledMetaInfo>
-                  <p className="label">Run time</p>
-                  <p className="large">{detail.runtime} min</p>
-                </StyledMetaInfo>
+                {data?.release_date && (
+                  <StyledMetaInfo>
+                    <p className="label">Release Date</p>
+                    <p className="large">{data.release_date}</p>
+                  </StyledMetaInfo>
+                )}
+                {data?.runtime && (
+                  <StyledMetaInfo>
+                    <p className="label">Run time</p>
+                    <p className="large">{data.runtime} min</p>
+                  </StyledMetaInfo>
+                )}
               </div>
             )}
             {props.type === 'tv' && (
@@ -234,40 +243,50 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
                     <p className="label">Type</p>
                     <p className="large">TV Show</p>
                   </StyledMetaInfo>
-                  <StyledMetaInfo>
-                    <p className="label">Status</p>
-                    <p className="large">{detail.status}</p>
-                  </StyledMetaInfo>
-                  <StyledMetaInfo>
-                    <p className="label">First air date</p>
-                    <p className="large">{detail.first_air_date}</p>
-                  </StyledMetaInfo>
-                  <StyledMetaInfo>
-                    <p className="label">Last air date</p>
-                    <p className="large">{detail.last_air_date}</p>
-                  </StyledMetaInfo>
-                  <StyledMetaInfo>
-                    <p className="label">No. of seasons</p>
-                    <p className="large">{detail.number_of_seasons}</p>
-                  </StyledMetaInfo>
-                  <StyledMetaInfo>
-                    <p className="label">No. of episodes</p>
-                    <p className="large">{detail.number_of_episodes}</p>
-                  </StyledMetaInfo>
+                  {data?.status && (
+                    <StyledMetaInfo>
+                      <p className="label">Status</p>
+                      <p className="large">{data.status}</p>
+                    </StyledMetaInfo>
+                  )}
+                  {data?.first_air_date && (
+                    <StyledMetaInfo>
+                      <p className="label">First air date</p>
+                      <p className="large">{data.first_air_date}</p>
+                    </StyledMetaInfo>
+                  )}
+                  {data?.last_air_date && (
+                    <StyledMetaInfo>
+                      <p className="label">Last air date</p>
+                      <p className="large">{data.last_air_date}</p>
+                    </StyledMetaInfo>
+                  )}
+                  {data?.number_of_seasons && (
+                    <StyledMetaInfo>
+                      <p className="label">No. of seasons</p>
+                      <p className="large">{data.number_of_seasons}</p>
+                    </StyledMetaInfo>
+                  )}
+                  {data?.number_of_episodes && (
+                    <StyledMetaInfo>
+                      <p className="label">No. of episodes</p>
+                      <p className="large">{data.number_of_episodes}</p>
+                    </StyledMetaInfo>
+                  )}
                 </StyledColumns>
-                {detail.episode_run_time && detail.episode_run_time[0] && (
+                {data?.episode_run_time && data?.episode_run_time[0] && (
                   <StyledMetaInfo>
                     <p className="label">Episode run time</p>
-                    <p className="large">{detail.episode_run_time[0]} min</p>
+                    <p className="large">{data.episode_run_time[0]} min</p>
                   </StyledMetaInfo>
                 )}
               </div>
             )}
 
-            {genresList && (
+            {data?.genres?.length && (
               <StyledMetaInfo>
                 <p className="label">Genres</p>
-                <p className="large">{genresList}</p>
+                <p className="large">{data.genres.map((g) => g.name).join(', ')}</p>
               </StyledMetaInfo>
             )}
           </div>

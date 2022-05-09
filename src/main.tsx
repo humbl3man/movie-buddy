@@ -6,7 +6,6 @@ import { GlobalStyle } from './styles/global';
 import App from './App';
 import Home from './routes/Home';
 import Sort from './routes/Sort';
-import Shows from './routes/Shows';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import Detail from './routes/Detail';
