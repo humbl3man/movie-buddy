@@ -199,11 +199,11 @@ const Navbar = () => {
                 TV Shows
               </Link>
             </li>
-            <li>
+            {/* <li>
               <a href="#">
                 Suggest Me <RightArrowSvg />
               </a>
-            </li>
+            </li> */}
           </ul>
         </StyledNavLinks>
       </StyledNavWrapper>
