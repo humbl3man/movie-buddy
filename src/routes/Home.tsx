@@ -59,28 +59,28 @@ const Home = () => {
         />
       </StyledHero>
       <StyledFeaturedContainer>
-        {filter === 'all' && allLoaded && Boolean(movies.data?.data?.results) && Boolean(tvshows.data?.data?.results) && (
+        {filter === 'all' && allLoaded && Boolean(movies.data?.results) && Boolean(tvshows.data?.results) && (
           <div>
             <h3 className="featured-title">
-              All <span className="caption">({movies.data?.data.results.length + tvshows.data?.data.results.length})</span>
+              All <span className="caption">({movies.data?.results.length + tvshows.data?.results.length})</span>
             </h3>
-            <ContentList data={[...setContentType(movies.data?.data.results, 'movie'), ...setContentType(tvshows.data?.data.results, 'tv')]} />
+            <ContentList data={[...setContentType(movies.data?.results, 'movie'), ...setContentType(tvshows.data?.results, 'tv')]} />
           </div>
         )}
-        {filter === 'movies' && moviesLoaded && Boolean(movies.data?.data?.results) && (
+        {filter === 'movies' && moviesLoaded && Boolean(movies.data?.results) && (
           <div>
             <h3 className="featured-title">
-              Movies <span className="caption">({movies.data?.data.results.length ?? 0})</span>
+              Movies <span className="caption">({movies.data?.results.length ?? 0})</span>
             </h3>
-            <ContentList data={setContentType(movies.data?.data.results, 'movie')} />
+            <ContentList data={setContentType(movies.data?.results, 'movie')} />
           </div>
         )}
-        {filter === 'tv' && tvShowsLoaded && Boolean(tvshows.data?.data?.results) && (
+        {filter === 'tv' && tvShowsLoaded && Boolean(tvshows.data?.results) && (
           <div>
             <h3 className="featured-title">
-              TV Shows <span className="caption">({tvshows.data?.data.results.length ?? 0})</span>
+              TV Shows <span className="caption">({tvshows.data?.results.length ?? 0})</span>
             </h3>
-            <ContentList data={setContentType(tvshows.data?.data.results, 'tv')} />
+            <ContentList data={setContentType(tvshows.data?.results, 'tv')} />
           </div>
         )}
       </StyledFeaturedContainer>

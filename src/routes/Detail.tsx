@@ -24,6 +24,9 @@ const StyledBackdropImage = styled.header<{ src: string }>`
     background-position: top;
     background-blend-mode: darken;
   }
+  @media screen and (min-width: 1100px) {
+    min-height: 680px;
+  }
 `;
 const StyledDetailContainer = styled.div`
   @media screen and (min-width: 767px) {
