@@ -247,4 +247,71 @@ export const GlobalStyle = createGlobalStyle`
     text-decoration: none;
   }
 
+  // inputs
+
+  .field {
+
+    position: relative;
+    margin-bottom: 1.6rem;
+
+    label {
+      position: absolute;
+      color: var(--grey600);
+      user-select: none;
+      transition: transform 200ms ease;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: -1;
+      left: 1.6rem;
+    }
+
+    input {
+      border: 2px solid var(--grey600);
+      height: 64px;
+      border-radius: 12px;
+      background: var(--black10);
+      font-size: inherit;
+      color: var(--grey500);
+      min-width: 344px;
+      display: block;
+      width: 100%;
+      padding: 1.2rem 1.6rem;
+
+      &:focus {
+        border-color: var(--primary500);
+        outline: 2px solid var(--primary500);
+        outline-offset: 1px;
+      }
+
+      &:focus ~ label,
+      &:not(:placeholder-shown) ~ label {
+        transform: translateY(-3.1rem);
+      }
+    }
+
+    .field-icon {
+      top: 50%;
+      transform: translateY(-50%);
+      position: absolute;
+      left: 1.6rem;
+    }
+
+    .field-error {
+      color: var(--error500);
+      font-size: 1.4rem;
+      margin-top: 0.4rem;
+    }
+  }
+
+  .field.field--withIcon {
+    label {
+      left: 5.6rem;
+    }
+
+    input {
+      padding: 1.2rem 5.6rem 1.2rem 5.2rem;
+    }
+
+  }
+
 `;

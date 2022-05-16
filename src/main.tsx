@@ -10,6 +10,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import Detail from './routes/Detail';
 import NotFound from './routes/NotFound';
+import Login from './routes/Login';
 
 const queryClient = new QueryClient();
 
@@ -22,6 +23,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Routes>
           <Route path="/" element={<App />}>
             <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
             <Route path="/movies" element={<Sort category="movie" />} />
             <Route path="/tv" element={<Sort category="tv" />} />
             <Route path="/movie/:id" element={<Detail type="movie" />} />
