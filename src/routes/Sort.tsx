@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useInfiniteQuery } from 'react-query';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import getPopular from '../api/getPopular';
 import ContentList from '../components/ContentList';
@@ -30,7 +31,6 @@ const Sort: React.FC<SortProps> = (props) => {
   const [page, setPage] = useState(1);
   const { data, isLoading, isError, fetchNextPage } = useInfiniteQuery([props.category], ({ pageParam }) => getPopular({ type: props.category, page: pageParam }));
   const heading = props.category === 'movie' ? 'Movies' : 'TV Shows';
-
   useEffect(() => {
     document.title = `MoviePal | ${props.category === 'movie' ? 'Movies' : 'TV Shows'}`;
   }, [props.category]);
@@ -53,7 +53,9 @@ const Sort: React.FC<SortProps> = (props) => {
   return (
     <StyledContainer>
       <StyledHeader>
-        <p className="xSmall">MoviePal</p>
+        <Link to="/">
+          <p className="xSmall">MoviePal</p>
+        </Link>
         <h1>{heading}</h1>
       </StyledHeader>
       <div
@@ -66,7 +68,7 @@ const Sort: React.FC<SortProps> = (props) => {
         data?.pages.map((page, i) => {
           return (
             <React.Fragment key={i}>
-              <ContentList data={setContentType(page.data.results, props.category)} />
+              <ContentList data={setContentType(page.results, props.category)} />
             </React.Fragment>
           );
         })}

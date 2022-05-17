@@ -8,7 +8,7 @@ import { buildImageUrl } from '../utils/buildImageUrl';
 import placeholderImg from '../assets/imagePlaceholder.svg';
 import { AxiosError } from 'axios';
 import { Content } from '../typings';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 const StyledBackdropImage = styled.header<{ src: string }>`
   display: none;
@@ -63,6 +63,17 @@ const StyledDetailHeader = styled.header`
     min-width: 540px;
   }
 `;
+
+const StyledBreadCrumbs = styled.div`
+  display: flex;
+  & > * {
+    margin-right: 1.6rem;
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+`;
+
 const StyledDetailBody = styled.section`
   display: grid;
   gap: 2rem;
@@ -114,8 +125,9 @@ const StyledColumns = styled.div`
   gap: 2.4rem;
 `;
 
-const StyledSkeletonText = styled.div<{ full?: boolean }>`
+const StyledSkeletonText = styled.span<{ full?: boolean }>`
   height: 16px;
+  display: block;
   width: ${(props) => (props.full ? '100%' : '50%')};
   background-color: var(--grey800);
   border-radius: 8px;
@@ -206,9 +218,16 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
 
       <StyledDetailContainer>
         <StyledDetailHeader>
-          <Link to="/">
-            <p className="xSmall">MoviePal</p>
-          </Link>
+          <StyledBreadCrumbs>
+            <Link to="/">
+              <p className="xSmall">MoviePal</p>
+            </Link>
+            <p className="xSmall">/</p>
+            <Link to={props.type === 'movie' ? '/movies' : '/tv'}>
+              <p className="xSmall">{props.type === 'movie' ? 'Movies' : 'TV Shows'}</p>
+            </Link>
+          </StyledBreadCrumbs>
+
           <h1 className="h3">{data?.title || data?.name || ''}</h1>
         </StyledDetailHeader>
         <StyledDetailBody>
