@@ -263,6 +263,9 @@ export const GlobalStyle = createGlobalStyle`
       transform: translateY(-50%);
       z-index: -1;
       left: 1.6rem;
+      &.raised {
+        transform: translateY(-3.1rem);
+      }
     }
 
     input {
@@ -278,14 +281,21 @@ export const GlobalStyle = createGlobalStyle`
       padding: 1.2rem 1.6rem;
 
       &:focus {
-        border-color: var(--primary500);
-        outline: 2px solid var(--primary500);
         outline-offset: 1px;
+        outline-width: 2px;
+        outline-style: solid;
       }
 
-      &:focus ~ label,
-      &:not(:placeholder-shown) ~ label {
-        transform: translateY(-3.1rem);
+      &.error {
+        border-color: var(--error500);
+      }
+      &.error:focus {
+        border-color: var(--error500);
+        outline-color: var(--error500);
+      }
+      &:not(.error):focus {
+        border-color: var(--primary500);
+        outline-color: var(--primary500);
       }
     }
 
@@ -298,8 +308,10 @@ export const GlobalStyle = createGlobalStyle`
 
     .field-error {
       color: var(--error500);
-      font-size: 1.4rem;
-      margin-top: 0.4rem;
+      font-size: 1.2rem;
+      position: absolute;
+      bottom: 0;
+      left: 1.6rem;
     }
   }
 
