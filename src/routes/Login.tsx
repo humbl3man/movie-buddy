@@ -4,7 +4,9 @@ import loginSplashSrc from '../assets/login-splash-image.png';
 import emailIcon from '../assets/email.svg';
 import passIcon from '../assets/password.svg';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
+import AuthContext from '../auth/authProvider';
+import { Navigate } from 'react-router-dom';
 
 const StyledLoginPage = styled.section`
   display: grid;
@@ -58,10 +60,14 @@ const Login = () => {
     formState: { errors, touchedFields }
   } = useForm<LoginInputs>();
   const onSubmit: SubmitHandler<LoginInputs> = (data) => {
-    // TODO: add logic here to authenticate
-    console.log('data', data);
+    signIn({ email: data.email, password: data.password });
   };
   const [emailValue, passwordValue] = watch(['email', 'password']);
+  const { signIn, authUser, authError } = useContext(AuthContext);
+
+  if (authUser) {
+    return <Navigate to="/dashboard" />;
+  }
 
   return (
     <StyledLoginPage>
@@ -69,6 +75,7 @@ const Login = () => {
         <img src={loginSplashSrc} width={486} height={584} alt="" />
       </StyledLoginImage>
       <StyledLoginFormContainer>
+        {authError && <div>Authentication Error: {authError}</div>}
         <form onSubmit={handleSubmit(onSubmit)} noValidate>
           <h1>Login</h1>
           <div className="field field--withIcon">

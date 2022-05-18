@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import logo from '../assets/logo.svg';
+import AuthContext from '../auth/authProvider';
 
 const StyledHeader = styled.header`
   align-items: center;
@@ -167,6 +168,7 @@ const MenuIconSvg = () => {
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { authUser, signOut } = useContext(AuthContext);
 
   const openMenu = () => {
     setIsMenuOpen(true);
@@ -204,6 +206,18 @@ const Navbar = () => {
                 Suggest Me <RightArrowSvg />
               </a>
             </li> */}
+            {authUser && (
+              <li>
+                <button onClick={() => signOut()}>Logout</button>
+              </li>
+            )}
+            {!authUser && (
+              <li>
+                <Link to="login" onClick={closeMenu}>
+                  Login
+                </Link>
+              </li>
+            )}
           </ul>
         </StyledNavLinks>
       </StyledNavWrapper>
