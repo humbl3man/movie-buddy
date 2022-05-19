@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 import logo from '../assets/logo.svg';
 import AuthContext from '../auth/authProvider';
-import SignOutIcon from './SignOutIcon';
 
 const StyledHeader = styled.header`
   align-items: center;
@@ -179,6 +178,22 @@ const MenuIconSvg = () => {
     </svg>
   );
 };
+const SignOutIcon: React.FC<{ width: number; height: number }> = (props) => {
+  return (
+    <svg width={props.width} height={props.height} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M17.4404 14.62L20.0004 12.06L17.4404 9.5" stroke="#767E94" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M9.75977 12.0601H19.9298" stroke="#767E94" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
+      <path
+        d="M11.7598 20C7.33977 20 3.75977 17 3.75977 12C3.75977 7 7.33977 4 11.7598 4"
+        stroke="#767E94"
+        strokeWidth="1.5"
+        strokeMiterlimit="10"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+};
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -224,7 +239,7 @@ const Navbar = () => {
               <li>
                 <button onClick={() => signOut()}>
                   {' '}
-                  <SignOutIcon /> Logout
+                  <SignOutIcon width={16} height={16} /> Logout
                 </button>
               </li>
             )}
