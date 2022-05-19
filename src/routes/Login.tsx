@@ -45,6 +45,14 @@ const StyledLoginImage = styled.div`
   }
 `;
 
+const StyledAuthError = styled.div`
+  background: var(--error500);
+  color: var(--white);
+  padding: 2rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+`;
+
 type LoginInputs = {
   email: string;
   password: string;
@@ -57,10 +65,10 @@ const Login = () => {
     register,
     handleSubmit,
     watch,
-    formState: { errors, touchedFields }
+    formState: { errors }
   } = useForm<LoginInputs>();
-  const onSubmit: SubmitHandler<LoginInputs> = (data) => {
-    signIn({ email: data.email, password: data.password });
+  const onSubmit: SubmitHandler<LoginInputs> = (user) => {
+    signIn(user);
   };
   const [emailValue, passwordValue] = watch(['email', 'password']);
   const { signIn, authUser, authError } = useContext(AuthContext);
@@ -75,9 +83,10 @@ const Login = () => {
         <img src={loginSplashSrc} width={486} height={584} alt="" />
       </StyledLoginImage>
       <StyledLoginFormContainer>
-        {authError && <div>Authentication Error: {authError}</div>}
         <form onSubmit={handleSubmit(onSubmit)} noValidate>
           <h1>Login</h1>
+          {authError && <StyledAuthError>{authError}</StyledAuthError>}
+
           <div className="field field--withIcon">
             <label htmlFor="email" className={`${emailValue ? 'raised' : ''}`}>
               Email

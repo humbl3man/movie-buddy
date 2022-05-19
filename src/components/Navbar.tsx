@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import logo from '../assets/logo.svg';
 import AuthContext from '../auth/authProvider';
+import SignOutIcon from './SignOutIcon';
 
 const StyledHeader = styled.header`
   align-items: center;
@@ -97,6 +98,8 @@ const StyledNavWrapper = styled.div<StyledNavProps>`
 `;
 const StyledNavLinks = styled.nav`
   ul {
+    display: flex;
+    align-items: center;
     list-style: none;
     margin: 2rem 0 0;
     padding: 0;
@@ -120,7 +123,8 @@ const StyledNavLinks = styled.nav`
       }
     }
   }
-  a {
+  a,
+  button {
     width: 100%;
     color: var(--grey200);
     text-decoration: none;
@@ -136,7 +140,7 @@ const StyledNavLinks = styled.nav`
     }
     svg {
       display: inline-block;
-      margin-left: 0.8rem;
+      margin-right: 0.8rem;
     }
     &:hover svg path,
     &:focus svg path,
@@ -144,6 +148,16 @@ const StyledNavLinks = styled.nav`
     &.active svg path {
       stroke: var(--white);
     }
+  }
+
+  button {
+    appearance: none;
+    background: none;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    border: 0;
+    cursor: pointer;
   }
 `;
 
@@ -208,7 +222,10 @@ const Navbar = () => {
             </li> */}
             {authUser && (
               <li>
-                <button onClick={() => signOut()}>Logout</button>
+                <button onClick={() => signOut()}>
+                  {' '}
+                  <SignOutIcon /> Logout
+                </button>
               </li>
             )}
             {!authUser && (

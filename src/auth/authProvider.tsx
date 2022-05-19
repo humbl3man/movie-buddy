@@ -1,16 +1,16 @@
 import { createContext, useEffect, useState } from 'react';
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
 import { User, UserCredential } from '@firebase/auth-types';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-import firebaseApp from '../getFirebaseConfig';
 import getAuthErrorMessageFromCode from '../utils/getAuthErrorMessageFromCode';
+import app from '../getFirebaseApp';
 
-const auth = getAuth(firebaseApp);
+const auth = getAuth(app);
 
 type AuthContextProps = {
   authUser: User | null;
-  authError: string;
+  authError: string | null;
   signIn: any;
   signOut: any;
   createUser: any;
@@ -18,7 +18,7 @@ type AuthContextProps = {
 
 const AuthContext = createContext<AuthContextProps>({
   authUser: null,
-  authError: '',
+  authError: null,
   signIn: () => {},
   signOut: () => {},
   createUser: () => {}
@@ -31,8 +31,9 @@ type AuthContextProviderProps = {
 
 const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const [user, setUser] = useState<any>(null);
-  const [authError, setAuthError] = useState('');
+  const [authError, setAuthError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
   function signIn({ email, password }: { email: string; password: string }) {
     signInWithEmailAndPassword(auth, email, password)
@@ -40,7 +41,8 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
         navigate('/dashboard');
       })
       .catch((err) => {
-        // setAuthError(getAuthErrorMessageFromCode(err.code));
+        console.log(getAuthErrorMessageFromCode(err.code));
+        setAuthError(getAuthErrorMessageFromCode(err.code));
       });
   }
 
@@ -76,6 +78,11 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
       }
     });
   }, []);
+
+  useEffect(() => {
+    console.log('route changed', location.pathname);
+    setAuthError(null);
+  }, [location]);
 
   return <AuthContext.Provider value={{ authUser: user, authError, signIn, signOut, createUser }}>{children}</AuthContext.Provider>;
 };
