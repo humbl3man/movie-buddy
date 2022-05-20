@@ -238,6 +238,11 @@ const Navbar = () => {
             </li> */}
             {authUser && (
               <li>
+                <Link to="/dashboard">Account</Link>
+              </li>
+            )}
+            {authUser && (
+              <li>
                 <button
                   onClick={() => {
                     signOut();

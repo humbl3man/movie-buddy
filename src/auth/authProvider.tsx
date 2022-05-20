@@ -1,6 +1,5 @@
 import { createContext, useEffect, useState } from 'react';
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
-import { User } from '@firebase/auth-types';
+import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword, User } from 'firebase/auth';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import getAuthErrorMessageFromCode from '../utils/getAuthErrorMessageFromCode';
@@ -14,6 +13,7 @@ type AuthContextProps = {
   signIn: any;
   signOut: any;
   createUser: any;
+  verifyEmail: any;
 };
 
 const AuthContext = createContext<AuthContextProps>({
@@ -21,7 +21,8 @@ const AuthContext = createContext<AuthContextProps>({
   authError: null,
   signIn: () => {},
   signOut: () => {},
-  createUser: () => {}
+  createUser: () => {},
+  verifyEmail: () => {}
 });
 
 // create provider
@@ -65,6 +66,17 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     }
   }
 
+  async function verifyEmail(authUser: User, callbackFn?: () => {}) {
+    try {
+      await sendEmailVerification(authUser);
+      if (typeof callbackFn === 'function') {
+        callbackFn();
+      }
+    } catch (error: any) {
+      setAuthError(getAuthErrorMessageFromCode(error.code));
+    }
+  }
+
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -80,7 +92,16 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     setAuthError(null);
   }, [location]);
 
-  return <AuthContext.Provider value={{ authUser: user, authError, signIn, signOut, createUser }}>{children}</AuthContext.Provider>;
+  const providerProps = {
+    authUser: user,
+    authError,
+    signIn,
+    signOut,
+    createUser,
+    verifyEmail
+  };
+
+  return <AuthContext.Provider value={providerProps}>{children}</AuthContext.Provider>;
 };
 
 export default AuthContext;

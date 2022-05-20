@@ -233,6 +233,7 @@ export const GlobalStyle = createGlobalStyle`
     text-align: center;
     display: inline-block;
     cursor: pointer;
+
     &:hover,
     &:focus,
     &:active {
@@ -242,6 +243,33 @@ export const GlobalStyle = createGlobalStyle`
       opacity: 0.6;
       cursor: not-allowed;
     }
+
+    // variations
+
+    // sizes
+    &--small {
+      padding: 1.2rem 2rem;
+    }
+
+    // colors
+    &--tertary {
+      background: var(--tertary400);
+      &:hover,
+      &:focus,
+      &:active {
+        background: var(--tertary500);
+      }
+    }
+    &--warning {
+      background: var(--warning400);
+      color: var(--warning900);
+      &:hover,
+      &:focus,
+      &:active {
+        background: var(--warning500);
+      }
+    }
+
   }
   a.btn {
     text-decoration: none;
