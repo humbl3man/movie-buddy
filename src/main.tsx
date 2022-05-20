@@ -12,6 +12,7 @@ import Detail from './routes/Detail';
 import NotFound from './routes/NotFound';
 import { AuthContextProvider } from './auth/authProvider';
 import Account from './routes/Account';
+import Dashboard from './routes/Dashboard';
 
 const queryClient = new QueryClient();
 
@@ -27,14 +28,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Account type="login" />} />
               <Route path="/create-account" element={<Account type="create" />} />
-              <Route
-                path="/dashboard"
-                element={
-                  <div>
-                    <h1>Dashboard</h1>
-                  </div>
-                }
-              />
+              <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/movies" element={<Sort category="movie" />} />
               <Route path="/tv" element={<Sort category="tv" />} />
               <Route path="/movie/:id" element={<Detail type="movie" />} />
