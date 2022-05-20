@@ -97,13 +97,13 @@ const StyledNavWrapper = styled.div<StyledNavProps>`
 `;
 const StyledNavLinks = styled.nav`
   ul {
-    display: flex;
-    align-items: center;
-    list-style: none;
     margin: 2rem 0 0;
     padding: 0;
     @media screen and (min-width: 767px) {
       margin: 0;
+      display: flex;
+      align-items: center;
+      list-style: none;
     }
   }
   li {
@@ -156,6 +156,7 @@ const StyledNavLinks = styled.nav`
     font-size: inherit;
     line-height: inherit;
     border: 0;
+    padding: 0;
     cursor: pointer;
   }
 `;
@@ -237,7 +238,11 @@ const Navbar = () => {
             </li> */}
             {authUser && (
               <li>
-                <button onClick={() => signOut()}>
+                <button
+                  onClick={() => {
+                    signOut();
+                    closeMenu();
+                  }}>
                   {' '}
                   <SignOutIcon width={16} height={16} /> Logout
                 </button>
