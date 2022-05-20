@@ -130,10 +130,13 @@ const Account: React.FC<{ type: 'create' | 'login' }> = (props) => {
               className={errors?.password?.message ? 'error' : ''}
               {...register('password', {
                 required: 'Please enter password',
-                minLength: {
-                  value: 6,
-                  message: 'Password must be at least 6 characters'
-                }
+                minLength:
+                  props.type === 'create'
+                    ? {
+                        value: 6,
+                        message: 'Password must be at least 6 characters'
+                      }
+                    : undefined
               })}
             />
             {errors.password?.message && <div className="field-error">{errors.password.message}</div>}
