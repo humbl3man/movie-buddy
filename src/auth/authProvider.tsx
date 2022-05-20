@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from 'react';
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
-import { AuthError, User, UserCredential } from '@firebase/auth-types';
+import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
+import { User } from '@firebase/auth-types';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import getAuthErrorMessageFromCode from '../utils/getAuthErrorMessageFromCode';
@@ -53,27 +53,16 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
       setAuthError(getAuthErrorMessageFromCode(error.code));
       console.log(error.code);
     }
-
-    // auth
-    //   .signOut()
-    //   .then(() => {
-    //     navigate('/');
-    //   })
-    //   .catch((err) => {
-    //     setAuthError(getAuthErrorMessageFromCode(err.code));
-    //     console.log(err.code);
-    //   });
   }
 
-  function createUser({ email, password }: { email: string; password: string }) {
-    // TODO: implement
-    // createUserWithEmailAndPassword(auth, email, password)
-    //   .then(() => {
-    //     router.push('/account');
-    //   })
-    //   .catch((err) => {
-    //     setAuthError(getAuthErrorMessageFromCode(err.code));
-    //   });
+  async function createUser({ email, password }: { email: string; password: string }) {
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      navigate('/dashboard');
+    } catch (error: any) {
+      console.log(getAuthErrorMessageFromCode(error.code));
+      setAuthError(getAuthErrorMessageFromCode(error.code));
+    }
   }
 
   useEffect(() => {
