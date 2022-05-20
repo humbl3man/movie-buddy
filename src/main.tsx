@@ -10,8 +10,8 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import Detail from './routes/Detail';
 import NotFound from './routes/NotFound';
-import Login from './routes/Login';
 import { AuthContextProvider } from './auth/authProvider';
+import Account from './routes/Account';
 
 const queryClient = new QueryClient();
 
@@ -25,7 +25,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <Routes>
             <Route path="/" element={<App />}>
               <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} />
+              <Route path="/login" element={<Account type="login" />} />
+              <Route path="/create-account" element={<Account type="create" />} />
               <Route
                 path="/dashboard"
                 element={

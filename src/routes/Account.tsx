@@ -1,14 +1,15 @@
+import { useContext } from 'react';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { Navigate } from 'react-router-dom';
 import styled from 'styled-components';
 
+import AuthContext from '../auth/authProvider';
 import loginSplashSrc from '../assets/login-splash-image.png';
 import emailIcon from '../assets/email.svg';
 import passIcon from '../assets/password.svg';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { useContext, useEffect } from 'react';
-import AuthContext from '../auth/authProvider';
-import { Navigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-const StyledLoginPage = styled.section`
+const StyledContainer = styled.section`
   display: grid;
 
   @media screen and (min-width: 767px) {
@@ -17,7 +18,7 @@ const StyledLoginPage = styled.section`
   }
 `;
 
-const StyledLoginFormContainer = styled.div`
+const StyledFormContainer = styled.div`
   display: flex;
   align-items: center;
   @media screen and (min-width: 767px) {
@@ -33,7 +34,7 @@ const StyledLoginFormContainer = styled.div`
   }
 `;
 
-const StyledLoginImage = styled.div`
+const StyledSplashImage = styled.div`
   display: none;
   @media screen and (min-width: 767px) {
     display: block;
@@ -53,38 +54,46 @@ const StyledAuthError = styled.div`
   margin-bottom: 2rem;
 `;
 
-type LoginInputs = {
+const StyledFooterMessage = styled.div`
+  margin-top: 2rem;
+`;
+
+type FormInputs = {
   email: string;
   password: string;
 };
 
 const emailRgx = /(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/gm;
 
-const Login = () => {
+const Account: React.FC<{ type: 'create' | 'login' }> = (props) => {
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors }
-  } = useForm<LoginInputs>();
-  const onSubmit: SubmitHandler<LoginInputs> = (user) => {
-    signIn(user);
+  } = useForm<FormInputs>();
+  const onSubmit: SubmitHandler<FormInputs> = (user) => {
+    if (props.type === 'login') {
+      signIn(user);
+    } else {
+      createUser(user);
+    }
   };
   const [emailValue, passwordValue] = watch(['email', 'password']);
-  const { signIn, authUser, authError } = useContext(AuthContext);
+  const { signIn, createUser, authUser, authError } = useContext(AuthContext);
 
   if (authUser) {
     return <Navigate to="/dashboard" />;
   }
 
   return (
-    <StyledLoginPage>
-      <StyledLoginImage>
+    <StyledContainer>
+      <StyledSplashImage>
         <img src={loginSplashSrc} width={486} height={584} alt="" />
-      </StyledLoginImage>
-      <StyledLoginFormContainer>
+      </StyledSplashImage>
+      <StyledFormContainer>
         <form onSubmit={handleSubmit(onSubmit)} noValidate>
-          <h1>Login</h1>
+          <h1>{props.type === 'login' ? 'Login' : 'Create Account'}</h1>
           {authError && <StyledAuthError>{authError}</StyledAuthError>}
 
           <div className="field field--withIcon">
@@ -129,11 +138,25 @@ const Login = () => {
             />
             {errors.password?.message && <div className="field-error">{errors.password.message}</div>}
           </div>
-          <button className="btn">Login</button>
+          <button className="btn">{props.type === 'login' ? 'Login' : 'Create Account'}</button>
+          <StyledFooterMessage>
+            {props.type === 'login' ? (
+              <p>
+                Don't have an account? <Link to="/create-account">Sign Up</Link>
+              </p>
+            ) : (
+              <p>
+                Already have an account? <Link to="/login">Sign In</Link>
+              </p>
+            )}
+            <p>
+              Forgot your password? <Link to="/reset-password">Reset</Link>
+            </p>
+          </StyledFooterMessage>
         </form>
-      </StyledLoginFormContainer>
-    </StyledLoginPage>
+      </StyledFormContainer>
+    </StyledContainer>
   );
 };
 
-export default Login;
+export default Account;
