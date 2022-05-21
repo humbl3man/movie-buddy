@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword, User } from 'firebase/auth';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -30,19 +30,32 @@ type AuthContextProviderProps = {
   children: React.ReactNode;
 };
 
+const useAuth = () => {
+  const authCtx = useContext(AuthContext);
+  return {
+    ...authCtx
+  };
+};
+
 const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [authError, setAuthError] = useState<string | null>(null);
   const navigate = useNavigate();
   const location = useLocation();
 
-  async function signIn({ email, password }: { email: string; password: string }) {
+  async function signIn({ email, password }: { email: string; password: string }, onSuccess?: () => {}, onError?: (code: string) => {}) {
     try {
       await signInWithEmailAndPassword(auth, email, password);
+      if (typeof onSuccess === 'function') {
+        onSuccess();
+      }
       navigate('/dashboard');
     } catch (error: any) {
       console.log(getAuthErrorMessageFromCode(error.code));
       setAuthError(getAuthErrorMessageFromCode(error.code));
+      if (typeof onError === 'function') {
+        onError(error.code);
+      }
     }
   }
 
@@ -52,47 +65,51 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
       navigate('/login');
     } catch (error: any) {
       setAuthError(getAuthErrorMessageFromCode(error.code));
-      console.log(error.code);
     }
   }
 
-  async function createUser({ email, password }: { email: string; password: string }) {
+  async function createUser({ email, password }: { email: string; password: string }, onSuccess?: () => {}, onError?: (code: string) => {}) {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
+      if (typeof onSuccess === 'function') {
+        onSuccess();
+      }
       navigate('/dashboard');
     } catch (error: any) {
       console.log(getAuthErrorMessageFromCode(error.code));
       setAuthError(getAuthErrorMessageFromCode(error.code));
+      if (typeof onError === 'function') {
+        onError(error.code);
+      }
     }
   }
 
-  async function verifyEmail(authUser: User, callbackFn?: () => {}) {
+  async function verifyEmail(authUser: User, onSuccess?: () => {}, onError?: (code: string) => {}) {
     try {
       await sendEmailVerification(authUser);
-      if (typeof callbackFn === 'function') {
-        callbackFn();
+      if (typeof onSuccess === 'function') {
+        onSuccess();
       }
     } catch (error: any) {
       setAuthError(getAuthErrorMessageFromCode(error.code));
+      if (typeof onError === 'function') {
+        onError(error.code);
+      }
     }
   }
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUser(user);
-      } else {
-        setUser(null);
-      }
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
     });
+    return unsubscribe;
   }, []);
 
   useEffect(() => {
-    console.log('route changed', location.pathname);
     setAuthError(null);
   }, [location]);
 
-  const providerProps = {
+  const value = {
     authUser: user,
     authError,
     signIn,
@@ -101,8 +118,8 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     verifyEmail
   };
 
-  return <AuthContext.Provider value={providerProps}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export default AuthContext;
-export { AuthContextProvider };
+export { AuthContextProvider, useAuth };

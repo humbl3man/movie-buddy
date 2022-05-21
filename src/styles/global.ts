@@ -226,18 +226,19 @@ export const GlobalStyle = createGlobalStyle`
     appearance: none;
     border: 0;
     color: var(--white);
-    background: var(--primary400);
+    background: var(--primary500);
     font-size: inherit;
     font-weight: inherit;
     border-radius: 12px;
     text-align: center;
     display: inline-block;
     cursor: pointer;
+    transition: background 200ms ease;
 
     &:hover,
     &:focus,
     &:active {
-      background: var(--primary500);
+      background: var(--primary600);
     }
     &:disabled {
       opacity: 0.6;
@@ -253,20 +254,21 @@ export const GlobalStyle = createGlobalStyle`
 
     // colors
     &--tertary {
-      background: var(--tertary400);
+      color: var(--tertary900);
+      background: var(--tertary500);
       &:hover,
       &:focus,
       &:active {
-        background: var(--tertary500);
+        background: var(--tertary600);
       }
     }
     &--warning {
-      background: var(--warning400);
+      background: var(--warning500);
       color: var(--warning900);
       &:hover,
       &:focus,
       &:active {
-        background: var(--warning500);
+        background: var(--warning600);
       }
     }
 

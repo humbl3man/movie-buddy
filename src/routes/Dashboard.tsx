@@ -1,19 +1,33 @@
-import { useContext, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import styled from 'styled-components';
-import AuthContext from '../auth/authProvider';
+import { useAuth } from '../auth/authProvider';
 
 const StyledDashboardContainer = styled.section`
   margin-top: 8rem;
 `;
-const StyledEmailVerificationWarning = styled.div`
-  border: 1px solid var(--warning700);
-  background: var(--warning800);
-  padding: 1.4rem;
+
+const StyledAuthWarning = styled.div`
+  background: var(--warning500);
+  color: var(--warning900);
+  padding: 2rem;
   border-radius: 8px;
   margin-bottom: 2rem;
-  p {
-    color: var(--warning200);
+  button,
+  .btn {
+    appearance: none;
+    padding: 0;
+    border: 0;
+    color: var(--warning900);
+    font-weight: 600;
+    background: transparent;
+    font-family: inherit;
+    font-size: inherit;
+    &:hover,
+    &:focus {
+      background: transparent;
+      text-decoration: underline;
+    }
   }
 `;
 
@@ -26,13 +40,22 @@ const StyledAuthError = styled.div`
 `;
 
 const Dashboard = () => {
-  const { authUser, authError, signOut, verifyEmail } = useContext(AuthContext);
+  const { authUser, authError, signOut, verifyEmail } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
   const [verificationSent, setVerificationSent] = useState(false);
 
   const handleVerifyEmailClick = () => {
-    verifyEmail(authUser, () => {
-      setVerificationSent(true);
-    });
+    setIsLoading(true);
+    verifyEmail(
+      authUser,
+      () => {
+        setVerificationSent(true);
+        setIsLoading(false);
+      },
+      () => {
+        setIsLoading(false);
+      }
+    );
   };
 
   if (!authUser) {
@@ -44,20 +67,16 @@ const Dashboard = () => {
       <h1 className="h2">Welcome</h1>
       {authError && <StyledAuthError>{authError}</StyledAuthError>}
       {!authUser.emailVerified && !verificationSent && (
-        <StyledEmailVerificationWarning>
-          <p>You haven't verified your email.</p>
-          <button className="btn btn--small btn--warning" onClick={handleVerifyEmailClick}>
-            Verify
+        <StyledAuthWarning style={{ maxWidth: 'max-content' }}>
+          Please verify your email address.{' '}
+          <button className="btn btn--small" onClick={handleVerifyEmailClick} disabled={isLoading}>
+            Send verification email
           </button>
-        </StyledEmailVerificationWarning>
+        </StyledAuthWarning>
       )}
-      {verificationSent && (
-        <StyledEmailVerificationWarning>
-          <p>Verification email sent. Please check your email!</p>
-        </StyledEmailVerificationWarning>
-      )}
+      {verificationSent && <p>Verification email sent! Please check your inbox to verify!</p>}
 
-      <button className="btn" onClick={signOut}>
+      <button className="btn" onClick={signOut} disabled={isLoading}>
         Logout
       </button>
     </StyledDashboardContainer>

@@ -1,9 +1,9 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import logo from '../assets/logo.svg';
-import AuthContext from '../auth/authProvider';
+import AuthContext, { useAuth } from '../auth/authProvider';
 
 const StyledHeader = styled.header`
   align-items: center;
@@ -198,7 +198,7 @@ const SignOutIcon: React.FC<{ width: number; height: number }> = (props) => {
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { authUser, signOut } = useContext(AuthContext);
+  const { authUser, signOut } = useAuth();
 
   const openMenu = () => {
     setIsMenuOpen(true);

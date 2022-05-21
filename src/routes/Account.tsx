@@ -1,13 +1,13 @@
-import { useContext } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Navigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import AuthContext from '../auth/authProvider';
+import { useAuth } from '../auth/authProvider';
 import loginSplashSrc from '../assets/login-splash-image.png';
 import emailIcon from '../assets/email.svg';
 import passIcon from '../assets/password.svg';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 
 const StyledContainer = styled.section`
   display: grid;
@@ -66,6 +66,7 @@ type FormInputs = {
 const emailRgx = /(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/gm;
 
 const Account: React.FC<{ type: 'create' | 'login' }> = (props) => {
+  const [isLoading, setIsLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -73,14 +74,23 @@ const Account: React.FC<{ type: 'create' | 'login' }> = (props) => {
     formState: { errors }
   } = useForm<FormInputs>();
   const onSubmit: SubmitHandler<FormInputs> = (user) => {
+    setIsLoading(true);
     if (props.type === 'login') {
-      signIn(user);
+      signIn(
+        user,
+        () => setIsLoading(false),
+        () => setIsLoading(false)
+      );
     } else {
-      createUser(user);
+      createUser(
+        user,
+        () => setIsLoading(false),
+        () => setIsLoading(false)
+      );
     }
   };
   const [emailValue, passwordValue] = watch(['email', 'password']);
-  const { signIn, createUser, authUser, authError } = useContext(AuthContext);
+  const { signIn, createUser, authUser, authError } = useAuth();
 
   if (authUser) {
     return <Navigate to="/dashboard" />;
@@ -141,7 +151,9 @@ const Account: React.FC<{ type: 'create' | 'login' }> = (props) => {
             />
             {errors.password?.message && <div className="field-error">{errors.password.message}</div>}
           </div>
-          <button className="btn">{props.type === 'login' ? 'Login' : 'Create Account'}</button>
+          <button className="btn" disabled={isLoading}>
+            {props.type === 'login' ? 'Login' : 'Create Account'}
+          </button>
           <StyledFooterMessage>
             {props.type === 'login' ? (
               <p>
