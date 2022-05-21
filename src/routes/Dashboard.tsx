@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { useAuth } from '../auth/authProvider';
 
@@ -58,15 +57,11 @@ const Dashboard = () => {
     );
   };
 
-  if (!authUser) {
-    return <Navigate to="/login" />;
-  }
-
   return (
     <StyledDashboardContainer>
       <h1 className="h2">Welcome</h1>
       {authError && <StyledAuthError>{authError}</StyledAuthError>}
-      {!authUser.emailVerified && !verificationSent && (
+      {!authUser?.emailVerified && !verificationSent && (
         <StyledAuthWarning style={{ maxWidth: 'max-content' }}>
           Please verify your email address.{' '}
           <button className="btn btn--small" onClick={handleVerifyEmailClick} disabled={isLoading}>

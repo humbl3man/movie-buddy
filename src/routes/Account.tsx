@@ -93,7 +93,7 @@ const Account: React.FC<{ type: 'create' | 'login' }> = (props) => {
   const { signIn, createUser, authUser, authError } = useAuth();
 
   if (authUser) {
-    return <Navigate to="/dashboard" />;
+    return <Navigate to="/dashboard" replace />;
   }
 
   return (
