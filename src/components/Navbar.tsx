@@ -238,7 +238,9 @@ const Navbar = () => {
             </li> */}
             {authUser && (
               <li>
-                <Link to="/dashboard">Account</Link>
+                <Link to="/dashboard" onClick={closeMenu}>
+                  Account
+                </Link>
               </li>
             )}
             {authUser && (
