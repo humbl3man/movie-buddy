@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import getAuthErrorMessageFromCode from '../utils/getAuthErrorMessageFromCode';
 import app from '../getFirebaseApp';
+import Loader from '../components/Loader';
 
 const auth = getAuth(app);
 
@@ -38,6 +39,7 @@ const useAuth = () => {
 };
 
 const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
+  const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<User | null>(null);
   const [authError, setAuthError] = useState<string | null>(null);
   const navigate = useNavigate();
@@ -101,6 +103,7 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
+      setLoading(false);
     });
     return unsubscribe;
   }, []);
@@ -118,7 +121,17 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     verifyEmail
   };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={value}>
+      {loading ? (
+        <Loader>
+          <div className="h3">Loading...</div>
+        </Loader>
+      ) : (
+        children
+      )}
+    </AuthContext.Provider>
+  );
 };
 
 export default AuthContext;
