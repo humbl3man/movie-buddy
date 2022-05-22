@@ -1,5 +1,5 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { useAuth } from '../auth/authProvider';
@@ -7,7 +7,7 @@ import loginSplashSrc from '../assets/login-splash-image.png';
 import emailIcon from '../assets/email.svg';
 import passIcon from '../assets/password.svg';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const StyledContainer = styled.section`
   display: grid;
@@ -56,11 +56,13 @@ const StyledAuthError = styled.div`
 
 const StyledFooterMessage = styled.div`
   margin-top: 2rem;
+  text-align: center;
 `;
 
 type FormInputs = {
   email: string;
   password: string;
+  passwordConfirm: string;
 };
 
 const emailRgx = /(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/gm;
@@ -71,6 +73,7 @@ const Account: React.FC<{ type: 'create' | 'login' }> = (props) => {
     register,
     handleSubmit,
     watch,
+    clearErrors,
     formState: { errors }
   } = useForm<FormInputs>();
   const onSubmit: SubmitHandler<FormInputs> = (user) => {
@@ -89,8 +92,13 @@ const Account: React.FC<{ type: 'create' | 'login' }> = (props) => {
       );
     }
   };
-  const [emailValue, passwordValue] = watch(['email', 'password']);
+  const [emailValue, passwordValue, passwordConfirmValue] = watch(['email', 'password', 'passwordConfirm']);
   const { signIn, createUser, authUser, authError } = useAuth();
+  const location = useLocation();
+
+  useEffect(() => {
+    clearErrors();
+  }, [location]);
 
   if (authUser) {
     return <Navigate to="/dashboard" replace />;
@@ -151,7 +159,29 @@ const Account: React.FC<{ type: 'create' | 'login' }> = (props) => {
             />
             {errors.password?.message && <div className="field-error">{errors.password.message}</div>}
           </div>
-          <button className="btn" disabled={isLoading}>
+          {props.type === 'create' && (
+            <div className="field field--withIcon">
+              <label htmlFor="passwordConfirm" className={`${passwordConfirmValue ? 'raised' : ''}`}>
+                Confirm Password
+              </label>
+              <div className="field-icon">
+                <img src={passIcon} alt="" />
+              </div>
+              <input
+                id="passwordConfirm"
+                type="password"
+                className={errors?.passwordConfirm?.message ? 'error' : ''}
+                {...register('passwordConfirm', {
+                  required: 'Please confirm password',
+                  validate: {
+                    matchPassword: (value) => value === passwordValue || "Passwords don't match"
+                  }
+                })}
+              />
+              {errors.passwordConfirm?.message && <div className="field-error">{errors.passwordConfirm.message}</div>}
+            </div>
+          )}
+          <button className="btn btn--wide" disabled={isLoading}>
             {props.type === 'login' ? 'Login' : 'Create Account'}
           </button>
           <StyledFooterMessage>
