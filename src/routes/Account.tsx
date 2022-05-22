@@ -195,7 +195,7 @@ const Account: React.FC<{ type: 'create' | 'login' }> = (props) => {
               </p>
             )}
             <p>
-              Forgot your password? <Link to="/reset-password">Reset</Link>
+              Forgot your password? <Link to="/password-reset">Reset</Link>
             </p>
           </StyledFooterMessage>
         </form>

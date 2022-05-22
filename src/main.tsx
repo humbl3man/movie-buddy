@@ -14,6 +14,7 @@ import { AuthContextProvider } from './auth/authProvider';
 import Account from './routes/Account';
 import Dashboard from './routes/Dashboard';
 import PrivateRoute from './components/PrivateRoute';
+import PasswordReset from './routes/PasswordReset';
 
 const queryClient = new QueryClient();
 
@@ -37,6 +38,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
                   </PrivateRoute>
                 }
               />
+              <Route path="/password-reset" element={<PasswordReset />} />
               <Route path="/movies" element={<Sort category="movie" />} />
               <Route path="/tv" element={<Sort category="tv" />} />
               <Route path="/movie/:id" element={<Detail type="movie" />} />

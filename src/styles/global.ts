@@ -204,6 +204,9 @@ export const GlobalStyle = createGlobalStyle`
   }
   p {
     color: var(--grey300);
+    strong {
+      color: var(--grey100);
+    }
   }
   a {
     color: var(--grey100);

@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword, User } from 'firebase/auth';
+import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, User } from 'firebase/auth';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import getAuthErrorMessageFromCode from '../utils/getAuthErrorMessageFromCode';
@@ -15,6 +15,7 @@ type AuthContextProps = {
   signOut: any;
   createUser: any;
   verifyEmail: any;
+  resetPassword: any;
 };
 
 const AuthContext = createContext<AuthContextProps>({
@@ -23,7 +24,8 @@ const AuthContext = createContext<AuthContextProps>({
   signIn: () => {},
   signOut: () => {},
   createUser: () => {},
-  verifyEmail: () => {}
+  verifyEmail: () => {},
+  resetPassword: () => {}
 });
 
 // create provider
@@ -100,6 +102,20 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     }
   }
 
+  async function resetPassword(email: string, onSuccess?: () => {}, onError?: (code: string) => {}) {
+    try {
+      await sendPasswordResetEmail(auth, email);
+      if (typeof onSuccess === 'function') {
+        onSuccess();
+      }
+    } catch (error: any) {
+      setAuthError(getAuthErrorMessageFromCode(error.code));
+      if (typeof onError === 'function') {
+        onError(error.code);
+      }
+    }
+  }
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
@@ -118,7 +134,8 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     signIn,
     signOut,
     createUser,
-    verifyEmail
+    verifyEmail,
+    resetPassword
   };
 
   return (
