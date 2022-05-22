@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import backgroundImg from '../assets/background.svg';
 
 export const GlobalStyle = createGlobalStyle`
 
@@ -113,6 +114,8 @@ export const GlobalStyle = createGlobalStyle`
     line-height: 2.4rem;
     margin: 0;
     padding: 0; 
+    background-image: url(${backgroundImg});
+    background-size: 100%;
     background-color: var(--grey900);
     font-family: var(--baseFont);
     overflow-x: hidden;
@@ -250,6 +253,10 @@ export const GlobalStyle = createGlobalStyle`
     // sizes
     &--small {
       padding: 1.2rem 2rem;
+    }
+    &--wide {
+      display: block;
+      width: 100%;
     }
 
     // colors
