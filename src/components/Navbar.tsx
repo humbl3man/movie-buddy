@@ -59,7 +59,6 @@ const StyledHeader = styled.header`
     margin-right: -2rem;
     padding-left: 2rem;
     padding-right: 2rem;
-    background: var(--grey900);
   }
 `;
 
