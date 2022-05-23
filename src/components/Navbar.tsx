@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { HiMenuAlt2 as MenuToggleIcon } from 'react-icons/hi';
+import { GrClose as MenuCloseIcon } from 'react-icons/gr';
 
 import logo from '../assets/logo.svg';
 import AuthContext, { useAuth } from '../auth/authProvider';
@@ -33,11 +35,10 @@ const StyledHeader = styled.header`
   }
 
   .menuToggle {
-    svg path {
-      fill: var(--grey200);
-    }
-    &:hover svg path {
-      fill: var(--white);
+    color: var(--grey200);
+    &:hover,
+    &:focus {
+      color: var(--white);
     }
   }
 
@@ -46,9 +47,11 @@ const StyledHeader = styled.header`
     margin-left: auto;
     align-items: center;
     justify-content: center;
-    font-size: 3.4rem;
-    color: var(--grey200);
+    font-size: 2.7rem;
     line-height: 1;
+    svg path {
+      stroke: var(--grey50);
+    }
     @media screen and (min-width: 767px) {
       display: none;
     }
@@ -212,11 +215,11 @@ const Navbar = () => {
         <img src={logo} width={40} height={40} alt="" aria-hidden />
       </Link>
       <button type="button" className="menuToggle" onClick={openMenu}>
-        <MenuIconSvg />
+        <MenuToggleIcon />
       </button>
       <StyledNavWrapper isOpen={isMenuOpen}>
         <button className="menuClose" onClick={closeMenu}>
-          &times;
+          <MenuCloseIcon />
         </button>
         <StyledNavLinks>
           <ul>

@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { Link, Navigate, useLocation } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import { MdEmail as EmailIcon } from 'react-icons/md';
 import { useAuth } from '../auth/authProvider';
 
 const StyledFormContainer = styled.div`
-  max-width: 500px;
-  margin: auto;
+  max-width: 600px;
+  margin: 6rem auto 0 auto;
 
   form {
     width: 100%;
@@ -14,18 +15,6 @@ const StyledFormContainer = styled.div`
   .field input {
     display: block;
     width: 100%;
-  }
-`;
-
-const StyledSplashImage = styled.div`
-  display: none;
-  @media screen and (min-width: 767px) {
-    display: block;
-    img {
-      display: block;
-      max-width: 100%;
-      height: auto;
-    }
   }
 `;
 
@@ -37,9 +26,14 @@ const StyledAuthError = styled.div`
   margin-bottom: 2rem;
 `;
 
-const StyledFooterMessage = styled.div`
-  margin-top: 2rem;
-  text-align: center;
+const StyledNotification = styled.div`
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  grid-gap: 1rem;
+  align-items: center;
+  svg {
+    margin-right: 4px;
+  }
 `;
 
 type FormInputs = {
@@ -53,7 +47,7 @@ const emailRgx = /(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@(
 const PasswordReset = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { authError, authUser, resetPassword } = useAuth();
-  const [reset, setReset] = useState(false);
+  const [resetRequested, setResetRequested] = useState(false);
   const {
     register,
     handleSubmit,
@@ -66,7 +60,7 @@ const PasswordReset = () => {
     resetPassword(
       data.email,
       () => {
-        setReset(true);
+        setResetRequested(true);
         setIsLoading(false);
       },
       () => {
@@ -85,13 +79,22 @@ const PasswordReset = () => {
     clearErrors();
   }, [location]);
 
-  if (reset) {
+  if (resetRequested) {
     return (
       <StyledFormContainer>
-        <h1>Reset Password</h1>
-        <p>
-          <strong>Success!</strong> Reset email sent. If provided email is registered in our system, you will receive an email with reset link.
-        </p>
+        <h1>Email sent!</h1>
+        <StyledNotification>
+          <div>
+            <EmailIcon
+              style={{
+                width: '46px',
+                height: '46px',
+                color: 'var(--warning500)'
+              }}
+            />
+          </div>
+          <p>Check your inbox for an email with a password reset link.</p>
+        </StyledNotification>
       </StyledFormContainer>
     );
   }
