@@ -18,4 +18,5 @@ export interface Content {
   last_air_date?: string;
   number_of_seasons?: number;
   number_of_episodes?: number;
+  media_type?: string;
 }
