@@ -17,11 +17,6 @@ const StyledHeader = styled.header`
     margin: 0;
   }
 `;
-const StyledLoadMoreButton = styled.button`
-  width: 320px;
-  margin: 2rem auto;
-  display: block;
-`;
 
 interface SortProps {
   category: 'movie' | 'tv';
@@ -72,16 +67,21 @@ const Sort: React.FC<SortProps> = (props) => {
             </React.Fragment>
           );
         })}
-      <StyledLoadMoreButton
+      <button
         type="button"
-        className="btn"
-        disabled={page >= 1000}
+        className="btn btn--wide"
+        style={{
+          maxWidth: '300px',
+          margin: '2rem auto 4rem auto',
+          display: 'block'
+        }}
+        disabled={page >= 1000 || isLoading}
         onClick={() => {
           setPage((prev) => prev + 1);
           fetchNextPage({ pageParam: page });
         }}>
-        Load More
-      </StyledLoadMoreButton>
+        {isLoading ? 'Loading...' : `Load More ${props.category === 'movie' ? 'Movies' : 'TV Shows'}`}
+      </button>
     </StyledContainer>
   );
 };

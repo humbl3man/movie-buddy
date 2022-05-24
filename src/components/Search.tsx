@@ -44,10 +44,10 @@ const Search = () => {
   return (
     <StyledSearchWrapper>
       <Downshift onChange={handleResultChange} itemToString={(result: any) => (result ? result.title || result.name || '' : '')}>
-        {({ getLabelProps, getInputProps, getItemProps, getMenuProps, isOpen, inputValue, highlightedIndex, selectedItem, getRootProps }) => {
+        {({ getLabelProps, getInputProps, getItemProps, getMenuProps, highlightedIndex }) => {
           return (
             <div>
-              <InputWrapper label="Search Movies or TV Shows">
+              <InputWrapper label="Search Movies or TV Shows" iconPosition="left" icon={<img src={searchIcon} alt="" aria-hidden />}>
                 <input {...getInputProps()} placeholder=" " value={searchTerm} onChange={handleSearchInputChange} />
                 <label {...getLabelProps()}>Search Movies or TV Shows</label>
                 <StyledXButton
