@@ -2,7 +2,10 @@ import { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Navigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import { MdEmail as EmailIcon } from 'react-icons/md';
+import { CgArrowLongLeft as BackArrow } from 'react-icons/cg';
+
 import { useAuth } from '../auth/authProvider';
 
 const StyledFormContainer = styled.div`
@@ -72,7 +75,7 @@ const PasswordReset = () => {
   const [emailValue] = watch(['email']);
 
   if (authUser) {
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to="/account/dashboard" replace />;
   }
 
   useEffect(() => {
@@ -126,6 +129,18 @@ const PasswordReset = () => {
         <button className="btn btn--wide" disabled={isLoading}>
           Reset Password
         </button>
+        <Link
+          className="btn btn--wide btn--link"
+          to="/account/login"
+          style={{
+            marginTop: '2rem',
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}>
+          <BackArrow />
+          &nbsp; Go Back To Login
+        </Link>
       </form>
     </StyledFormContainer>
   );

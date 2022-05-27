@@ -44,7 +44,7 @@ const UpdateName = () => {
       () => {
         setIsLoading(false);
         reset();
-        navigate('/dashboard');
+        navigate('/account/dashboard');
       },
       () => {
         setIsLoading(false);
@@ -94,7 +94,7 @@ const UpdateName = () => {
         </button>
         <Link
           className="btn btn--wide btn--link"
-          to="/dashboard"
+          to="/account/dashboard"
           style={{
             marginTop: '2rem',
             display: 'inline-flex',

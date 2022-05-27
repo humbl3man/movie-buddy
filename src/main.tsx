@@ -27,22 +27,30 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <AuthContextProvider>
           <Routes>
             <Route path="/" element={<App />}>
-              <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Account type="login" />} />
-              <Route path="/create-account" element={<Account type="create" />} />
-              <Route
-                path="/dashboard/*"
-                element={
-                  <PrivateRoute>
-                    <Dashboard />
-                  </PrivateRoute>
-                }
-              />
-              <Route path="/password-reset" element={<PasswordReset />} />
-              <Route path="/movies" element={<Sort category="movie" />} />
-              <Route path="/tv" element={<Sort category="tv" />} />
-              <Route path="/movie/:id" element={<Detail type="movie" />} />
-              <Route path="/tv/:id" element={<Detail type="tv" />} />
+              {/* homepage */}
+              <Route index element={<Home />} />
+              {/* Account pages */}
+              <Route path="account/*">
+                <Route index element={<Account type="login" />} />
+                <Route path="login" element={<Account type="login" />} />
+                <Route path="register" element={<Account type="create" />} />
+                <Route path="password-reset" element={<PasswordReset />} />
+                <Route
+                  path="dashboard/*"
+                  element={
+                    <PrivateRoute>
+                      <Dashboard />
+                    </PrivateRoute>
+                  }
+                />
+              </Route>
+              {/* Category Pages */}
+              <Route path="movies" element={<Sort category="movie" />} />
+              <Route path="tv" element={<Sort category="tv" />} />
+              {/* Detail Pages */}
+              <Route path="movie/:id" element={<Detail type="movie" />} />
+              <Route path="tv/:id" element={<Detail type="tv" />} />
+              {/* Everything else - 404 */}
               <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>

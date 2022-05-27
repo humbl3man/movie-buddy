@@ -65,7 +65,7 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
       if (typeof onSuccess === 'function') {
         onSuccess();
       }
-      navigate('/dashboard');
+      navigate('/account/dashboard');
     } catch (error: any) {
       console.log(getAuthErrorMessageFromCode(error.code));
       setAuthError(getAuthErrorMessageFromCode(error.code));
@@ -78,7 +78,7 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   async function signOut() {
     try {
       await auth.signOut();
-      navigate('/login');
+      navigate('/account/login');
     } catch (error: any) {
       setAuthError(getAuthErrorMessageFromCode(error.code));
     }
@@ -90,7 +90,7 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
       if (typeof onSuccess === 'function') {
         onSuccess(created.user);
       }
-      navigate('/dashboard');
+      navigate('/account/dashboard');
     } catch (error: any) {
       console.log(getAuthErrorMessageFromCode(error.code));
       setAuthError(getAuthErrorMessageFromCode(error.code));

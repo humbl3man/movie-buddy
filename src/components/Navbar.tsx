@@ -239,27 +239,27 @@ const Navbar = () => {
               </a>
             </li> */}
             {authUser && (
-              <li>
-                <Link to="/dashboard" onClick={closeMenu}>
-                  Account
-                </Link>
-              </li>
-            )}
-            {authUser && (
-              <li>
-                <button
-                  onClick={() => {
-                    signOut();
-                    closeMenu();
-                  }}>
-                  {' '}
-                  <SignOutIcon width={16} height={16} /> Logout
-                </button>
-              </li>
+              <>
+                <li>
+                  <Link to="/account/dashboard" onClick={closeMenu}>
+                    Account
+                  </Link>
+                </li>
+                <li>
+                  <button
+                    onClick={() => {
+                      signOut();
+                      closeMenu();
+                    }}>
+                    {' '}
+                    <SignOutIcon width={16} height={16} /> Log Out
+                  </button>
+                </li>
+              </>
             )}
             {!authUser && (
               <li>
-                <Link to="login" onClick={closeMenu}>
+                <Link to="/account/login" onClick={closeMenu}>
                   Login
                 </Link>
               </li>

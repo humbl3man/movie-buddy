@@ -3,7 +3,7 @@ import { Navigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { useAuth } from '../auth/authProvider';
-import loginSplashSrc from '../assets/login-splash-image.png';
+import loginSplashSrc from '../assets/login-splash.svg';
 import emailIcon from '../assets/email.svg';
 import passIcon from '../assets/password.svg';
 import { Link } from 'react-router-dom';
@@ -21,9 +21,6 @@ const StyledContainer = styled.section`
 const StyledFormContainer = styled.div`
   display: flex;
   align-items: center;
-  @media screen and (min-width: 767px) {
-    padding-right: 4.2rem;
-  }
 
   form {
     width: 100%;
@@ -101,7 +98,7 @@ const Account: React.FC<{ type: 'create' | 'login' }> = (props) => {
   }, [location]);
 
   if (authUser) {
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to="/account/dashboard" replace />;
   }
 
   return (
@@ -186,17 +183,19 @@ const Account: React.FC<{ type: 'create' | 'login' }> = (props) => {
           </button>
           <StyledFooterMessage>
             {props.type === 'login' ? (
-              <p>
-                Don't have an account? <Link to="/create-account">Sign Up</Link>
-              </p>
+              <>
+                <p>
+                  Don't have an account? <Link to="/account/register">Sign Up</Link>
+                </p>
+                <p>
+                  Forgot your password? <Link to="/account/password-reset">Reset</Link>
+                </p>
+              </>
             ) : (
               <p>
-                Already have an account? <Link to="/login">Sign In</Link>
+                Already have an account? <Link to="/account/login">Sign In</Link>
               </p>
             )}
-            <p>
-              Forgot your password? <Link to="/password-reset">Reset</Link>
-            </p>
           </StyledFooterMessage>
         </form>
       </StyledFormContainer>

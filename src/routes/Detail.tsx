@@ -189,7 +189,7 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
   if (isError) {
     // redirect to homepage if content was not found
     if (error?.response?.status === 404) {
-      return <Navigate to="/" />;
+      return <Navigate to={props.type === 'movie' ? '/movies' : 'tv'} />;
     }
     return (
       <div>
