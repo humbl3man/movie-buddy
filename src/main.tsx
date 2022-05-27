@@ -31,7 +31,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
               <Route path="/login" element={<Account type="login" />} />
               <Route path="/create-account" element={<Account type="create" />} />
               <Route
-                path="/dashboard"
+                path="/dashboard/*"
                 element={
                   <PrivateRoute>
                     <Dashboard />

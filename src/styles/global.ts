@@ -281,6 +281,15 @@ export const GlobalStyle = createGlobalStyle`
         background: var(--warning600);
       }
     }
+    &--link {
+      background: transparent;
+      color: var(--grey100);
+      &:hover,
+      &:focus,
+      &:active {
+        background: transparent;
+      }
+    }
 
   }
   a.btn {

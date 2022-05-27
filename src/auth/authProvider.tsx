@@ -1,5 +1,15 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, User } from 'firebase/auth';
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  onAuthStateChanged,
+  sendEmailVerification,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+  updateProfile,
+  User,
+  UserCredential
+} from 'firebase/auth';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import getAuthErrorMessageFromCode from '../utils/getAuthErrorMessageFromCode';
@@ -16,6 +26,7 @@ type AuthContextProps = {
   createUser: any;
   verifyEmail: any;
   resetPassword: any;
+  updateUserProfile: any;
 };
 
 const AuthContext = createContext<AuthContextProps>({
@@ -25,7 +36,8 @@ const AuthContext = createContext<AuthContextProps>({
   signOut: () => {},
   createUser: () => {},
   verifyEmail: () => {},
-  resetPassword: () => {}
+  resetPassword: () => {},
+  updateUserProfile: () => {}
 });
 
 // create provider
@@ -72,11 +84,11 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     }
   }
 
-  async function createUser({ email, password }: { email: string; password: string }, onSuccess?: () => {}, onError?: (code: string) => {}) {
+  async function createUser({ email, password }: { email: string; password: string }, onSuccess?: (user: User) => {}, onError?: (code: string) => {}) {
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const created = await createUserWithEmailAndPassword(auth, email, password);
       if (typeof onSuccess === 'function') {
-        onSuccess();
+        onSuccess(created.user);
       }
       navigate('/dashboard');
     } catch (error: any) {
@@ -116,6 +128,21 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     }
   }
 
+  async function updateUserProfile({ displayName }: { displayName?: string | null | undefined }, onSuccess?: () => {}, onError?: (code: string) => {}) {
+    try {
+      await updateProfile(auth.currentUser!, { displayName });
+      if (typeof onSuccess === 'function') {
+        onSuccess();
+      }
+    } catch (error: any) {
+      console.error('Unable to update user profile information', error);
+      setAuthError(getAuthErrorMessageFromCode(error.code));
+      if (typeof onError === 'function') {
+        onError(error.code);
+      }
+    }
+  }
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
@@ -135,20 +162,11 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     signOut,
     createUser,
     verifyEmail,
-    resetPassword
+    resetPassword,
+    updateUserProfile
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {loading ? (
-        <Loader>
-          <div className="h3">Loading...</div>
-        </Loader>
-      ) : (
-        children
-      )}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{loading ? <Loader /> : children}</AuthContext.Provider>;
 };
 
 export default AuthContext;
