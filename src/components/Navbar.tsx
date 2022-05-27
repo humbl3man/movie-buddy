@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { HiMenuAlt2 as MenuToggleIcon } from 'react-icons/hi';
 import { GrClose as MenuCloseIcon } from 'react-icons/gr';
 
 import logo from '../assets/logo.svg';
-import AuthContext, { useAuth } from '../auth/authProvider';
+import { useAuth } from '../auth/authProvider';
 
 const StyledHeader = styled.header`
   align-items: center;
@@ -171,16 +171,6 @@ const RightArrowSvg = () => {
     </svg>
   );
 };
-const MenuIconSvg = () => {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384.97 384.97">
-      <path
-        fill="white"
-        d="M12.03 84.212h360.909c6.641 0 12.03-5.39 12.03-12.03 0-6.641-5.39-12.03-12.03-12.03H12.03C5.39 60.152 0 65.541 0 72.182c0 6.641 5.39 12.03 12.03 12.03zM372.939 180.455H12.03c-6.641 0-12.03 5.39-12.03 12.03s5.39 12.03 12.03 12.03h360.909c6.641 0 12.03-5.39 12.03-12.03s-5.389-12.03-12.03-12.03zM372.939 300.758H12.03c-6.641 0-12.03 5.39-12.03 12.03 0 6.641 5.39 12.03 12.03 12.03h360.909c6.641 0 12.03-5.39 12.03-12.03.001-6.641-5.389-12.03-12.03-12.03z"
-      />
-    </svg>
-  );
-};
 const SignOutIcon: React.FC<{ width: number; height: number }> = (props) => {
   return (
     <svg width={props.width} height={props.height} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -224,14 +214,19 @@ const Navbar = () => {
         <StyledNavLinks>
           <ul>
             <li>
-              <Link to="movies" onClick={closeMenu}>
-                Movies
-              </Link>
+              <NavLink to="/" onClick={closeMenu}>
+                Home
+              </NavLink>
             </li>
             <li>
-              <Link to="tv" onClick={closeMenu}>
+              <NavLink to="movies" onClick={closeMenu}>
+                Movies
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="tv" onClick={closeMenu}>
                 TV Shows
-              </Link>
+              </NavLink>
             </li>
             {/* <li>
               <a href="#">
@@ -241,9 +236,9 @@ const Navbar = () => {
             {authUser && (
               <>
                 <li>
-                  <Link to="/account/dashboard" onClick={closeMenu}>
+                  <NavLink to="/account/dashboard" onClick={closeMenu}>
                     Account
-                  </Link>
+                  </NavLink>
                 </li>
                 <li>
                   <button
@@ -259,9 +254,9 @@ const Navbar = () => {
             )}
             {!authUser && (
               <li>
-                <Link to="/account/login" onClick={closeMenu}>
+                <NavLink to="/account/login" onClick={closeMenu}>
                   Login
-                </Link>
+                </NavLink>
               </li>
             )}
           </ul>

@@ -8,23 +8,39 @@ type ContentCardProps = {
   content: Content;
 };
 
-const StyledCard = styled.article`
+const StyledCard = styled.article<{ hasImage: boolean }>`
   position: relative;
   z-index: 1;
   padding: 0.8rem;
   background: rgba(32, 40, 62, 0.8);
   border-radius: 12px;
   height: 100%;
-
-  .card-image-container {
-    overflow: hidden;
-    border-radius: 8px;
-    img {
-      max-width: 400px;
-      width: 100%;
-      height: auto;
-      display: block;
+  transition: background 300ms ease;
+  ${(props) =>
+    props.hasImage
+      ? `
+  
+    &:hover img {
+      transform: scale(1.1);
     }
+
+  `
+      : ''}
+  &:hover {
+    background: var(--grey700);
+  }
+`;
+
+const StyledCardImageContainer = styled.div`
+  overflow: hidden;
+  border-radius: 8px;
+
+  img {
+    max-width: 400px;
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 1s ease;
   }
 `;
 
@@ -55,20 +71,20 @@ const StyledRating = styled.div`
 
 const ContentCard: React.FC<ContentCardProps> = (props) => {
   return (
-    <StyledCard>
+    <StyledCard hasImage={Boolean(props.content.poster_path)}>
       {props.content.vote_average > 0 && (
         <StyledRating>
           <StarIcon gold />
           <p className="large">{props.content.vote_average.toFixed(1)}</p>
         </StyledRating>
       )}
-      <div className="card-image-container">
+      <StyledCardImageContainer>
         {props.content.poster_path ? (
           <img src={buildImageUrl({ src: props.content.poster_path, posterSize: 'w500' })} width="500" height="750" alt={props.content.name || props.content.title} />
         ) : (
           <img src={placeholderImg} width="512" height="512" alt={props.content.name || props.content.title} />
         )}
-      </div>
+      </StyledCardImageContainer>
       <StyledCardBody>
         <p>
           {props.content.title && <>{props.content.title}</>}
