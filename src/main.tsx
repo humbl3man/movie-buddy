@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import { GlobalStyle } from './styles/global';
+import { GlobalStyle } from './styles/global.styles';
 import App from './App';
 import Home from './routes/Home';
 import Sort from './routes/Sort';

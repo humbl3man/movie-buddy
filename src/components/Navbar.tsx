@@ -241,6 +241,11 @@ const Navbar = () => {
                   </NavLink>
                 </li>
                 <li>
+                  <NavLink to="/account/dashboard/watchlist" onClick={closeMenu}>
+                    Watchlist
+                  </NavLink>
+                </li>
+                <li>
                   <button
                     onClick={() => {
                       signOut();

@@ -1,13 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { BsPencil as EditIcon } from 'react-icons/bs';
 
 import { useAuth } from '../../auth/authProvider';
 import { StyledAuthError, StyledAuthWarning } from '../../styles/dashboard.styles';
+import styled from 'styled-components';
+import FirestoreHelper from '../../data/FirestoreHelper';
 
 const DashboardHome = () => {
   const { authUser, authError, verifyEmail } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
+
   const [verificationSent, setVerificationSent] = useState(false);
   const handleVerifyEmailClick = () => {
     setIsLoading(true);
@@ -65,6 +68,9 @@ const DashboardHome = () => {
           </p>
         </StyledAuthWarning>
       )}
+      <p>
+        <Link to="watchlist">See your watchlist</Link>
+      </p>
     </>
   );
 };
