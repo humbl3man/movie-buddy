@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useAuth } from '../../auth/authProvider';
 import FirestoreHelper from '../../data/FirestoreHelper';
+import { Content } from '../../typings';
+import ContentCard from '../ContentCard';
+import ContentList from '../ContentList';
 
 const StyledStatCard = styled.article`
   padding: 4rem;
@@ -11,15 +14,18 @@ const StyledStatCard = styled.article`
     margin-bottom: 1rem;
   }
 `;
+const StyledWatchlistContainer = styled.section`
+  margin-top: 4rem;
+`;
 
 const Watchlist = () => {
   const { authUser } = useAuth();
-  const [watchlist, setWatchlist] = useState([]);
-  const [isLoadingData, setIsLoadingData] = useState(true);
+  const [watchlist, setWatchlist] = useState<Content[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    FirestoreHelper.getUserWatchlists(authUser?.uid!).then((data) => {
-      setIsLoadingData(false);
+    FirestoreHelper.getWatchlists(authUser?.uid!).then((data) => {
+      setLoading(false);
       if (data?.list && data?.list.length !== 0) {
         setWatchlist(data.list);
       } else {
@@ -28,14 +34,20 @@ const Watchlist = () => {
     });
   }, []);
 
+  useEffect(() => {
+    console.log(watchlist);
+  }, [watchlist]);
+
+  if (loading) {
+    return <div>Loading watchlist...</div>;
+  }
+
   return (
     <div>
-      {!isLoadingData && (
-        <StyledStatCard>
-          <h3>{watchlist.length}</h3>
-          <p>items in watchlist</p>
-        </StyledStatCard>
-      )}
+      <StyledWatchlistContainer>
+        <h3>{watchlist.length === 0 ? 0 : watchlist.length} Items in your list</h3>
+        <ContentList data={watchlist} />
+      </StyledWatchlistContainer>
     </div>
   );
 };

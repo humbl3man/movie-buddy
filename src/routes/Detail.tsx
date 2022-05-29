@@ -34,9 +34,26 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
   const [loading, setLoading] = useState(true);
   const [addedToList, setAddedToList] = useState(false);
 
+  const handleRemoveAdd = () => {
+    const item = data as Content;
+    item.type = props.type;
+    setLoading(true);
+    if (!addedToList) {
+      FirestoreHelper.addToWatchlist(auth.authUser?.uid!, item!).then(() => {
+        setAddedToList(true);
+        setLoading(false);
+      });
+    } else {
+      FirestoreHelper.removeFromWatchlist(auth.authUser?.uid!, item!).then(() => {
+        setAddedToList(false);
+        setLoading(false);
+      });
+    }
+  };
+
   useEffect(() => {
     if (!isLoading && data && auth.authUser) {
-      FirestoreHelper.getUserWatchlists(auth.authUser.uid).then((result) => {
+      FirestoreHelper.getWatchlists(auth.authUser.uid).then((result) => {
         setLoading(false);
         if (result?.list && result?.list.length !== 0) {
           const added = result.list.find((item: any) => {
@@ -231,24 +248,7 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
             )}
 
             {auth.authUser && (
-              <button
-                disabled={loading}
-                type="button"
-                className="btn"
-                onClick={() => {
-                  setLoading(true);
-                  if (!addedToList) {
-                    FirestoreHelper.addToWatchlist(auth.authUser?.uid!, data!).then(() => {
-                      setAddedToList(true);
-                      setLoading(false);
-                    });
-                  } else {
-                    FirestoreHelper.removeFromWatchlist(auth.authUser?.uid!, data!).then(() => {
-                      setAddedToList(false);
-                      setLoading(false);
-                    });
-                  }
-                }}>
+              <button disabled={loading} type="button" className="btn" onClick={handleRemoveAdd}>
                 {addedToList ? 'Remove From List' : 'Add To List'}
               </button>
             )}
