@@ -12,11 +12,7 @@ const ContentList: React.FC<ContentListProps> = (props) => {
 
   function renderContent(content: Content) {
     const detailURL = content.type === 'movie' ? `/movie/${content.id}` : `/tv/${content.id}`;
-    return (
-      <Link key={content.id} to={detailURL}>
-        <ContentCard key={content.id} content={content} />
-      </Link>
-    );
+    return <ContentCard url={detailURL} key={content.id} content={content} />;
   }
 
   return <StyledContentList>{list.length > 0 && list.map(renderContent)}</StyledContentList>;

@@ -26,7 +26,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = (props) => 
   const [watchlist, setWatchlist] = useState<any[]>([]);
   const [loadingWatchlist, setLoadingWatchlist] = useState(true);
 
-  async function addToWatchlist(userid: string, type: 'movie' | 'tv', data: Content) {
+  async function addToWatchlist(userid: string, type: 'movie' | 'tv', data: Content, onSuccess?: () => {}, onError?: () => {}) {
     setLoadingWatchlist(true);
     const itemToAdd = data;
     itemToAdd.type = type;
@@ -38,11 +38,14 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = (props) => 
           setWatchlist([]);
         }
         setLoadingWatchlist(false);
+        if (typeof onSuccess === 'function') {
+          onSuccess();
+        }
       });
     });
   }
 
-  async function removeFromWatchlist(userid: string, data: Content) {
+  async function removeFromWatchlist(userid: string, data: Content, onSuccess?: () => {}, onError?: () => {}) {
     setLoadingWatchlist(true);
     FirestoreHelper.removeFromWatchlist(userid, data).then(() => {
       FirestoreHelper.getWatchlists(userid).then((docData) => {
@@ -52,6 +55,9 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = (props) => 
           setWatchlist([]);
         }
         setLoadingWatchlist(false);
+        if (typeof onSuccess === 'function') {
+          onSuccess();
+        }
       });
     });
   }

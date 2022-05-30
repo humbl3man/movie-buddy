@@ -60,3 +60,10 @@ export const StyledRating = styled.div`
     color: var(--warning500);
   }
 `;
+
+export const StyledWatchlistButton = styled.button`
+  position: absolute;
+  z-index: 100;
+  top: 0;
+  right: 0;
+`;
