@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { Link, Navigate, useLocation } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { AxiosError } from 'axios';
@@ -21,7 +21,6 @@ import {
   StyledMetaInfo,
   StyledColumns
 } from '../styles/detail.styles';
-import FirestoreHelper from '../utils/firestore/firestore.utils';
 import { useAuth } from '../state/auth/authProvider';
 import { useData } from '../state/data/dataProvider';
 
@@ -33,7 +32,6 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
     refetchInterval: false
   });
   const { watchlist, addToWatchlist, removeFromWatchlist, loadingWatchlist } = useData();
-  const [loading, setLoading] = useState(true);
   const [addedToList, setAddedToList] = useState(false);
 
   const handleRemoveAdd = () => {

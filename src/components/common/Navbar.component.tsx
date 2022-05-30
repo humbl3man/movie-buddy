@@ -5,7 +5,7 @@ import { GrClose as MenuCloseIcon } from 'react-icons/gr';
 
 import logo from '../../assets/logo.svg';
 import { useAuth } from '../../state/auth/authProvider';
-import { StyledHeader, StyledNavWrapper, StyledNavLinks } from './Navbar.styles';
+import { StyledHeader, StyledNavWrapper, StyledNavLinks, StyledWatchlistCount } from './Navbar.styles';
 import { useData } from '../../state/data/dataProvider';
 
 const RightArrowSvg = () => {
@@ -37,6 +37,7 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { authUser, signOut } = useAuth();
   const { watchlist, loadingWatchlist } = useData();
+  const itemsInWatchlist = watchlist?.length ?? 0;
 
   const openMenu = () => {
     setIsMenuOpen(true);
@@ -88,7 +89,15 @@ const Navbar = () => {
                 </li>
                 <li>
                   <NavLink to="/account/dashboard/watchlist" onClick={closeMenu}>
-                    Watchlist {watchlist.length > 0 && <span>({watchlist.length})</span>}
+                    Watchlist{' '}
+                    <StyledWatchlistCount
+                      style={{
+                        visibility: loadingWatchlist || itemsInWatchlist === 0 ? 'hidden' : 'visible'
+                      }}
+                      over99={itemsInWatchlist > 99}
+                      doubleDigits={itemsInWatchlist >= 10}>
+                      {itemsInWatchlist > 99 ? '99+' : itemsInWatchlist}
+                    </StyledWatchlistCount>
                   </NavLink>
                 </li>
                 <li>

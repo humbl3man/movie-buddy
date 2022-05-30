@@ -155,3 +155,30 @@ export const StyledNavLinks = styled.nav`
     cursor: pointer;
   }
 `;
+
+export const StyledWatchlistCount = styled.span<{ doubleDigits: boolean; over99: boolean }>`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0.5rem;
+  background-color: var(--primary100);
+  color: var(--primary900);
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  ${(props) =>
+    props.doubleDigits
+      ? `
+  
+    font-size: 1.3rem;
+  
+  `
+      : ''}
+  ${(props) =>
+    props.over99
+      ? `
+      width: 30px;
+    font-size: 1.1rem;
+  `
+      : ''}
+`;
