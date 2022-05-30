@@ -2,7 +2,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { Navigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { useAuth } from '../auth/authProvider';
+import { useAuth } from '../state/auth/authProvider';
 import loginSplashSrc from '../assets/login-splash.svg';
 import emailIcon from '../assets/email.svg';
 import passIcon from '../assets/password.svg';

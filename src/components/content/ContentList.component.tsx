@@ -1,23 +1,11 @@
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import { Content } from '../typings';
-import ContentCard from './ContentCard';
+import { Content } from '../../typings';
+import ContentCard from './ContentCard.component';
+import { StyledContentList } from './ContentList.styles';
 
 type ContentListProps = {
   data?: Content[] | undefined;
 };
-
-const StyledContentList = styled.section`
-  display: grid;
-  grid-gap: 2.4rem;
-  grid-template-columns: repeat(2, 1fr);
-  @media screen and (min-width: 1024px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  @media screen and (min-width: 1200px) {
-    grid-template-columns: repeat(4, 1fr);
-  }
-`;
 
 const ContentList: React.FC<ContentListProps> = (props) => {
   const list = props.data ?? [];

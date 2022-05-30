@@ -3,9 +3,9 @@ import { useInfiniteQuery } from 'react-query';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import getPopular from '../api/getPopular';
-import ContentList from '../components/ContentList';
-import Search from '../components/Search';
-import { setContentType } from '../utils/setContentType';
+import ContentList from '../components/content/ContentList.component';
+import Search from '../components/search/Search.component';
+import { setContentType } from '../utils/content/setContentType.utils';
 
 const StyledContainer = styled.section`
   margin-top: 6.4rem;

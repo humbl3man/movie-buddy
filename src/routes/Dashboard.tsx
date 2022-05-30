@@ -1,10 +1,10 @@
 import { Outlet, Route, Routes } from 'react-router-dom';
 
 import { StyledDashboardContainer } from '../styles/dashboard.styles';
-import DashboardHome from '../components/dashboard/Home';
-import UpdateName from '../components/dashboard/UpdateName';
+import DashboardHome from '../components/dashboard/Home.component';
+import UpdateName from '../components/dashboard/UpdateName.component';
 import NotFound from './NotFound';
-import Watchlist from '../components/dashboard/Watchlist';
+import Watchlist from '../components/dashboard/Watchlist.component';
 
 const Dashboard = () => {
   return (

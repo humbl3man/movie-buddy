@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
-import Navbar from './components/Navbar';
+import Navbar from './components/common/Navbar.component';
 
 const StyledPage = styled.div`
   margin-left: auto;

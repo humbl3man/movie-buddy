@@ -1,19 +1,11 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useAuth } from '../../auth/authProvider';
-import FirestoreHelper from '../../data/FirestoreHelper';
+import { useAuth } from '../../state/auth/authProvider';
+import FirestoreHelper from '../../utils/firestore/firestore.utils';
 import { Content } from '../../typings';
-import ContentCard from '../ContentCard';
-import ContentList from '../ContentList';
+import ContentList from '../content/ContentList.component';
+import Loader from '../loader/Loader.component';
 
-const StyledStatCard = styled.article`
-  padding: 4rem;
-  background: var(--grey900);
-  text-align: center;
-  h3 {
-    margin-bottom: 1rem;
-  }
-`;
 const StyledWatchlistContainer = styled.section`
   margin-top: 4rem;
 `;
@@ -39,14 +31,14 @@ const Watchlist = () => {
   }, [watchlist]);
 
   if (loading) {
-    return <div>Loading watchlist...</div>;
+    return <Loader fullScreen={false} />;
   }
 
   return (
     <div>
       <StyledWatchlistContainer>
         <h3>{watchlist.length === 0 ? 0 : watchlist.length} Items in your list</h3>
-        <ContentList data={watchlist} />
+        {watchlist.length > 0 ? <ContentList data={watchlist} /> : <p>You don't have any items in your list.</p>}
       </StyledWatchlistContainer>
     </div>
   );

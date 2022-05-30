@@ -7,14 +7,13 @@ import {
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   updateProfile,
-  User,
-  UserCredential
+  User
 } from 'firebase/auth';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import getAuthErrorMessageFromCode from '../utils/getAuthErrorMessageFromCode';
-import app from '../getFirebaseApp';
-import Loader from '../components/Loader';
+import getAuthErrorMessageFromCode from '../../utils/auth/getAuthErrorMessageFromCode.utils';
+import app from '../../getFirebaseApp';
+import Loader from '../../components/loader/Loader.component';
 
 const auth = getAuth(app);
 
@@ -166,7 +165,7 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     updateUserProfile
   };
 
-  return <AuthContext.Provider value={value}>{loading ? <Loader /> : children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={value}>{loading ? <Loader fullScreen /> : children}</AuthContext.Provider>;
 };
 
 export default AuthContext;

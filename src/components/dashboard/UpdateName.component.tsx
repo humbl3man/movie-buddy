@@ -4,7 +4,7 @@ import { useLocation, useNavigate, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { CgArrowLongLeft as BackArrow } from 'react-icons/cg';
 
-import { useAuth } from '../../auth/authProvider';
+import { useAuth } from '../../state/auth/authProvider';
 import { StyledAuthError } from '../../styles/dashboard.styles';
 
 const StyledFormContainer = styled.div`

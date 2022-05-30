@@ -5,8 +5,8 @@ import { useEffect, useState } from 'react';
 import { AxiosError } from 'axios';
 
 import getDetail from '../api/getDetail';
-import StarIcon from '../components/StarIcon';
-import { buildImageUrl } from '../utils/buildImageUrl';
+import StarIcon from '../components/icons/StarIcon.component';
+import { buildImageUrl } from '../utils/content/buildImageUrl.utils';
 import placeholderImg from '../assets/imagePlaceholder.svg';
 import { Content } from '../typings';
 import {
@@ -21,8 +21,8 @@ import {
   StyledMetaInfo,
   StyledColumns
 } from '../styles/detail.styles';
-import FirestoreHelper from '../data/FirestoreHelper';
-import { useAuth } from '../auth/authProvider';
+import FirestoreHelper from '../utils/firestore/firestore.utils';
+import { useAuth } from '../state/auth/authProvider';
 
 const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
   const { id } = useParams();

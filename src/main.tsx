@@ -10,10 +10,10 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import Detail from './routes/Detail';
 import NotFound from './routes/NotFound';
-import { AuthContextProvider } from './auth/authProvider';
+import { AuthContextProvider } from './state/auth/authProvider';
 import Account from './routes/Account';
 import Dashboard from './routes/Dashboard';
-import PrivateRoute from './components/PrivateRoute';
+import PrivateRoute from './components/routing/PrivateRoute.component';
 import PasswordReset from './routes/PasswordReset';
 
 const queryClient = new QueryClient();

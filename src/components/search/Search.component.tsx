@@ -2,14 +2,13 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Downshift from 'downshift';
 
-import { InputWrapper } from './Input';
-import searchIcon from '../assets/search-icon.svg';
-import getMultiSearchResults from '../api/getMultiSearchResults';
-import { buildImageUrl } from '../utils/buildImageUrl';
-import placeholderImg from '../assets/imagePlaceholder.svg';
-import XIcon from './XIcon';
-import { StyledSearchWrapper, StyledXButton, StyledSearchResults, StyledSearchResult } from './styles/Search.styles';
-import { Content } from '../typings';
+import { InputWrapper } from '../common/Input.component';
+import searchIcon from '../../assets/search-icon.svg';
+import getMultiSearchResults from '../../api/getMultiSearchResults';
+import { buildImageUrl } from '../../utils/content/buildImageUrl.utils';
+import placeholderImg from '../../assets/imagePlaceholder.svg';
+import XIcon from '../icons/XIcon.component';
+import { StyledSearchWrapper, StyledXButton, StyledSearchResults, StyledSearchResult } from './Search.styles';
 
 const SEARCH_TIMEOUT: number = 500;
 

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Filter } from '../typings';
+import { Filter } from '../../typings';
 
 type FilterSelectProps = {
   selectedFilter: Filter;

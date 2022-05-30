@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { MdEmail as EmailIcon } from 'react-icons/md';
 import { CgArrowLongLeft as BackArrow } from 'react-icons/cg';
 
-import { useAuth } from '../auth/authProvider';
+import { useAuth } from '../state/auth/authProvider';
 
 const StyledFormContainer = styled.div`
   max-width: 600px;

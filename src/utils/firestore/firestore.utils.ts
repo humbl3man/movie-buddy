@@ -1,6 +1,6 @@
-import app from '../getFirebaseApp';
-import { arrayRemove, arrayUnion, collection, doc, getDoc, getDocs, getFirestore, query, setDoc, updateDoc, where } from 'firebase/firestore';
-import { Content } from '../typings';
+import app from '../../getFirebaseApp';
+import { arrayUnion, doc, getDoc, getFirestore, setDoc, updateDoc } from 'firebase/firestore';
+import { Content } from '../../typings';
 
 const db = getFirestore(app);
 

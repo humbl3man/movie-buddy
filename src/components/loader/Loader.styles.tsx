@@ -1,19 +1,31 @@
 import styled from 'styled-components';
 
-const StyledLoadingScreen = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  background: var(--primary800);
+type LoaderProps = {
+  fullScreen?: boolean;
+};
+
+export const StyledLoadingScreen = styled.div<LoaderProps>`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100vw;
-  height: 100vh;
+  ${(props) =>
+    props.fullScreen
+      ? `
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: var(--primary800);
+    width: 100vw;
+    height: 100vh;
+  `
+      : `
+    padding: 4rem;
+    min-height: 20rem;
+  `}
   color: var(--primary100);
 `;
 
-const StyledSpinner = styled.div`
+export const StyledSpinner = styled.div`
   display: inline-block;
   position: relative;
   width: 80px;
@@ -69,18 +81,3 @@ const StyledSpinner = styled.div`
     }
   }
 `;
-
-const Loader = () => {
-  return (
-    <StyledLoadingScreen>
-      <StyledSpinner>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-      </StyledSpinner>
-    </StyledLoadingScreen>
-  );
-};
-
-export default Loader;

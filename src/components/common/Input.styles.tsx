@@ -1,20 +1,11 @@
-import React, { createRef, HtmlHTMLAttributes, useRef } from 'react';
-import { FieldError } from 'react-hook-form';
 import styled from 'styled-components';
 
-interface InputWrapperProps {
-  label: string;
-  icon?: React.ReactElement;
-  iconPosition?: 'left' | 'right';
-  children: JSX.Element | JSX.Element[];
-  error?: FieldError | undefined;
-}
 type StyledInputWrapperProps = {
   hasIcon?: boolean;
   iconPosition?: string;
 };
 
-const StyledInputWrapper = styled.div<StyledInputWrapperProps>`
+export const StyledInputWrapper = styled.div<StyledInputWrapperProps>`
   position: relative;
   label {
     position: absolute;
@@ -83,13 +74,3 @@ const StyledInputWrapper = styled.div<StyledInputWrapperProps>`
     margin-top: 0.4rem;
   }
 `;
-
-export const InputWrapper: React.FC<InputWrapperProps> = (props) => {
-  return (
-    <StyledInputWrapper hasIcon={Boolean(props.icon)} iconPosition={props.iconPosition}>
-      {props.icon && <div className="inputIcon">{props.icon}</div>}
-      {props.children}
-      {props.error && <div className="validationError">{props.error.message}</div>}
-    </StyledInputWrapper>
-  );
-};

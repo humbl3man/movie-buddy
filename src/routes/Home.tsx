@@ -4,11 +4,11 @@ import styled from 'styled-components';
 import { useQuery, useQueryClient } from 'react-query';
 import getPopular from '../api/getPopular';
 import { Content, Filter } from '../typings';
-import FilterSelect from '../components/FilterSelect';
-import ContentList from '../components/ContentList';
-import Search from '../components/Search';
+import FilterSelect from '../components/content/FilterSelect.component';
+import ContentList from '../components/content/ContentList.component';
+import Search from '../components/search/Search.component';
 import useLocalStorage from '../hooks/useLocalStorage';
-import { setContentType } from '../utils/setContentType';
+import { setContentType } from '../utils/content/setContentType.utils';
 
 const StyledHero = styled.div`
   width: 100%;
