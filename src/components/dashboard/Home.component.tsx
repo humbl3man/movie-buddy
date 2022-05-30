@@ -66,9 +66,6 @@ const DashboardHome = () => {
           </p>
         </StyledAuthWarning>
       )}
-      <p>
-        <Link to="watchlist">See your watchlist</Link>
-      </p>
     </>
   );
 };

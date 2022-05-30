@@ -5,39 +5,36 @@ import FirestoreHelper from '../../utils/firestore/firestore.utils';
 import { Content } from '../../typings';
 import ContentList from '../content/ContentList.component';
 import Loader from '../loader/Loader.component';
+import { useData } from '../../state/data/dataProvider';
 
 const StyledWatchlistContainer = styled.section`
   margin-top: 4rem;
 `;
 
 const Watchlist = () => {
-  const { authUser } = useAuth();
-  const [watchlist, setWatchlist] = useState<Content[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { watchlist, loadingWatchlist } = useData();
 
-  useEffect(() => {
-    FirestoreHelper.getWatchlists(authUser?.uid!).then((data) => {
-      setLoading(false);
-      if (data?.list && data?.list.length !== 0) {
-        setWatchlist(data.list);
-      } else {
-        setWatchlist([]);
-      }
-    });
-  }, []);
+  // useEffect(() => {
+  //   FirestoreHelper.getWatchlists(authUser?.uid!).then((data) => {
+  //     setLoading(false);
+  //     if (data?.list && data?.list.length !== 0) {
+  //       setWatchlist(data.list);
+  //     } else {
+  //       setWatchlist([]);
+  //     }
+  //   });
+  // }, []);
 
-  useEffect(() => {
-    console.log(watchlist);
-  }, [watchlist]);
-
-  if (loading) {
+  if (loadingWatchlist) {
     return <Loader fullScreen={false} />;
   }
 
   return (
     <div>
       <StyledWatchlistContainer>
-        <h3>{watchlist.length === 0 ? 0 : watchlist.length} Items in your list</h3>
+        <h3>
+          {watchlist.length === 0 ? `No` : watchlist.length} Item{watchlist.length === 1 ? '' : 's'} in your list
+        </h3>
         {watchlist.length > 0 ? <ContentList data={watchlist} /> : <p>You don't have any items in your list.</p>}
       </StyledWatchlistContainer>
     </div>

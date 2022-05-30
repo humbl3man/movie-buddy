@@ -23,6 +23,7 @@ import {
 } from '../styles/detail.styles';
 import FirestoreHelper from '../utils/firestore/firestore.utils';
 import { useAuth } from '../state/auth/authProvider';
+import { useData } from '../state/data/dataProvider';
 
 const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
   const { id } = useParams();
@@ -31,43 +32,31 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
     retry: false,
     refetchInterval: false
   });
+  const { watchlist, addToWatchlist, removeFromWatchlist, loadingWatchlist } = useData();
   const [loading, setLoading] = useState(true);
   const [addedToList, setAddedToList] = useState(false);
 
   const handleRemoveAdd = () => {
-    const item = data as Content;
-    item.type = props.type;
-    setLoading(true);
     if (!addedToList) {
-      FirestoreHelper.addToWatchlist(auth.authUser?.uid!, item!).then(() => {
-        setAddedToList(true);
-        setLoading(false);
-      });
+      addToWatchlist(auth.authUser?.uid, props.type, data);
     } else {
-      FirestoreHelper.removeFromWatchlist(auth.authUser?.uid!, item!).then(() => {
-        setAddedToList(false);
-        setLoading(false);
-      });
+      removeFromWatchlist(auth.authUser?.uid, data);
     }
   };
 
   useEffect(() => {
-    if (!isLoading && data && auth.authUser) {
-      FirestoreHelper.getWatchlists(auth.authUser.uid).then((result) => {
-        setLoading(false);
-        if (result?.list && result?.list.length !== 0) {
-          const added = result.list.find((item: any) => {
-            return item.id === data.id;
-          });
-          if (added) {
-            setAddedToList(true);
-          } else {
-            setAddedToList(false);
-          }
-        }
+    if (!loadingWatchlist && data?.id && auth.authUser) {
+      const added = watchlist.find((item: any) => {
+        return item.id === data.id;
       });
+
+      if (added) {
+        setAddedToList(true);
+      } else {
+        setAddedToList(false);
+      }
     }
-  }, [data, isLoading, auth.authUser]);
+  }, [data, watchlist, loadingWatchlist, auth.authUser]);
 
   useEffect(() => {
     if (data?.title || data?.name) {
@@ -248,7 +237,7 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
             )}
 
             {auth.authUser && (
-              <button disabled={loading} type="button" className="btn" onClick={handleRemoveAdd}>
+              <button disabled={loadingWatchlist} type="button" className="btn" onClick={handleRemoveAdd}>
                 {addedToList ? 'Remove From List' : 'Add To List'}
               </button>
             )}
