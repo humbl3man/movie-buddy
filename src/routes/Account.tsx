@@ -1,6 +1,7 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Navigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import { FcGoogle as GoogleLogo } from 'react-icons/fc';
 
 import { useAuth } from '../state/auth/authProvider';
 import loginSplashSrc from '../assets/login-splash.svg';
@@ -89,8 +90,13 @@ const Account: React.FC<{ type: 'create' | 'login' }> = (props) => {
       );
     }
   };
+  const handleGoogleSignIn = () => {
+    signInWithGooglePopup().then((response: any) => {
+      console.log(response);
+    });
+  };
   const [emailValue, passwordValue, passwordConfirmValue] = watch(['email', 'password', 'passwordConfirm']);
-  const { signIn, createUser, authUser, authError } = useAuth();
+  const { signIn, createUser, authUser, authError, signInWithGooglePopup } = useAuth();
   const location = useLocation();
 
   useEffect(() => {
@@ -181,6 +187,19 @@ const Account: React.FC<{ type: 'create' | 'login' }> = (props) => {
           <button className="btn btn--wide" disabled={isLoading}>
             {props.type === 'login' ? 'Login' : 'Create Account'}
           </button>
+          {/* Google Sign-In */}
+          {props.type === 'login' && (
+            <button
+              type="button"
+              className="btn btn--google btn--wide"
+              style={{
+                marginTop: '1rem'
+              }}
+              onClick={handleGoogleSignIn}>
+              <GoogleLogo />
+              <span>Sign In With Google</span>
+            </button>
+          )}
           <StyledFooterMessage>
             {props.type === 'login' ? (
               <>

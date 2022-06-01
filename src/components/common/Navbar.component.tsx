@@ -5,7 +5,7 @@ import { GrClose as MenuCloseIcon } from 'react-icons/gr';
 
 import logo from '../../assets/logo.svg';
 import { useAuth } from '../../state/auth/authProvider';
-import { StyledHeader, StyledNavWrapper, StyledNavLinks, StyledWatchlistCount } from './Navbar.styles';
+import { StyledHeader, StyledNavWrapper, StyledNavLinks, StyledWatchlistCount, StyledAvatarImage } from './Navbar.styles';
 import { useData } from '../../state/data/dataProvider';
 
 const RightArrowSvg = () => {
@@ -84,7 +84,7 @@ const Navbar = () => {
               <>
                 <li>
                   <NavLink to="/account/dashboard" onClick={closeMenu}>
-                    Account
+                    Account{authUser.photoURL && <StyledAvatarImage src={authUser.photoURL} alt="" />}
                   </NavLink>
                 </li>
                 <li>

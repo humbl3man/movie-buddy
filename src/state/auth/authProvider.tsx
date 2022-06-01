@@ -2,10 +2,12 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import {
   createUserWithEmailAndPassword,
   getAuth,
+  GoogleAuthProvider,
   onAuthStateChanged,
   sendEmailVerification,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
+  signInWithPopup,
   updateProfile,
   User
 } from 'firebase/auth';
@@ -18,6 +20,12 @@ import FirestoreHelper from '../../utils/firestore/firestore.utils';
 
 const auth = getAuth(app);
 
+// google sign in provider
+const provider = new GoogleAuthProvider();
+provider.setCustomParameters({
+  prompt: 'select_account'
+});
+
 type AuthContextProps = {
   authUser: User | null;
   authError: string | null;
@@ -27,6 +35,7 @@ type AuthContextProps = {
   verifyEmail: any;
   resetPassword: any;
   updateUserProfile: any;
+  signInWithGooglePopup: any;
 };
 
 const AuthContext = createContext<AuthContextProps>({
@@ -37,7 +46,8 @@ const AuthContext = createContext<AuthContextProps>({
   createUser: () => {},
   verifyEmail: () => {},
   resetPassword: () => {},
-  updateUserProfile: () => {}
+  updateUserProfile: () => {},
+  signInWithGooglePopup: () => {}
 });
 
 // create provider
@@ -145,6 +155,15 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     }
   }
 
+  async function signInWithGooglePopup() {
+    try {
+      const response = await signInWithPopup(auth, provider);
+      FirestoreHelper.registerUserFromAuth(response);
+    } catch (error: any) {
+      console.error('Error signing in with Google', error);
+    }
+  }
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
@@ -165,7 +184,8 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     createUser,
     verifyEmail,
     resetPassword,
-    updateUserProfile
+    updateUserProfile,
+    signInWithGooglePopup
   };
 
   return <AuthContext.Provider value={value}>{loading ? <Loader fullScreen /> : children}</AuthContext.Provider>;
