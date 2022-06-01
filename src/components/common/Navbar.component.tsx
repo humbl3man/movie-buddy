@@ -90,14 +90,11 @@ const Navbar = () => {
                 <li>
                   <NavLink to="/account/dashboard/watchlist" onClick={closeMenu}>
                     Watchlist{' '}
-                    <StyledWatchlistCount
-                      style={{
-                        opacity: loadingWatchlist || itemsInWatchlist === 0 ? 0 : 1
-                      }}
-                      over99={itemsInWatchlist > 99}
-                      doubleDigits={itemsInWatchlist >= 10}>
-                      {itemsInWatchlist > 99 ? '99+' : itemsInWatchlist}
-                    </StyledWatchlistCount>
+                    {itemsInWatchlist !== 0 && (
+                      <StyledWatchlistCount over99={itemsInWatchlist > 99} doubleDigits={itemsInWatchlist >= 10}>
+                        {itemsInWatchlist > 99 ? '99+' : itemsInWatchlist}
+                      </StyledWatchlistCount>
+                    )}
                   </NavLink>
                 </li>
                 <li>
