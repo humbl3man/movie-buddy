@@ -238,7 +238,7 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
 
               {auth.authUser && (
                 <button disabled={loadingWatchlist} type="button" className="btn" onClick={handleRemoveAdd}>
-                  {addedToList ? 'Remove From List' : 'Add To List'}
+                  {addedToList ? '- Remove From List' : '+ Add To List'}
                 </button>
               )}
             </div>
