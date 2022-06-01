@@ -92,7 +92,7 @@ const Navbar = () => {
                     Watchlist{' '}
                     <StyledWatchlistCount
                       style={{
-                        visibility: loadingWatchlist || itemsInWatchlist === 0 ? 'hidden' : 'visible'
+                        opacity: loadingWatchlist || itemsInWatchlist === 0 ? 0 : 1
                       }}
                       over99={itemsInWatchlist > 99}
                       doubleDigits={itemsInWatchlist >= 10}>

@@ -9,6 +9,7 @@ import { buildImageUrl } from '../../utils/content/buildImageUrl.utils';
 import placeholderImg from '../../assets/imagePlaceholder.svg';
 import XIcon from '../icons/XIcon.component';
 import { StyledSearchWrapper, StyledXButton, StyledSearchResults, StyledSearchResult } from './Search.styles';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const SEARCH_TIMEOUT: number = 500;
 
@@ -20,8 +21,8 @@ const Search = () => {
   const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
 
-    if (e.target.value) {
-      window.setTimeout(() => {
+    window.setTimeout(() => {
+      if (e.target.value) {
         getMultiSearchResults({ query: e.target.value })
           .then((data) => {
             setSearchResults(data.data.results.filter((result: any) => result.media_type !== 'person'));
@@ -29,10 +30,10 @@ const Search = () => {
           .catch((err) => {
             console.error(err);
           });
-      }, SEARCH_TIMEOUT);
-    } else {
-      setSearchResults([]);
-    }
+      } else {
+        setSearchResults([]);
+      }
+    }, SEARCH_TIMEOUT);
   };
 
   const handleResultChange = (result: any) => {
@@ -59,10 +60,11 @@ const Search = () => {
                   <XIcon />
                 </StyledXButton>
               </InputWrapper>
-              {searchResults.length > 0 ? (
+              {searchResults.length > 0 && (
                 <StyledSearchResults {...getMenuProps()}>
                   {searchResults.map((result: any, index: number) => {
                     const url = result.media_type === 'movie' ? `/movie/${result.id}` : `/tv/${result.id}`;
+                    const resultImage = result.poster_path ? buildImageUrl({ src: result.poster_path, posterSize: 'w92' }) : placeholderImg;
                     return (
                       <StyledSearchResult
                         to={url}
@@ -76,9 +78,9 @@ const Search = () => {
                           }
                         })}>
                         {result.poster_path ? (
-                          <img src={buildImageUrl({ src: result.poster_path, posterSize: 'w92' })} width={192} height={138} alt={result.title || result.name} />
+                          <img src={resultImage} width={192} height={138} alt={result.title || result.name} />
                         ) : (
-                          <img src={placeholderImg} alt={result.title || result.name} width={512} height={512} />
+                          <img src={resultImage} alt={result.title || result.name} width={512} height={512} />
                         )}{' '}
                         <div>
                           <p className="xSmall" style={{ margin: 0, color: 'var(--grey500)' }}>
@@ -90,47 +92,11 @@ const Search = () => {
                     );
                   })}
                 </StyledSearchResults>
-              ) : null}
+              )}
             </div>
           );
         }}
       </Downshift>
-      {/* <InputWrapper label="Search Movies or TV Shows" iconPosition="left" icon={<img src={searchIcon} alt="" aria-hidden />}>
-        <input placeholder=" " value={searchTerm} onChange={handleSearchInputChange} />
-        <label htmlFor="searchTerm">Search Movies or TV Shows</label>
-        <StyledXButton
-          visible={Boolean(searchTerm)}
-          type="button"
-          onClick={() => {
-            setSearchTerm('');
-            setSearchResults([]);
-          }}>
-          <XIcon />
-        </StyledXButton>
-      </InputWrapper>
-
-      {searchResults.length > 0 && (
-        <StyledSearchResults>
-          {searchResults.map((result: any) => {
-            const url = result.media_type === 'movie' ? `/movie/${result.id}` : `/tv/${result.id}`;
-            return (
-              <StyledSearchResult to={url} key={result.id}>
-                {result.poster_path ? (
-                  <img src={buildImageUrl({ src: result.poster_path, posterSize: 'w92' })} width={192} height={138} alt={result.title || result.name} />
-                ) : (
-                  <img src={placeholderImg} alt={result.title || result.name} width={512} height={512} />
-                )}{' '}
-                <div>
-                  <p className="xSmall" style={{ margin: 0, color: 'var(--grey500)' }}>
-                    {result.media_type}
-                  </p>
-                  {result.title || result.name}
-                </div>
-              </StyledSearchResult>
-            );
-          })}
-        </StyledSearchResults>
-      )} */}
     </StyledSearchWrapper>
   );
 };

@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import { Content } from '../../typings';
 import ContentCard from './ContentCard.component';
 import { StyledContentList } from './ContentList.styles';
