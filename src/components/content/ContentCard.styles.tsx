@@ -7,13 +7,13 @@ export const StyledCard = styled.article<{ hasImage: boolean }>`
   background: rgba(32, 40, 62, 0.8);
   border-radius: 12px;
   height: 100%;
-  transition: background 300ms ease;
+  transition: background 500ms ease;
   ${(props) =>
     props.hasImage
       ? `
   
     &:hover img {
-      transform: scale(1.1);
+      transform: scale(1.02);
     }
 
   `
@@ -64,6 +64,9 @@ export const StyledRating = styled.div`
 export const StyledWatchlistButton = styled.button`
   position: absolute;
   z-index: 100;
-  top: 0;
-  right: 0;
+  top: -16px;
+  right: -6px;
+  font-size: 1.4rem;
+  font-weight: 600;
+  box-shadow: 0 0 14px rgba(0, 0, 0, 0.1);
 `;
