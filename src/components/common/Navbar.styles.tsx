@@ -182,3 +182,10 @@ export const StyledWatchlistCount = styled.span<{ doubleDigits: boolean; over99:
   `
       : ''}
 `;
+
+export const StyledAvatarImage = styled.img`
+  max-width: 34px;
+  display: inline-block;
+  margin-left: 1rem;
+  border-radius: 50%;
+`;

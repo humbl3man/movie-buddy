@@ -9,6 +9,8 @@ const DashboardHome = () => {
   const { authUser, authError, verifyEmail } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
 
+  console.log(authUser);
+
   const [verificationSent, setVerificationSent] = useState(false);
   const handleVerifyEmailClick = () => {
     setIsLoading(true);
