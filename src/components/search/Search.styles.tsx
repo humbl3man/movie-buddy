@@ -11,6 +11,10 @@ export const StyledSearchResults = styled.div`
   border-radius: 8px;
   max-height: 500px;
   overflow-y: auto;
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  z-index: 100;
 `;
 export const StyledSearchResult = styled.div`
   padding: 1.4rem;
