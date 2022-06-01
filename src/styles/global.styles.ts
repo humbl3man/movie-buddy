@@ -255,7 +255,12 @@ export const GlobalStyle = createGlobalStyle`
 
     // sizes
     &--small {
-      padding: 1.2rem 2rem;
+      padding: 1.2rem 1.8rem;
+      font-size: 1.5rem;
+    }
+    &--xsmall {
+      padding: 1rem 1.6rem;
+      font-size: 1.4rem;
     }
     &--wide {
       display: block;
@@ -285,6 +290,18 @@ export const GlobalStyle = createGlobalStyle`
       }
       &:disabled {
         background: var(--warning400);
+      }
+    }
+    &--danger {
+      background: var(--error500);
+      color: var(--white);
+      &:hover,
+      &:focus,
+      &:active {
+        background: var(--error600);
+      }
+      &:disabled {
+        background: var(--error400);
       }
     }
     &--link {

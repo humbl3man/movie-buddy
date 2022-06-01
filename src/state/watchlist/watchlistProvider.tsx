@@ -9,11 +9,13 @@ export const WatchlistContext = createContext<{
   loadingWatchlist: boolean;
   addToWatchlist: any;
   removeFromWatchlist: any;
+  removeWatchlist: any;
 }>({
   watchlist: [],
   loadingWatchlist: true,
   addToWatchlist: () => {},
-  removeFromWatchlist: () => {}
+  removeFromWatchlist: () => {},
+  removeWatchlist: () => {}
 });
 
 export const useWatchlistData = () => {
@@ -62,6 +64,14 @@ export const WatchlistProvider: React.FC<{ children: React.ReactNode }> = (props
     });
   }
 
+  async function removeWatchlist(userid: string) {
+    setLoadingWatchlist(true);
+    await FirestoreHelper.removeWatchlist(userid).then(() => {
+      setLoadingWatchlist(false);
+      setWatchlist([]);
+    });
+  }
+
   useEffect(() => {
     if (!authUser) {
       setWatchlist([]);
@@ -87,7 +97,8 @@ export const WatchlistProvider: React.FC<{ children: React.ReactNode }> = (props
         watchlist,
         loadingWatchlist,
         addToWatchlist,
-        removeFromWatchlist
+        removeFromWatchlist,
+        removeWatchlist
       }}>
       {props.children}
     </WatchlistContext.Provider>

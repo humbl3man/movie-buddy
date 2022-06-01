@@ -1,5 +1,5 @@
 import app from '../../getFirebaseApp';
-import { arrayUnion, doc, getDoc, getFirestore, setDoc, updateDoc } from 'firebase/firestore';
+import { arrayUnion, deleteDoc, doc, getDoc, getFirestore, setDoc, updateDoc } from 'firebase/firestore';
 import { Content } from '../../typings';
 import { UserCredential } from 'firebase/auth';
 
@@ -41,6 +41,13 @@ export default class FirestoreHelper {
       await updateDoc(ref, {
         list: [...docSnapshot.data().list.filter((item: Content) => item.id !== data.id)]
       });
+    }
+  }
+  static async removeWatchlist(userId: string) {
+    const ref = doc(db, collections.WATCHLIST, userId);
+    const docSnapshot = await getDoc(ref);
+    if (docSnapshot.exists()) {
+      await deleteDoc(ref);
     }
   }
   // users
