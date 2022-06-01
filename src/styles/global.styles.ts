@@ -291,6 +291,25 @@ export const GlobalStyle = createGlobalStyle`
       }
     }
 
+    &--google {
+      background: var(--primary100);
+      color: var(--grey900);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      svg {
+        display: inline-block;
+        font-size: 3rem;
+        margin-right: 1rem;
+      }
+      &:hover,
+      &:focus,
+      &:active {
+        background: var(--primary50);
+        color: var(--grey900);
+      }
+    }
+
   }
   a.btn {
     text-decoration: none;

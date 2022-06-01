@@ -1,6 +1,7 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Navigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import { FcGoogle as GoogleLogo } from 'react-icons/fc';
 
 import { useAuth } from '../state/auth/authProvider';
 import loginSplashSrc from '../assets/login-splash.svg';
@@ -190,12 +191,13 @@ const Account: React.FC<{ type: 'create' | 'login' }> = (props) => {
           {props.type === 'login' && (
             <button
               type="button"
-              className="btn btn--warning btn--wide"
+              className="btn btn--google btn--wide"
               style={{
                 marginTop: '1rem'
               }}
               onClick={handleGoogleSignIn}>
-              Sign In With Google
+              <GoogleLogo />
+              <span>Sign In With Google</span>
             </button>
           )}
           <StyledFooterMessage>
