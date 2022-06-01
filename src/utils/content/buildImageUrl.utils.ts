@@ -15,5 +15,5 @@ export function buildImageUrl(options: BuildOptions) {
     size = backdropSize;
   }
 
-  return `${baseURL}/${size}/${src}`;
+  return `${baseURL}/${size}/${src}`.replaceAll('//', '/');
 }
