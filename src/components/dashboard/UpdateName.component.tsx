@@ -6,6 +6,7 @@ import { CgArrowLongLeft as BackArrow } from 'react-icons/cg';
 
 import { useAuth } from '../../state/auth/authProvider';
 import { StyledAuthError } from '../../styles/dashboard.styles';
+import FirestoreHelper from '../../utils/firestore/firestore.utils';
 
 const StyledFormContainer = styled.div`
   display: flex;
@@ -42,6 +43,7 @@ const UpdateName = () => {
     updateUserProfile(
       { displayName: data.displayName },
       () => {
+        FirestoreHelper.updateUserInfo(authUser?.uid!, { displayName: data.displayName });
         setIsLoading(false);
         reset();
         navigate('/account/dashboard');

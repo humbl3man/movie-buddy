@@ -14,6 +14,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import getAuthErrorMessageFromCode from '../../utils/auth/getAuthErrorMessageFromCode.utils';
 import app from '../../getFirebaseApp';
 import Loader from '../../components/loader/Loader.component';
+import FirestoreHelper from '../../utils/firestore/firestore.utils';
 
 const auth = getAuth(app);
 
@@ -85,9 +86,11 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 
   async function createUser({ email, password }: { email: string; password: string }, onSuccess?: (user: User) => {}, onError?: (code: string) => {}) {
     try {
-      const created = await createUserWithEmailAndPassword(auth, email, password);
+      const userData = await createUserWithEmailAndPassword(auth, email, password);
+      // register
+      FirestoreHelper.registerUserFromAuth(userData);
       if (typeof onSuccess === 'function') {
-        onSuccess(created.user);
+        onSuccess(userData.user);
       }
       navigate('/account/dashboard');
     } catch (error: any) {

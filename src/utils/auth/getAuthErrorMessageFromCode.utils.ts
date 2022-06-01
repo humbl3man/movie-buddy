@@ -9,7 +9,7 @@ const getAuthErrorMessageFromCode = (code: string) => {
     case AuthErrorCodes.INVALID_PASSWORD:
       return preText + 'Wrong Password.';
     case AuthErrorCodes.EMAIL_EXISTS:
-      return preText + 'Email Already Exists.';
+      return preText + 'This User Account Already Exists.';
     case AuthErrorCodes.TOO_MANY_ATTEMPTS_TRY_LATER:
       return preText + 'Too Many Requests. Please Try Again Later.';
     default:
