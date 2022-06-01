@@ -247,8 +247,8 @@ export const GlobalStyle = createGlobalStyle`
       background: var(--primary600);
     }
     &:disabled {
-      opacity: 0.6;
       cursor: not-allowed;
+      background: var(--primary400);
     }
 
     // variations
@@ -271,6 +271,9 @@ export const GlobalStyle = createGlobalStyle`
       &:active {
         background: var(--tertary600);
       }
+      &:disabled {
+        background: var(--tertary400);
+      }
     }
     &--warning {
       background: var(--warning500);
@@ -279,6 +282,9 @@ export const GlobalStyle = createGlobalStyle`
       &:focus,
       &:active {
         background: var(--warning600);
+      }
+      &:disabled {
+        background: var(--warning400);
       }
     }
     &--link {
