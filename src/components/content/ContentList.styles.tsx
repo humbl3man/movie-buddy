@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const StyledContentList = styled.section`
   display: grid;
-  grid-gap: 2.4rem;
+  grid-gap: 3.2rem;
   grid-template-columns: repeat(2, 1fr);
   @media screen and (min-width: 1024px) {
     grid-template-columns: repeat(3, 1fr);
