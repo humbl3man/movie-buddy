@@ -3,6 +3,7 @@ import { Link, Navigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { AxiosError } from 'axios';
+import { motion } from 'framer-motion';
 
 import getDetail from '../api/getDetail';
 import StarIcon from '../components/icons/StarIcon.component';
@@ -120,7 +121,7 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
   }
 
   return (
-    <div>
+    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
       {data?.backdrop_path ? (
         <StyledBackdropImage src={buildImageUrl({ backdropSize: 'w1280', src: data.backdrop_path })} />
       ) : (
@@ -146,103 +147,105 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
 
           <h1 className="h3">{data?.title || data?.name || ''}</h1>
         </StyledDetailHeader>
-        <StyledDetailBody>
-          <StyledPosterImage>
-            {data?.poster_path ? <img src={buildImageUrl({ posterSize: 'w500', src: data.poster_path })} alt="" /> : <img src={placeholderImg} alt="" />}
-          </StyledPosterImage>
+        <motion.div initial={{ y: 30, opacity: 0 }} transition={{ delay: 0.2 }} animate={{ y: 0, opacity: 1 }}>
+          <StyledDetailBody>
+            <StyledPosterImage>
+              {data?.poster_path ? <img src={buildImageUrl({ posterSize: 'w500', src: data.poster_path })} alt="" /> : <img src={placeholderImg} alt="" />}
+            </StyledPosterImage>
 
-          <div>
-            {data?.tagline && <h4>{data?.tagline}</h4>}
-            {data?.overview && <p>{data?.overview}</p>}
-            {data?.vote_average && data.vote_average !== 0 && (
-              <StyledRating>
-                <StarIcon gold />
-                <p>{data.vote_average.toFixed(1)}</p>
-              </StyledRating>
-            )}
-            {props.type === 'movie' && (
-              <div>
-                <StyledMetaInfo>
-                  <p className="label">Type</p>
-                  <p className="large">Movie</p>
-                </StyledMetaInfo>
-                {data?.release_date && (
-                  <StyledMetaInfo>
-                    <p className="label">Release Date</p>
-                    <p className="large">{data.release_date}</p>
-                  </StyledMetaInfo>
-                )}
-                {data?.runtime && (
-                  <StyledMetaInfo>
-                    <p className="label">Run time</p>
-                    <p className="large">{data.runtime} min</p>
-                  </StyledMetaInfo>
-                )}
-              </div>
-            )}
-            {props.type === 'tv' && (
-              <div>
-                <StyledColumns>
+            <div>
+              {data?.tagline && <h4>{data?.tagline}</h4>}
+              {data?.overview && <p>{data?.overview}</p>}
+              {data?.vote_average && data.vote_average !== 0 && (
+                <StyledRating>
+                  <StarIcon gold />
+                  <p>{data.vote_average.toFixed(1)}</p>
+                </StyledRating>
+              )}
+              {props.type === 'movie' && (
+                <div>
                   <StyledMetaInfo>
                     <p className="label">Type</p>
-                    <p className="large">TV Show</p>
+                    <p className="large">Movie</p>
                   </StyledMetaInfo>
-                  {data?.status && (
+                  {data?.release_date && (
                     <StyledMetaInfo>
-                      <p className="label">Status</p>
-                      <p className="large">{data.status}</p>
+                      <p className="label">Release Date</p>
+                      <p className="large">{data.release_date}</p>
                     </StyledMetaInfo>
                   )}
-                  {data?.first_air_date && (
+                  {data?.runtime && (
                     <StyledMetaInfo>
-                      <p className="label">First air date</p>
-                      <p className="large">{data.first_air_date}</p>
+                      <p className="label">Run time</p>
+                      <p className="large">{data.runtime} min</p>
                     </StyledMetaInfo>
                   )}
-                  {data?.last_air_date && (
+                </div>
+              )}
+              {props.type === 'tv' && (
+                <div>
+                  <StyledColumns>
                     <StyledMetaInfo>
-                      <p className="label">Last air date</p>
-                      <p className="large">{data.last_air_date}</p>
+                      <p className="label">Type</p>
+                      <p className="large">TV Show</p>
+                    </StyledMetaInfo>
+                    {data?.status && (
+                      <StyledMetaInfo>
+                        <p className="label">Status</p>
+                        <p className="large">{data.status}</p>
+                      </StyledMetaInfo>
+                    )}
+                    {data?.first_air_date && (
+                      <StyledMetaInfo>
+                        <p className="label">First air date</p>
+                        <p className="large">{data.first_air_date}</p>
+                      </StyledMetaInfo>
+                    )}
+                    {data?.last_air_date && (
+                      <StyledMetaInfo>
+                        <p className="label">Last air date</p>
+                        <p className="large">{data.last_air_date}</p>
+                      </StyledMetaInfo>
+                    )}
+                    {data?.number_of_seasons && (
+                      <StyledMetaInfo>
+                        <p className="label">No. of seasons</p>
+                        <p className="large">{data.number_of_seasons}</p>
+                      </StyledMetaInfo>
+                    )}
+                    {data?.number_of_episodes && (
+                      <StyledMetaInfo>
+                        <p className="label">No. of episodes</p>
+                        <p className="large">{data.number_of_episodes}</p>
+                      </StyledMetaInfo>
+                    )}
+                  </StyledColumns>
+                  {data?.episode_run_time && data?.episode_run_time[0] && (
+                    <StyledMetaInfo>
+                      <p className="label">Episode run time</p>
+                      <p className="large">{data.episode_run_time[0]} min</p>
                     </StyledMetaInfo>
                   )}
-                  {data?.number_of_seasons && (
-                    <StyledMetaInfo>
-                      <p className="label">No. of seasons</p>
-                      <p className="large">{data.number_of_seasons}</p>
-                    </StyledMetaInfo>
-                  )}
-                  {data?.number_of_episodes && (
-                    <StyledMetaInfo>
-                      <p className="label">No. of episodes</p>
-                      <p className="large">{data.number_of_episodes}</p>
-                    </StyledMetaInfo>
-                  )}
-                </StyledColumns>
-                {data?.episode_run_time && data?.episode_run_time[0] && (
-                  <StyledMetaInfo>
-                    <p className="label">Episode run time</p>
-                    <p className="large">{data.episode_run_time[0]} min</p>
-                  </StyledMetaInfo>
-                )}
-              </div>
-            )}
+                </div>
+              )}
 
-            {data?.genres?.length && (
-              <StyledMetaInfo>
-                <p className="label">Genres</p>
-                <p className="large">{data.genres.map((g) => g.name).join(', ')}</p>
-              </StyledMetaInfo>
-            )}
+              {data?.genres?.length && (
+                <StyledMetaInfo>
+                  <p className="label">Genres</p>
+                  <p className="large">{data.genres.map((g) => g.name).join(', ')}</p>
+                </StyledMetaInfo>
+              )}
 
-            {auth.authUser && (
-              <button disabled={loadingWatchlist} type="button" className="btn" onClick={handleRemoveAdd}>
-                {addedToList ? 'Remove From List' : 'Add To List'}
-              </button>
-            )}
-          </div>
-        </StyledDetailBody>
+              {auth.authUser && (
+                <button disabled={loadingWatchlist} type="button" className="btn" onClick={handleRemoveAdd}>
+                  {addedToList ? 'Remove From List' : 'Add To List'}
+                </button>
+              )}
+            </div>
+          </StyledDetailBody>
+        </motion.div>
       </StyledDetailContainer>
-    </div>
+    </motion.div>
   );
 };
 
