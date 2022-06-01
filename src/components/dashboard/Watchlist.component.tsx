@@ -1,10 +1,10 @@
 import ContentList from '../content/ContentList.component';
 import Loader from '../loader/Loader.component';
-import { useData } from '../../state/data/dataProvider';
+import { useWatchlistData } from '../../state/watchlist/watchlistProvider';
 import { StyledWatchlistContainer } from './Watchlist.styles';
 
 const Watchlist = () => {
-  const { watchlist, loadingWatchlist } = useData();
+  const { watchlist, loadingWatchlist } = useWatchlistData();
 
   return (
     <div>

@@ -8,7 +8,7 @@ import StarIcon from '../icons/StarIcon.component';
 import placeholderImg from '../../assets/imagePlaceholder.svg';
 import { StyledCard, StyledRating, StyledCardImageContainer, StyledCardBody, StyledWatchlistButton } from './ContentCard.styles';
 import { useAuth } from '../../state/auth/authProvider';
-import { useData } from '../../state/data/dataProvider';
+import { useWatchlistData } from '../../state/watchlist/watchlistProvider';
 
 type ContentCardProps = {
   url: string;
@@ -17,7 +17,7 @@ type ContentCardProps = {
 
 const ContentCard: React.FC<ContentCardProps> = (props) => {
   const { authUser } = useAuth();
-  const { watchlist, addToWatchlist, removeFromWatchlist } = useData();
+  const { watchlist, addToWatchlist, removeFromWatchlist } = useWatchlistData();
   const [loading, setLoading] = useState(false);
   const [addedToList, setAddedToList] = useState<boolean>(false);
   const showWatchlistButton = Boolean(authUser);

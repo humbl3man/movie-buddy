@@ -15,7 +15,7 @@ import Account from './routes/Account';
 import Dashboard from './routes/Dashboard';
 import PrivateRoute from './components/routing/PrivateRoute.component';
 import PasswordReset from './routes/PasswordReset';
-import { DataProvider } from './state/data/dataProvider';
+import { WatchlistProvider } from './state/watchlist/watchlistProvider';
 
 const queryClient = new QueryClient();
 
@@ -26,7 +26,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <ReactQueryDevtools initialIsOpen={false} />
       <BrowserRouter>
         <AuthContextProvider>
-          <DataProvider>
+          <WatchlistProvider>
             <Routes>
               <Route path="/" element={<App />}>
                 {/* homepage */}
@@ -56,7 +56,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
                 <Route path="*" element={<NotFound />} />
               </Route>
             </Routes>
-          </DataProvider>
+          </WatchlistProvider>
         </AuthContextProvider>
       </BrowserRouter>
     </QueryClientProvider>

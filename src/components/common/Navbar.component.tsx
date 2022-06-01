@@ -6,7 +6,7 @@ import { GrClose as MenuCloseIcon } from 'react-icons/gr';
 import logo from '../../assets/logo.svg';
 import { useAuth } from '../../state/auth/authProvider';
 import { StyledHeader, StyledNavWrapper, StyledNavLinks, StyledWatchlistCount, StyledAvatarImage } from './Navbar.styles';
-import { useData } from '../../state/data/dataProvider';
+import { useWatchlistData } from '../../state/watchlist/watchlistProvider';
 
 const RightArrowSvg = () => {
   return (
@@ -36,7 +36,7 @@ const SignOutIcon: React.FC<{ width: number; height: number }> = (props) => {
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { authUser, signOut } = useAuth();
-  const { watchlist, loadingWatchlist } = useData();
+  const { watchlist, loadingWatchlist } = useWatchlistData();
   const itemsInWatchlist = watchlist?.length ?? 0;
 
   const openMenu = () => {

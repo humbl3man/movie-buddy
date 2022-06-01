@@ -23,7 +23,7 @@ import {
   StyledColumns
 } from '../styles/detail.styles';
 import { useAuth } from '../state/auth/authProvider';
-import { useData } from '../state/data/dataProvider';
+import { useWatchlistData } from '../state/watchlist/watchlistProvider';
 
 const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
   const { id } = useParams();
@@ -32,7 +32,7 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
     retry: false,
     refetchInterval: false
   });
-  const { watchlist, addToWatchlist, removeFromWatchlist, loadingWatchlist } = useData();
+  const { watchlist, addToWatchlist, removeFromWatchlist, loadingWatchlist } = useWatchlistData();
   const [addedToList, setAddedToList] = useState(false);
 
   const handleRemoveAdd = () => {

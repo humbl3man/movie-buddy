@@ -4,7 +4,7 @@ import { Content } from '../../typings';
 import FirestoreHelper from '../../utils/firestore/firestore.utils';
 import { useAuth } from '../auth/authProvider';
 
-export const DataContext = createContext<{
+export const WatchlistContext = createContext<{
   watchlist: Content[] | [];
   loadingWatchlist: boolean;
   addToWatchlist: any;
@@ -16,11 +16,11 @@ export const DataContext = createContext<{
   removeFromWatchlist: () => {}
 });
 
-export const useData = () => {
-  const ctx = useContext(DataContext);
+export const useWatchlistData = () => {
+  const ctx = useContext(WatchlistContext);
   return { ...ctx };
 };
-export const DataProvider: React.FC<{ children: React.ReactNode }> = (props) => {
+export const WatchlistProvider: React.FC<{ children: React.ReactNode }> = (props) => {
   const { authUser } = useAuth();
   const location = useLocation();
   const [watchlist, setWatchlist] = useState<any[]>([]);
@@ -82,7 +82,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = (props) => 
   }, [authUser, location]);
 
   return (
-    <DataContext.Provider
+    <WatchlistContext.Provider
       value={{
         watchlist,
         loadingWatchlist,
@@ -90,6 +90,6 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = (props) => 
         removeFromWatchlist
       }}>
       {props.children}
-    </DataContext.Provider>
+    </WatchlistContext.Provider>
   );
 };
