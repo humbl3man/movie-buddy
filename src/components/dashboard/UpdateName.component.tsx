@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { CgArrowLongLeft as BackArrow } from 'react-icons/cg';
 
 import { useAuth } from '../../state/auth/authProvider';
-import { StyledAuthError } from '../../styles/dashboard.styles';
+import { StyledAuthError } from '../../styles/page/dashboard.styles';
 import FirestoreHelper from '../../utils/firestore/firestore.utils';
 
 const StyledFormContainer = styled.div`

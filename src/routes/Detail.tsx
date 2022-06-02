@@ -21,7 +21,7 @@ import {
   StyledRating,
   StyledMetaInfo,
   StyledColumns
-} from '../styles/detail.styles';
+} from '../styles/page/detail.styles';
 import { useAuth } from '../state/auth/authProvider';
 import { useWatchlistData } from '../state/watchlist/watchlistProvider';
 

@@ -1,61 +1,14 @@
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Navigate, useLocation } from 'react-router-dom';
-import styled from 'styled-components';
 import { FcGoogle as GoogleLogo } from 'react-icons/fc';
 
 import { useAuth } from '../state/auth/authProvider';
 import loginSplashSrc from '../assets/login-splash.svg';
 import emailIcon from '../assets/email.svg';
 import passIcon from '../assets/password.svg';
-import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-
-const StyledContainer = styled.section`
-  display: grid;
-
-  @media screen and (min-width: 767px) {
-    grid-template-columns: minmax(300px, 1fr) 1fr;
-    grid-gap: 12.6rem;
-  }
-`;
-
-const StyledFormContainer = styled.div`
-  display: flex;
-  align-items: center;
-
-  form {
-    width: 100%;
-  }
-  .field input {
-    display: block;
-    width: 100%;
-  }
-`;
-
-const StyledSplashImage = styled.div`
-  display: none;
-  @media screen and (min-width: 767px) {
-    display: block;
-    img {
-      display: block;
-      max-width: 100%;
-      height: auto;
-    }
-  }
-`;
-
-const StyledAuthError = styled.div`
-  background: var(--error500);
-  color: var(--white);
-  padding: 2rem;
-  border-radius: 8px;
-  margin-bottom: 2rem;
-`;
-
-const StyledFooterMessage = styled.div`
-  margin-top: 2rem;
-  text-align: center;
-`;
+import { StyledContainer, StyledSplashImage, StyledFormContainer, StyledFooterMessage, StyledAuthError, StyledGoogleSignInButton } from '../styles/page/account.styles';
 
 type FormInputs = {
   email: string;
@@ -189,22 +142,16 @@ const Account: React.FC<{ type: 'create' | 'login' }> = (props) => {
           </button>
           {/* Google Sign-In */}
           {props.type === 'login' && (
-            <button
-              type="button"
-              className="btn btn--google btn--wide"
-              style={{
-                marginTop: '1rem'
-              }}
-              onClick={handleGoogleSignIn}>
+            <StyledGoogleSignInButton type="button" className="btn btn--wide" onClick={handleGoogleSignIn}>
               <GoogleLogo />
               <span>Sign In With Google</span>
-            </button>
+            </StyledGoogleSignInButton>
           )}
           <StyledFooterMessage>
             {props.type === 'login' ? (
               <>
                 <p>
-                  Don't have an account? <Link to="/account/register">Sign Up</Link>
+                  Don't have an account? <Link to="/account/register">Create Account</Link>
                 </p>
                 <p>
                   Forgot your password? <Link to="/account/password-reset">Reset</Link>

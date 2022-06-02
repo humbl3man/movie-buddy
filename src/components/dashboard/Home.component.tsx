@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { BsPencil as EditIcon } from 'react-icons/bs';
 
 import { useAuth } from '../../state/auth/authProvider';
-import { StyledAuthError, StyledAuthWarning } from '../../styles/dashboard.styles';
+import { StyledAuthError, StyledAuthWarning } from '../../styles/page/dashboard.styles';
 
 const DashboardHome = () => {
   const { authUser, authError, verifyEmail } = useAuth();
