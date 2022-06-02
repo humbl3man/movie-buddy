@@ -1,5 +1,5 @@
 import app from '../../getFirebaseApp';
-import { arrayUnion, deleteDoc, doc, getDoc, getFirestore, setDoc, updateDoc } from 'firebase/firestore';
+import { arrayUnion, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, query, setDoc, updateDoc } from 'firebase/firestore';
 import { Content } from '../../typings';
 import { UserCredential } from 'firebase/auth';
 
@@ -84,5 +84,22 @@ export default class FirestoreHelper {
     }
 
     return userRef;
+  }
+  static async getAllUsers() {
+    const ref = collection(db, collections.USER);
+    const q = query(ref);
+    const querySnapshot = await getDocs(q);
+    const userList = querySnapshot.docs.reduce((acc: any, doc) => {
+      const { displayName, id, email } = doc.data();
+      const userObj = {
+        id,
+        displayName,
+        email
+      };
+      acc.push(userObj);
+      return acc;
+    }, []);
+
+    return userList;
   }
 }
