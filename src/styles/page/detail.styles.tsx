@@ -122,3 +122,14 @@ export const StyledSkeletonText = styled.span<{ full?: boolean }>`
   background-color: var(--grey800);
   border-radius: 8px;
 `;
+
+export const StyledDetailFooter = styled.section`
+  padding-top: 3rem;
+  margin-top: 6rem;
+  border-top: 1px solid var(--grey700);
+  .similar-items-title {
+    span {
+      color: var(--primary200);
+    }
+  }
+`;

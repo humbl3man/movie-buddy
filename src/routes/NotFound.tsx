@@ -27,7 +27,7 @@ const NotFound = () => {
       <p>Oops! This is awkward. You are looking for something that doesn't actually exist.</p>
       <Link
         to="/"
-        className="btn"
+        className="btn--primary"
         style={{
           marginTop: '2.4rem'
         }}>

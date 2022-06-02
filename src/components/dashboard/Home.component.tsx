@@ -49,7 +49,7 @@ const DashboardHome = () => {
         <StyledAuthWarning style={{ maxWidth: 'max-content' }}>
           <p>
             Please verify your email address.{' '}
-            <button className="btn btn--small" onClick={handleVerifyEmailClick} disabled={isLoading}>
+            <button className="btn btn--primary btn--small" onClick={handleVerifyEmailClick} disabled={isLoading}>
               Send verification email
             </button>
           </p>

@@ -20,18 +20,43 @@ import {
   StyledBreadCrumbs,
   StyledRating,
   StyledMetaInfo,
-  StyledColumns
+  StyledColumns,
+  StyledDetailFooter
 } from '../styles/page/detail.styles';
 import { useAuth } from '../state/auth/authProvider';
 import { useWatchlistData } from '../state/watchlist/watchlistProvider';
+import getSimilarMovies from '../api/getSimilarMovies';
+import SimilarItems from '../components/content/Similar.component';
+import getSimilarTV from '../api/getSimilarTV';
+import Loader from '../components/loader/Loader.component';
 
 const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
-  const { id } = useParams();
+  const { id: pathId } = useParams();
   const auth = useAuth();
-  const { data, isLoading, isError, error } = useQuery<Content, AxiosError>(['detail'], () => getDetail({ type: props.type, id }), {
+  const { data, isLoading, isError, error } = useQuery<Content, AxiosError>(['detail', pathId], () => getDetail({ type: props.type, id: pathId }), {
     retry: false,
-    refetchInterval: false
+    refetchInterval: false,
+    refetchOnMount: true
   });
+  // similar movies query
+  const {
+    data: similarMoviesResults,
+    isLoading: similarMoviesLoading,
+    isError: similarMoviesError
+  } = useQuery<Content[], AxiosError>(['similarMovies', data?.id], () => getSimilarMovies(data?.id!), {
+    enabled: Boolean(data?.id) && props.type === 'movie',
+    refetchOnMount: true
+  });
+  // similar TV query
+  const {
+    data: similarTVResults,
+    isLoading: similarTVLoading,
+    isError: similarTVError
+  } = useQuery<Content[], AxiosError>(['similarTV', data?.id], () => getSimilarTV(data?.id!), {
+    enabled: Boolean(data?.id) && props.type === 'tv',
+    refetchOnMount: true
+  });
+
   const { watchlist, addToWatchlist, removeFromWatchlist, loadingWatchlist } = useWatchlistData();
   const [addedToList, setAddedToList] = useState(false);
 
@@ -64,43 +89,44 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
   }, [data]);
 
   if (isLoading) {
-    return (
-      <div>
-        <StyledBackdropImage
-          src={placeholderImg}
-          style={{
-            backgroundPosition: 'center'
-          }}
-        />
-        <div
-          style={{
-            marginTop: '15.2rem'
-          }}>
-          <StyledDetailBody>
-            <StyledPosterImage>
-              <img src={placeholderImg} alt="" />
-            </StyledPosterImage>
-            <div>
-              <h4>
-                <StyledSkeletonText full />
-              </h4>
-              <p>
-                <StyledSkeletonText />
-              </p>
-              <p>
-                <StyledSkeletonText />
-              </p>
-              <p>
-                <StyledSkeletonText />
-              </p>
-              <p>
-                <StyledSkeletonText />
-              </p>
-            </div>
-          </StyledDetailBody>
-        </div>
-      </div>
-    );
+    // return (
+    //   <div>
+    //     <StyledBackdropImage
+    //       src={placeholderImg}
+    //       style={{
+    //         backgroundPosition: 'center'
+    //       }}
+    //     />
+    //     <div
+    //       style={{
+    //         marginTop: '15.2rem'
+    //       }}>
+    //       <StyledDetailBody>
+    //         <StyledPosterImage>
+    //           <img src={placeholderImg} alt="" />
+    //         </StyledPosterImage>
+    //         <div>
+    //           <h4>
+    //             <StyledSkeletonText full />
+    //           </h4>
+    //           <p>
+    //             <StyledSkeletonText />
+    //           </p>
+    //           <p>
+    //             <StyledSkeletonText />
+    //           </p>
+    //           <p>
+    //             <StyledSkeletonText />
+    //           </p>
+    //           <p>
+    //             <StyledSkeletonText />
+    //           </p>
+    //         </div>
+    //       </StyledDetailBody>
+    //     </div>
+    //   </div>
+    // );
+    return <Loader fullScreen={false} />;
   }
 
   if (isError) {
@@ -237,12 +263,22 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
               )}
 
               {auth.authUser && (
-                <button disabled={loadingWatchlist} type="button" className="btn" onClick={handleRemoveAdd}>
+                <button disabled={loadingWatchlist} type="button" className="btn btn--primary" onClick={handleRemoveAdd}>
                   {addedToList ? '- Remove From List' : '+ Add To List'}
                 </button>
               )}
             </div>
           </StyledDetailBody>
+          <StyledDetailFooter>
+            <h4 className="similar-items-title">
+              {props.type === 'movie' ? 'Movies ' : 'TV Shows'} similar to <span>{data?.title || data?.name}</span>:
+            </h4>
+            {props.type === 'movie' ? (
+              <SimilarItems type="movie" items={similarMoviesResults} isLoading={similarMoviesLoading} isError={similarMoviesError} />
+            ) : (
+              <SimilarItems type="tv" items={similarTVResults} isLoading={similarTVLoading} isError={similarTVError} />
+            )}
+          </StyledDetailFooter>
         </motion.div>
       </StyledDetailContainer>
     </motion.div>

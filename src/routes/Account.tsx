@@ -8,7 +8,7 @@ import { useAuth } from '../state/auth/authProvider';
 import loginSplashSrc from '../assets/login-splash.svg';
 import emailIcon from '../assets/email.svg';
 import passIcon from '../assets/password.svg';
-import { StyledContainer, StyledSplashImage, StyledFormContainer, StyledFooterMessage, StyledAuthError, StyledGoogleSignInButton } from '../styles/page/account.styles';
+import { StyledContainer, StyledSplashImage, StyledFormContainer, StyledFooterMessage, StyledAuthError } from '../styles/page/account.styles';
 
 type FormInputs = {
   email: string;
@@ -137,15 +137,15 @@ const Account: React.FC<{ type: 'create' | 'login' }> = (props) => {
               {errors.passwordConfirm?.message && <div className="field-error">{errors.passwordConfirm.message}</div>}
             </div>
           )}
-          <button className="btn btn--wide" disabled={isLoading}>
+          <button className="btn btn--primary btn--wide" disabled={isLoading}>
             {props.type === 'login' ? 'Login' : 'Create Account'}
           </button>
           {/* Google Sign-In */}
           {props.type === 'login' && (
-            <StyledGoogleSignInButton type="button" className="btn btn--wide" onClick={handleGoogleSignIn}>
+            <button type="button" className="btn btn--googleSignIn btn--wide" onClick={handleGoogleSignIn}>
               <GoogleLogo />
               <span>Sign In With Google</span>
-            </StyledGoogleSignInButton>
+            </button>
           )}
           <StyledFooterMessage>
             {props.type === 'login' ? (

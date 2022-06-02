@@ -231,8 +231,6 @@ export const GlobalStyle = createGlobalStyle`
     padding: 1.6rem 3.2rem;
     appearance: none;
     border: 0;
-    color: var(--white);
-    background: var(--primary500);
     font-size: inherit;
     font-weight: inherit;
     border-radius: 12px;
@@ -240,16 +238,6 @@ export const GlobalStyle = createGlobalStyle`
     display: inline-block;
     cursor: pointer;
     transition: background 200ms ease;
-
-    &:hover,
-    &:focus,
-    &:active {
-      background: var(--primary600);
-    }
-    &:disabled {
-      cursor: not-allowed;
-      background: var(--primary400);
-    }
 
     // variations
 
@@ -268,6 +256,19 @@ export const GlobalStyle = createGlobalStyle`
     }
 
     // colors
+    &--primary {
+      background: var(--primary500);
+      color: var(--white);
+      &:hover,
+      &:focus,
+      &:active {
+        background: var(--primary600);
+      }
+      &:disabled {
+        cursor: not-allowed;
+        background: var(--primary400);
+      }
+    }
     &--tertary {
       color: var(--tertary900);
       background: var(--tertary500);
@@ -311,6 +312,25 @@ export const GlobalStyle = createGlobalStyle`
       &:focus,
       &:active {
         background: transparent;
+      }
+    }
+    &--googleSignIn {
+      background: var(--primary50);
+      color: var(--grey900);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1.6rem;
+      svg {
+        display: inline-block;
+        font-size: 2.6rem;
+        margin-right: 1rem;
+      }
+      &:hover,
+      &:focus,
+      &:active {
+        background: var(--white);
+        color: var(--grey900);
       }
     }
 

@@ -69,7 +69,7 @@ const Sort: React.FC<SortProps> = (props) => {
         })}
       <button
         type="button"
-        className="btn btn--wide"
+        className="btn btn--primary btn--wide"
         style={{
           maxWidth: '300px',
           margin: '2rem auto 4rem auto',

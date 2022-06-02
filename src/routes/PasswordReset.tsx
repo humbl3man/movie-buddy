@@ -126,7 +126,7 @@ const PasswordReset = () => {
           {errors.email?.message && <div className="field-error">{errors.email.message}</div>}
         </div>
 
-        <button className="btn btn--wide" disabled={isLoading}>
+        <button className="btn btn--primary btn--wide" disabled={isLoading}>
           Reset Password
         </button>
         <Link

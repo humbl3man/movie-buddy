@@ -91,7 +91,7 @@ const UpdateName = () => {
           />
           {errors.displayName?.message && <div className="field-error">{errors.displayName?.message}</div>}
         </div>
-        <button type="submit" className="btn btn--wide" disabled={isLoading}>
+        <button type="submit" className="btn btn--primary btn--wide" disabled={isLoading}>
           Update
         </button>
         <Link

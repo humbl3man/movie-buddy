@@ -48,23 +48,3 @@ export const StyledFooterMessage = styled.div`
   border-top: 1px solid var(--grey700);
   text-align: center;
 `;
-
-export const StyledGoogleSignInButton = styled.button`
-  background: var(--primary50);
-  color: var(--grey900);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 1.6rem;
-  svg {
-    display: inline-block;
-    font-size: 2.6rem;
-    margin-right: 1rem;
-  }
-  &:hover,
-  &:focus,
-  &:active {
-    background: var(--white);
-    color: var(--grey900);
-  }
-`;
