@@ -1,4 +1,5 @@
 import React, { ButtonHTMLAttributes, ComponentPropsWithRef } from 'react';
+import { Link, LinkProps } from 'react-router-dom';
 import styled from 'styled-components';
 
 const baseStyles = `
@@ -19,7 +20,13 @@ interface IButton extends ButtonHTMLAttributes<HTMLButtonElement> {
   fullWidth?: boolean;
 }
 
-function buildStylesFromProps(props: IButton) {
+interface IButtonLink extends LinkProps {
+  size?: buttonSizes;
+  variant?: buttonVariants;
+  fullWidth?: boolean;
+}
+
+function buildStylesFromProps(props: IButton | IButtonLink) {
   let styles = baseStyles;
   // sizes
   if (props.size === buttonSizes.SMALL) {
@@ -104,6 +111,7 @@ function buildStylesFromProps(props: IButton) {
       ${styles}
       background: transparent;
       color: var(--grey100);
+      text-decoration: none;
       &:hover,
       &:focus,
       &:active {
@@ -155,6 +163,9 @@ function buildStylesFromProps(props: IButton) {
 const StyledButton = styled.button<IButton>`
   ${(props) => buildStylesFromProps(props)}
 `;
+const StyledButtonLink = styled(Link)<IButtonLink>`
+  ${(props) => buildStylesFromProps(props)}
+`;
 
 export enum buttonSizes {
   NORMAL = 'normal',
@@ -170,8 +181,10 @@ export enum buttonVariants {
   LINK = 'link'
 }
 
-const Button: React.FC<IButton> = (props) => {
+export const Button: React.FC<IButton> = (props) => {
   return <StyledButton size={props.size || buttonSizes.NORMAL} variant={props.variant || buttonVariants.PRIMARY} fullWidth={Boolean(props.fullWidth)} {...props} />;
 };
 
-export default Button;
+export const ButtonLink: React.FC<IButtonLink> = (props) => {
+  return <StyledButtonLink size={props.size || buttonSizes.NORMAL} variant={props.variant || buttonVariants.PRIMARY} fullWidth={Boolean(props.fullWidth)} {...props} />;
+};

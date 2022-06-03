@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Navigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 import { MdEmail as EmailIcon } from 'react-icons/md';
 import { CgArrowLongLeft as BackArrow } from 'react-icons/cg';
 
 import { useAuth } from '../state/auth/authProvider';
+import { Button, ButtonLink, buttonVariants } from '../components/common/Button.component';
 
 const StyledFormContainer = styled.div`
   max-width: 600px;
@@ -126,11 +126,12 @@ const PasswordReset = () => {
           {errors.email?.message && <div className="field-error">{errors.email.message}</div>}
         </div>
 
-        <button className="btn btn--primary btn--wide" disabled={isLoading}>
+        <Button type="submit" fullWidth disabled={isLoading}>
           Reset Password
-        </button>
-        <Link
-          className="btn btn--wide btn--link"
+        </Button>
+        <ButtonLink
+          fullWidth
+          variant={buttonVariants.LINK}
           to="/account/login"
           style={{
             marginTop: '2rem',
@@ -140,7 +141,7 @@ const PasswordReset = () => {
           }}>
           <BackArrow />
           &nbsp; Go Back To Login
-        </Link>
+        </ButtonLink>
       </form>
     </StyledFormContainer>
   );
