@@ -9,6 +9,7 @@ import loginSplashSrc from '../assets/login-splash.svg';
 import emailIcon from '../assets/email.svg';
 import passIcon from '../assets/password.svg';
 import { StyledContainer, StyledSplashImage, StyledFormContainer, StyledFooterMessage, StyledAuthError } from '../styles/page/account.styles';
+import Button, { buttonVariants } from '../components/common/Button.component';
 
 type FormInputs = {
   email: string;
@@ -137,15 +138,16 @@ const Account: React.FC<{ type: 'create' | 'login' }> = (props) => {
               {errors.passwordConfirm?.message && <div className="field-error">{errors.passwordConfirm.message}</div>}
             </div>
           )}
-          <button className="btn btn--primary btn--wide" disabled={isLoading}>
+
+          <Button type="submit" fullWidth disabled={isLoading}>
             {props.type === 'login' ? 'Login' : 'Create Account'}
-          </button>
+          </Button>
           {/* Google Sign-In */}
           {props.type === 'login' && (
-            <button type="button" className="btn btn--googleSignIn btn--wide" onClick={handleGoogleSignIn}>
+            <Button type="button" fullWidth variant={buttonVariants.GOOGLE} onClick={handleGoogleSignIn}>
               <GoogleLogo />
               <span>Sign In With Google</span>
-            </button>
+            </Button>
           )}
           <StyledFooterMessage>
             {props.type === 'login' ? (
