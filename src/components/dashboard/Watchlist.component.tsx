@@ -3,6 +3,8 @@ import Loader from '../loader/Loader.component';
 import { useWatchlistData } from '../../state/watchlist/watchlistProvider';
 import { StyledWatchlistContainer } from './Watchlist.styles';
 import { useAuth } from '../../state/auth/authProvider';
+import { Button } from '../common/Button.component';
+import { buttonVariants, buttonSizes } from '../common/Button.types';
 
 const Watchlist = () => {
   const { authUser } = useAuth();
@@ -27,16 +29,17 @@ const Watchlist = () => {
             {watchlist.length === 0 ? `No` : watchlist.length} Item{watchlist.length === 1 ? '' : 's'} in your list
           </span>
           {watchlist.length > 0 && (
-            <button
+            <Button
               type="button"
-              className="btn btn--danger btn--xsmall"
+              variant={buttonVariants.DANGER}
+              size={buttonSizes.XSMALL}
               style={{
                 marginLeft: '1rem'
               }}
               disabled={loadingWatchlist}
               onClick={handleDeleteWatchlist}>
               Remove all items
-            </button>
+            </Button>
           )}
         </h3>
         {loadingWatchlist ? <Loader fullScreen={false} /> : watchlist.length > 0 ? <ContentList data={watchlist} /> : <p>You don't have any items in your list.</p>}

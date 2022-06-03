@@ -61,12 +61,9 @@ export const StyledRating = styled.div`
   }
 `;
 
-export const StyledWatchlistButton = styled.button`
+export const StyledWatchlistButtonContainer = styled.div`
   position: absolute;
   z-index: 100;
   top: -16px;
   right: -6px;
-  font-size: 1.4rem;
-  font-weight: 600;
-  box-shadow: 0 0 14px rgba(0, 0, 0, 0.1);
 `;

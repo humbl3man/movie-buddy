@@ -6,9 +6,11 @@ import { Content } from '../../typings';
 import { buildImageUrl } from '../../utils/content/buildImageUrl.utils';
 import StarIcon from '../icons/StarIcon.component';
 import placeholderImg from '../../assets/imagePlaceholder.svg';
-import { StyledCard, StyledRating, StyledCardImageContainer, StyledCardBody, StyledWatchlistButton } from './ContentCard.styles';
+import { StyledCard, StyledRating, StyledCardImageContainer, StyledCardBody, StyledWatchlistButtonContainer } from './ContentCard.styles';
 import { useAuth } from '../../state/auth/authProvider';
 import { useWatchlistData } from '../../state/watchlist/watchlistProvider';
+import { Button } from '../common/Button.component';
+import { buttonSizes } from '../common/Button.types';
 
 type ContentCardProps = {
   url: string;
@@ -72,9 +74,11 @@ const ContentCard: React.FC<ContentCardProps> = (props) => {
           </StyledCardBody>
         </Link>
         {showWatchlistButton && (
-          <StyledWatchlistButton className={`btn btn--primary btn--small`} disabled={loading} type="button" onClick={handleAddRemove}>
-            {addedToList ? '- Remove from list' : '+ Add to list'}
-          </StyledWatchlistButton>
+          <StyledWatchlistButtonContainer>
+            <Button size={buttonSizes.XSMALL} disabled={loading} type="button" onClick={handleAddRemove}>
+              {addedToList ? '- Remove from list' : '+ Add to list'}
+            </Button>
+          </StyledWatchlistButtonContainer>
         )}
       </StyledCard>
     </motion.div>

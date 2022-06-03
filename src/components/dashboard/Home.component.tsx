@@ -4,6 +4,8 @@ import { BsPencil as EditIcon } from 'react-icons/bs';
 
 import { useAuth } from '../../state/auth/authProvider';
 import { StyledAuthError, StyledAuthWarning } from '../../styles/page/dashboard.styles';
+import { Button, ButtonLink } from '../common/Button.component';
+import { buttonSizes } from '../common/Button.types';
 
 const DashboardHome = () => {
   const { authUser, authError, verifyEmail } = useAuth();
@@ -49,9 +51,9 @@ const DashboardHome = () => {
         <StyledAuthWarning style={{ maxWidth: 'max-content' }}>
           <p>
             Please verify your email address.{' '}
-            <button className="btn btn--primary btn--small" onClick={handleVerifyEmailClick} disabled={isLoading}>
+            <Button size={buttonSizes.SMALL} onClick={handleVerifyEmailClick} disabled={isLoading}>
               Send verification email
-            </button>
+            </Button>
           </p>
         </StyledAuthWarning>
       )}
@@ -60,9 +62,9 @@ const DashboardHome = () => {
         <StyledAuthWarning style={{ maxWidth: 'max-content' }}>
           <p>
             Consider adding display name to your profile{' '}
-            <Link className="btn btn--small" to="update-name">
-              <EditIcon /> Add Name
-            </Link>
+            <ButtonLink size={buttonSizes.SMALL} to="update-name">
+              Add Name
+            </ButtonLink>
           </p>
         </StyledAuthWarning>
       )}

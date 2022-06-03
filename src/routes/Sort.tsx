@@ -3,6 +3,7 @@ import { useInfiniteQuery } from 'react-query';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import getPopular from '../api/getPopular';
+import { Button } from '../components/common/Button.component';
 import ContentList from '../components/content/ContentList.component';
 import Search from '../components/search/Search.component';
 import { setContentType } from '../utils/content/setContentType.utils';
@@ -67,9 +68,9 @@ const Sort: React.FC<SortProps> = (props) => {
             </React.Fragment>
           );
         })}
-      <button
+      <Button
         type="button"
-        className="btn btn--primary btn--wide"
+        fullWidth
         style={{
           maxWidth: '300px',
           margin: '2rem auto 4rem auto',
@@ -81,7 +82,7 @@ const Sort: React.FC<SortProps> = (props) => {
           fetchNextPage({ pageParam: page });
         }}>
         {isLoading ? 'Loading...' : `Load More ${props.category === 'movie' ? 'Movies' : 'TV Shows'}`}
-      </button>
+      </Button>
     </StyledContainer>
   );
 };

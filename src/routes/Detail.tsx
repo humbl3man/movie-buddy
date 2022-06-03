@@ -29,6 +29,7 @@ import getSimilarMovies from '../api/getSimilarMovies';
 import SimilarItems from '../components/content/Similar.component';
 import getSimilarTV from '../api/getSimilarTV';
 import Loader from '../components/loader/Loader.component';
+import { Button } from '../components/common/Button.component';
 
 const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
   const { id: pathId } = useParams();
@@ -263,9 +264,9 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
               )}
 
               {auth.authUser && (
-                <button disabled={loadingWatchlist} type="button" className="btn btn--primary" onClick={handleRemoveAdd}>
+                <Button disabled={loadingWatchlist} type="button" onClick={handleRemoveAdd}>
                   {addedToList ? '- Remove From List' : '+ Add To List'}
-                </button>
+                </Button>
               )}
             </div>
           </StyledDetailBody>

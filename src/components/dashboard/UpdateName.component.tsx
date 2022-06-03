@@ -7,6 +7,8 @@ import { CgArrowLongLeft as BackArrow } from 'react-icons/cg';
 import { useAuth } from '../../state/auth/authProvider';
 import { StyledAuthError } from '../../styles/page/dashboard.styles';
 import FirestoreHelper from '../../utils/firestore/firestore.utils';
+import { Button, ButtonLink } from '../common/Button.component';
+import { buttonVariants } from '../common/Button.types';
 
 const StyledFormContainer = styled.div`
   display: flex;
@@ -91,11 +93,12 @@ const UpdateName = () => {
           />
           {errors.displayName?.message && <div className="field-error">{errors.displayName?.message}</div>}
         </div>
-        <button type="submit" className="btn btn--primary btn--wide" disabled={isLoading}>
+        <Button type="submit" fullWidth disabled={isLoading}>
           Update
-        </button>
-        <Link
-          className="btn btn--wide btn--link"
+        </Button>
+        <ButtonLink
+          variant={buttonVariants.LINK}
+          fullWidth
           to="/account/dashboard"
           style={{
             marginTop: '2rem',
@@ -105,7 +108,7 @@ const UpdateName = () => {
           }}>
           <BackArrow />
           &nbsp; Go Back To Account Page
-        </Link>
+        </ButtonLink>
       </form>
     </StyledFormContainer>
   );
