@@ -8,45 +8,39 @@ import { buildImageUrl } from '../../utils/content/buildImageUrl.utils';
 import Loader from '../loader/Loader.component';
 import { StyledSimilarWidgetImage, StyledSimilarWidgetSlider } from './Similar.styles';
 import { Link } from 'react-router-dom';
+import { InfiniteData } from 'react-query';
 
 interface SimilarProps {
-  items?: Content[] | [] | null;
+  content?: any;
   type: 'movie' | 'tv';
   isLoading: boolean;
   isError: boolean;
+  activeSlideIndex: number;
+  loadMore: () => void;
 }
-const SimilarItems: React.FC<SimilarProps> = ({ items, type, isLoading, isError }) => {
+const SimilarItems: React.FC<SimilarProps> = ({ content, type, isLoading, isError, activeSlideIndex, loadMore }) => {
   if (isError) {
     return <div>Error getting content</div>;
   }
   if (isLoading) {
     return <Loader fullScreen={false} />;
   }
-  if (!items || items.length === 0) {
-    return <div>No content</div>;
-  }
 
   return (
-    <div>
-      {items!.length > 0 && (
-        <StyledSimilarWidgetSlider>
-          <Slider slidesPerRow={6} slidesToScroll={1} infinite={false}>
-            {items.map((item) => {
-              const mediaURL = `/${type === 'movie' ? 'movie' : 'tv'}/${item.id}`;
-              return (
-                <div key={item.id}>
-                  <Link to={mediaURL} replace>
-                    <StyledSimilarWidgetImage key={item.id}>
-                      <img src={buildImageUrl({ src: item.poster_path, posterSize: 'w154' })} alt={item.title || item.name} />
-                    </StyledSimilarWidgetImage>
-                  </Link>
-                </div>
-              );
-            })}
-          </Slider>
-        </StyledSimilarWidgetSlider>
-      )}
-    </div>
+    <StyledSimilarWidgetSlider>
+      <Slider>
+        {Boolean(content) &&
+          content.map((page: any, index: any) => {
+            return (
+              <>
+                {page.map((item: Content) => {
+                  return <p>{item.title || item.name}</p>;
+                })}
+              </>
+            );
+          })}
+      </Slider>
+    </StyledSimilarWidgetSlider>
   );
 };
 

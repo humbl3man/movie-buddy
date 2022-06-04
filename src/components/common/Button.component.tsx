@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyledButton, StyledButtonLink, StyledButtonSpinner } from './Button.styles';
+import { StyledButton, StyledButtonLink } from './Button.styles';
 import { ButtonLinkProps, ButtonProps, buttonSizes, buttonVariants } from './Button.types';
 
 export const Button: React.FC<ButtonProps> = ({ size = buttonSizes.NORMAL, variant = buttonVariants.PRIMARY, fullWidth = false, isLoading = false, children, ...rest }) => {
