@@ -1,5 +1,5 @@
 import { InfiniteData } from 'react-query';
-import { BsChevronBarDown as DownArrowIcon } from 'react-icons/bs';
+import { BiChevronDown as DownArrowIcon } from 'react-icons/bi';
 
 import { Content } from '../../typings';
 
