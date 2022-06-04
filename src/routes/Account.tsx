@@ -9,7 +9,8 @@ import loginSplashSrc from '../assets/login-splash.svg';
 import emailIcon from '../assets/email.svg';
 import passIcon from '../assets/password.svg';
 import { StyledContainer, StyledSplashImage, StyledFormContainer, StyledFooterMessage, StyledAuthError } from '../styles/page/account.styles';
-import { Button, buttonVariants } from '../components/common/Button.component';
+import { Button } from '../components/common/Button.component';
+import { buttonVariants } from '../components/common/Button.types';
 
 type FormInputs = {
   email: string;

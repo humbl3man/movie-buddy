@@ -15,14 +15,11 @@ export enum buttonVariants {
   LINK = 'link'
 }
 
-export interface IButton extends ButtonHTMLAttributes<HTMLButtonElement> {
+export type ButtonProps = {
   size?: buttonSizes;
   variant?: buttonVariants;
   fullWidth?: boolean;
-}
+  isLoading?: boolean;
+} & ButtonHTMLAttributes<HTMLButtonElement>;
 
-export interface IButtonLink extends LinkProps {
-  size?: buttonSizes;
-  variant?: buttonVariants;
-  fullWidth?: boolean;
-}
+export type ButtonLinkProps = ButtonProps & LinkProps;

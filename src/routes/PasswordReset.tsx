@@ -6,7 +6,8 @@ import { MdEmail as EmailIcon } from 'react-icons/md';
 import { CgArrowLongLeft as BackArrow } from 'react-icons/cg';
 
 import { useAuth } from '../state/auth/authProvider';
-import { Button, ButtonLink, buttonVariants } from '../components/common/Button.component';
+import { Button, ButtonLink } from '../components/common/Button.component';
+import { buttonVariants } from '../components/common/Button.types';
 
 const StyledFormContainer = styled.div`
   max-width: 600px;

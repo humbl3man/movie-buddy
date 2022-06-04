@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { IButton, IButtonLink, buttonSizes, buttonVariants } from './Button.types';
+import { ButtonLinkProps, ButtonProps, buttonSizes, buttonVariants } from './Button.types';
 
 const baseStyles = `
   padding: 1.6rem 3.2rem;
@@ -13,9 +13,12 @@ const baseStyles = `
   cursor: pointer;
   transition: background 200ms ease;
   font-weight: bold;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
 `;
 
-function buildStylesFromProps(props: IButton | IButtonLink) {
+function buildStylesFromProps(props: ButtonProps) {
   let styles = baseStyles;
   // sizes
   if (props.size === buttonSizes.SMALL) {
@@ -149,9 +152,9 @@ function buildStylesFromProps(props: IButton | IButtonLink) {
   return styles;
 }
 
-export const StyledButton = styled.button<IButton>`
+export const StyledButton = styled.button<ButtonProps>`
   ${(props) => buildStylesFromProps(props)}
 `;
-export const StyledButtonLink = styled(Link)<IButtonLink>`
+export const StyledButtonLink = styled(Link)<ButtonLinkProps>`
   ${(props) => buildStylesFromProps(props)}
 `;

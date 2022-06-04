@@ -75,7 +75,7 @@ const ContentCard: React.FC<ContentCardProps> = (props) => {
         </Link>
         {showWatchlistButton && (
           <StyledWatchlistButtonContainer>
-            <Button size={buttonSizes.XSMALL} disabled={loading} type="button" onClick={handleAddRemove}>
+            <Button size={buttonSizes.XSMALL} isLoading={loading} type="button" onClick={handleAddRemove}>
               {addedToList ? '- Remove from list' : '+ Add to list'}
             </Button>
           </StyledWatchlistButtonContainer>
