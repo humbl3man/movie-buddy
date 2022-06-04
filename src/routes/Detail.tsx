@@ -42,9 +42,10 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
   });
   // similar content query
   const {
-    data: similarItems,
+    data: similarContent,
     isLoading: similarLoading,
-    isError: similarError
+    isError: similarError,
+    fetchNextPage: fetchNextSimilarContent
   } = useInfiniteQuery<Content[], AxiosError>(['similarContent', pathId], ({ pageParam }) => getSimilar({ id: data?.id!, type: props.type, page: pageParam }), {
     enabled: typeof data?.id !== 'undefined',
     keepPreviousData: true
@@ -228,12 +229,15 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
           <StyledDetailFooter>
             <h4 className="similar-items-title">More Like This:</h4>
             <SimilarItems
-              loadMore={() => setPage((prev) => prev + 1)}
-              activeSlideIndex={activeSlideIndex}
+              loadMore={() => {
+                setPage((prev) => prev + 1);
+                fetchNextSimilarContent({ pageParam: page });
+              }}
               type={props.type}
-              content={similarItems?.pages}
+              content={similarContent}
               isLoading={similarLoading}
               isError={similarError}
+              page={page}
             />
           </StyledDetailFooter>
         </motion.div>

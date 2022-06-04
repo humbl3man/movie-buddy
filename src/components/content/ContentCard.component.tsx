@@ -15,6 +15,7 @@ import { buttonSizes } from '../common/Button.types';
 type ContentCardProps = {
   url: string;
   content: Content;
+  showWatchlistButton: boolean;
 };
 
 const ContentCard: React.FC<ContentCardProps> = (props) => {
@@ -22,7 +23,7 @@ const ContentCard: React.FC<ContentCardProps> = (props) => {
   const { watchlist, addToWatchlist, removeFromWatchlist } = useWatchlistData();
   const [loading, setLoading] = useState(false);
   const [addedToList, setAddedToList] = useState<boolean>(false);
-  const showWatchlistButton = Boolean(authUser);
+  const showWatchlistButton = Boolean(authUser) && props.showWatchlistButton;
 
   function handleAddRemove(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     setLoading(true);

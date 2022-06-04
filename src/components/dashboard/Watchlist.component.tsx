@@ -42,7 +42,13 @@ const Watchlist = () => {
             </Button>
           )}
         </h3>
-        {loadingWatchlist ? <Loader fullScreen={false} /> : watchlist.length > 0 ? <ContentList data={watchlist} /> : <p>You don't have any items in your list.</p>}
+        {loadingWatchlist ? (
+          <Loader fullScreen={false} />
+        ) : watchlist.length > 0 ? (
+          <ContentList showWatchlistButton data={watchlist} />
+        ) : (
+          <p>You don't have any items in your list.</p>
+        )}
       </StyledWatchlistContainer>
     </div>
   );

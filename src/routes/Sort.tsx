@@ -64,7 +64,7 @@ const Sort: React.FC<SortProps> = (props) => {
         data?.pages.map((page, i) => {
           return (
             <React.Fragment key={i}>
-              <ContentList data={setContentType(page.results, props.category)} />
+              <ContentList showWatchlistButton data={setContentType(page.results, props.category)} />
             </React.Fragment>
           );
         })}

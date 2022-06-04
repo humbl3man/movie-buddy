@@ -63,7 +63,7 @@ const Home = () => {
             <h3 className="featured-title">
               All <span className="caption">({movies.data?.results.length + tvshows.data?.results.length})</span>
             </h3>
-            <ContentList data={[...setContentType(movies.data?.results, 'movie'), ...setContentType(tvshows.data?.results, 'tv')]} />
+            <ContentList showWatchlistButton data={[...setContentType(movies.data?.results, 'movie'), ...setContentType(tvshows.data?.results, 'tv')]} />
           </div>
         )}
         {filter === 'movies' && moviesLoaded && Boolean(movies.data?.results) && (
@@ -71,7 +71,7 @@ const Home = () => {
             <h3 className="featured-title">
               Movies <span className="caption">({movies.data?.results.length ?? 0})</span>
             </h3>
-            <ContentList data={setContentType(movies.data?.results, 'movie')} />
+            <ContentList showWatchlistButton data={setContentType(movies.data?.results, 'movie')} />
           </div>
         )}
         {filter === 'tv' && tvShowsLoaded && Boolean(tvshows.data?.results) && (
@@ -79,7 +79,7 @@ const Home = () => {
             <h3 className="featured-title">
               TV Shows <span className="caption">({tvshows.data?.results.length ?? 0})</span>
             </h3>
-            <ContentList data={setContentType(tvshows.data?.results, 'tv')} />
+            <ContentList showWatchlistButton data={setContentType(tvshows.data?.results, 'tv')} />
           </div>
         )}
       </StyledFeaturedContainer>

@@ -1,24 +1,23 @@
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+import { InfiniteData } from 'react-query';
+import { BsChevronBarDown as DownArrowIcon } from 'react-icons/bs';
 
 import { Content } from '../../typings';
 
-import { buildImageUrl } from '../../utils/content/buildImageUrl.utils';
 import Loader from '../loader/Loader.component';
-import { StyledSimilarWidgetImage, StyledSimilarWidgetSlider } from './Similar.styles';
-import { Link } from 'react-router-dom';
-import { InfiniteData } from 'react-query';
+import React from 'react';
+import ContentList from './ContentList.component';
+import { setContentType } from '../../utils/content/setContentType.utils';
+import { Button } from '../common/Button.component';
 
 interface SimilarProps {
-  content?: any;
+  content?: InfiniteData<Content[]>;
   type: 'movie' | 'tv';
   isLoading: boolean;
   isError: boolean;
-  activeSlideIndex: number;
+  page: number;
   loadMore: () => void;
 }
-const SimilarItems: React.FC<SimilarProps> = ({ content, type, isLoading, isError, activeSlideIndex, loadMore }) => {
+const SimilarItems: React.FC<SimilarProps> = ({ content, type, isLoading, isError, loadMore, page }) => {
   if (isError) {
     return <div>Error getting content</div>;
   }
@@ -26,21 +25,42 @@ const SimilarItems: React.FC<SimilarProps> = ({ content, type, isLoading, isErro
     return <Loader fullScreen={false} />;
   }
 
+  if (!content?.pages) {
+    return <p>No countent found.</p>;
+  }
+
   return (
-    <StyledSimilarWidgetSlider>
-      <Slider>
-        {Boolean(content) &&
-          content.map((page: any, index: any) => {
-            return (
-              <>
-                {page.map((item: Content) => {
-                  return <p>{item.title || item.name}</p>;
-                })}
-              </>
-            );
-          })}
-      </Slider>
-    </StyledSimilarWidgetSlider>
+    <div>
+      {content.pages.map((contentBlock: Content[], index) => {
+        return (
+          <div
+            style={{
+              marginBottom: '3.2rem'
+            }}
+            key={index}>
+            <ContentList showWatchlistButton data={setContentType(contentBlock, type)} />
+          </div>
+        );
+      })}
+      <Button
+        type="button"
+        fullWidth
+        style={{
+          margin: '2rem auto',
+          width: '80px',
+          height: '80px',
+          display: 'flex',
+          alignItems: 'center',
+          borderRadius: '50%',
+          fontSize: '3rem'
+        }}
+        onClick={loadMore}
+        disabled={page >= 1000 || isLoading}
+        aria-label="Load More"
+        title="Load More">
+        <DownArrowIcon />
+      </Button>
+    </div>
   );
 };
 
