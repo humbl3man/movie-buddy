@@ -8,6 +8,7 @@ import React from 'react';
 import ContentList from './ContentList.component';
 import { setContentType } from '../../utils/content/setContentType.utils';
 import { Button } from '../common/Button.component';
+import { SimilarLoadMoreButton, SimilarLoadMoreContainer } from './Similar.styles';
 
 interface SimilarProps {
   content?: InfiniteData<Content[]>;
@@ -42,24 +43,11 @@ const SimilarItems: React.FC<SimilarProps> = ({ content, type, isLoading, isErro
           </div>
         );
       })}
-      <Button
-        type="button"
-        fullWidth
-        style={{
-          margin: '2rem auto',
-          width: '80px',
-          height: '80px',
-          display: 'flex',
-          alignItems: 'center',
-          borderRadius: '50%',
-          fontSize: '3rem'
-        }}
-        onClick={loadMore}
-        disabled={page >= 1000 || isLoading}
-        aria-label="Load More"
-        title="Load More">
-        <DownArrowIcon />
-      </Button>
+      <SimilarLoadMoreContainer>
+        <SimilarLoadMoreButton onClick={loadMore} disabled={page >= 1000 || isLoading} aria-label="Load More" title="Load More">
+          {isLoading ? '...' : <DownArrowIcon />}
+        </SimilarLoadMoreButton>
+      </SimilarLoadMoreContainer>
     </div>
   );
 };
