@@ -7,7 +7,6 @@ import Loader from '../loader/Loader.component';
 import React from 'react';
 import ContentList from './ContentList.component';
 import { setContentType } from '../../utils/content/setContentType.utils';
-import { Button } from '../common/Button.component';
 import { SimilarLoadMoreButton, SimilarLoadMoreContainer } from './Similar.styles';
 
 interface SimilarProps {
@@ -44,7 +43,7 @@ const SimilarItems: React.FC<SimilarProps> = ({ content, type, isLoading, isErro
         );
       })}
       <SimilarLoadMoreContainer>
-        <SimilarLoadMoreButton onClick={loadMore} disabled={page >= 1000 || isLoading} aria-label="Load More" title="Load More">
+        <SimilarLoadMoreButton width={60} height={60} onClick={loadMore} disabled={page >= 1000 || isLoading} aria-label="Load More" title="Load More">
           {isLoading ? '...' : <DownArrowIcon />}
         </SimilarLoadMoreButton>
       </SimilarLoadMoreContainer>

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { StyledCirleButton } from '../../components/common/Button.styles';
 
 export const StyledBackdropImage = styled.header<{ src: string }>`
   display: none;
@@ -132,4 +133,14 @@ export const StyledDetailFooter = styled.section`
       color: var(--primary200);
     }
   }
+`;
+
+export const StyledBackToTopButton = styled(StyledCirleButton)`
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 10;
+  background-color: var(--tertary600);
+  border-color: var(--tertary600);
+  color: var(--tertary50);
 `;

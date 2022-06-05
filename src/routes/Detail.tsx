@@ -1,9 +1,10 @@
 import { useInfiniteQuery, useQuery } from 'react-query';
 import { Link, Navigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AxiosError } from 'axios';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
+import { BiChevronUp as UpArrowIcon } from 'react-icons/bi';
 
 import getDetail from '../api/getDetail';
 import StarIcon from '../components/icons/StarIcon.component';
@@ -20,7 +21,8 @@ import {
   StyledRating,
   StyledMetaInfo,
   StyledColumns,
-  StyledDetailFooter
+  StyledDetailFooter,
+  StyledBackToTopButton
 } from '../styles/page/detail.styles';
 import { useAuth } from '../state/auth/authProvider';
 import { useWatchlistData } from '../state/watchlist/watchlistProvider';
@@ -33,7 +35,9 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
   const { id: pathId } = useParams();
   const auth = useAuth();
   const [page, setPage] = useState(1);
-  const [activeSlideIndex, setActiveSlideIndex] = useState(0);
+  const [showBackToTopButton, setShowBackToTopButton] = useState(false);
+  const observer = useRef<IntersectionObserver | null>(null);
+  const detailBodyElementRef = useRef(null);
   // data query
   const { data, isLoading, isError, error } = useQuery<Content, AxiosError>(['detail', pathId], () => getDetail({ type: props.type, id: pathId }), {
     retry: false,
@@ -81,6 +85,28 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
       document.title = `MoviePal | ${data.title || data.name}`;
     }
   }, [data]);
+
+  // back to top button
+  useEffect(() => {
+    if (observer.current) observer.current.disconnect();
+    observer.current = new IntersectionObserver(
+      (records) => {
+        const [mutation] = records;
+        if (mutation.isIntersecting) {
+          setShowBackToTopButton(false);
+        } else {
+          setShowBackToTopButton(true);
+        }
+      },
+      {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0
+      }
+    );
+    if (detailBodyElementRef.current) observer.current.observe(detailBodyElementRef.current);
+    return () => observer.current!.disconnect();
+  });
 
   if (isLoading) {
     return <Loader fullScreen={false} />;
@@ -131,7 +157,7 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
           <h1 className="h3">{data?.title || data?.name || ''}</h1>
         </StyledDetailHeader>
         <motion.div initial={{ y: 30, opacity: 0 }} transition={{ delay: 0.2 }} animate={{ y: 0, opacity: 1 }}>
-          <StyledDetailBody>
+          <StyledDetailBody ref={detailBodyElementRef}>
             <StyledPosterImage>
               {data?.poster_path ? <img src={buildImageUrl({ posterSize: 'w500', src: data.poster_path })} alt="" /> : <img src={placeholderImg} alt="" />}
             </StyledPosterImage>
@@ -241,6 +267,15 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
             />
           </StyledDetailFooter>
         </motion.div>
+        <AnimatePresence>
+          {showBackToTopButton && (
+            <motion.div key="back-to-top" initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 5 }}>
+              <StyledBackToTopButton width={50} height={50} onClick={() => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })}>
+                <UpArrowIcon />
+              </StyledBackToTopButton>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </StyledDetailContainer>
     </motion.div>
   );
