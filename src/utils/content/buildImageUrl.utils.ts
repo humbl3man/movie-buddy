@@ -21,5 +21,5 @@ export function buildImageUrl(options: BuildOptions) {
     size = backdropSize;
   }
 
-  return `${baseURL}/${size}/${src}`.replaceAll('//', '/');
+  return `https://image.tmdb.org/t/p/${size}/${src}`.replaceAll('//', '/');
 }
