@@ -45,7 +45,7 @@ const Home = () => {
   return (
     <div>
       <StyledHero>
-        <h1>MoviePal</h1>
+        <h1>MovieBuddy</h1>
         <div className="search-wrapper">
           <Search />
         </div>

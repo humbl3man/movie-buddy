@@ -28,7 +28,7 @@ const Sort: React.FC<SortProps> = (props) => {
   const { data, isLoading, isError, fetchNextPage } = useInfiniteQuery([props.category], ({ pageParam }) => getPopular({ type: props.category, page: pageParam }));
   const heading = props.category === 'movie' ? 'Movies' : 'TV Shows';
   useEffect(() => {
-    document.title = `MoviePal | ${props.category === 'movie' ? 'Movies' : 'TV Shows'}`;
+    document.title = `MovieBuddy | ${props.category === 'movie' ? 'Movies' : 'TV Shows'}`;
   }, [props.category]);
 
   if (isLoading) {
@@ -50,7 +50,7 @@ const Sort: React.FC<SortProps> = (props) => {
     <StyledContainer>
       <StyledHeader>
         <Link to="/">
-          <p className="xSmall">MoviePal</p>
+          <p className="xSmall">MovieBuddy</p>
         </Link>
         <h1>{heading}</h1>
       </StyledHeader>

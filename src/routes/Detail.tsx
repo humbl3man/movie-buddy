@@ -82,7 +82,7 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
 
   useEffect(() => {
     if (data?.title || data?.name) {
-      document.title = `MoviePal | ${data.title || data.name}`;
+      document.title = `MovieBuddy | ${data.title || data.name}`;
     }
   }, [data]);
 
@@ -146,7 +146,7 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
         <StyledDetailHeader>
           <StyledBreadCrumbs>
             <Link to="/">
-              <p className="xSmall">MoviePal</p>
+              <p className="xSmall">MovieBuddy</p>
             </Link>
             <p className="xSmall">/</p>
             <Link to={props.type === 'movie' ? '/movies' : '/tv'}>
