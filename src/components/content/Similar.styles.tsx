@@ -9,6 +9,8 @@ export const SimilarLoadMoreContainer = styled.div`
 export const SimilarLoadMoreButton = styled(StyledCirleButton)`
   margin-left: auto;
   margin-right: auto;
+  width: 60px;
+  height: 60px;
   transform: translateY(-50%);
   transition: opacity 200ms ease;
   &:disabled {

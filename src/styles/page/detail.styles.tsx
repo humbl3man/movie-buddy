@@ -143,4 +143,6 @@ export const StyledBackToTopButton = styled(StyledCirleButton)`
   background-color: var(--tertary600);
   border-color: var(--tertary600);
   color: var(--tertary50);
+  width: 60px;
+  height: 60px;
 `;

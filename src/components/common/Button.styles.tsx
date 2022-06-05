@@ -158,15 +158,13 @@ export const StyledButton = styled.button<ButtonProps>`
 export const StyledButtonLink = styled(Link)<ButtonLinkProps>`
   ${(props) => buildStylesFromProps(props)}
 `;
-export const StyledCirleButton = styled.button<{ width: number; height: number }>`
+export const StyledCirleButton = styled.button`
   appearance: none;
   border: 2px solid var(--primary100);
   color: var(--primary100);
   background: var(--grey900);
-  width: ${(props) => props.width + 'px'};
-  height: ${(props) => props.height + 'px'};
   border-radius: 50%;
-  font-size: 40px;
+  font-size: inherit;
   display: flex;
   align-items: center;
   justify-content: center;

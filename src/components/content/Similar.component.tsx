@@ -43,8 +43,8 @@ const SimilarItems: React.FC<SimilarProps> = ({ content, type, isLoading, isErro
         );
       })}
       <SimilarLoadMoreContainer>
-        <SimilarLoadMoreButton width={60} height={60} onClick={loadMore} disabled={page >= 1000 || isLoading} aria-label="Load More" title="Load More">
-          {isLoading ? '...' : <DownArrowIcon />}
+        <SimilarLoadMoreButton onClick={loadMore} disabled={page >= 1000 || isLoading} aria-label="Load More" title="Load More">
+          {isLoading ? '...' : <DownArrowIcon size={40} />}
         </SimilarLoadMoreButton>
       </SimilarLoadMoreContainer>
     </div>
