@@ -2,3 +2,8 @@
 from = '/*'
 status = 200
 to = '/index.html'
+
+[[redirects]]
+from = "/images/*"
+to = "https://image.tmdb.org/t/p/:splat"
+status = 200

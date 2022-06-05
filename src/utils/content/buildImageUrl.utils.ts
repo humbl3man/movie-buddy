@@ -11,7 +11,7 @@ export function buildImageUrl(options: BuildOptions) {
     return placeholderImage;
   }
 
-  const baseURL = 'https://image.tmdb.org/t/p/';
+  // const baseURL = 'https://image.tmdb.org/t/p/';
   const { posterSize, backdropSize, src } = options;
   let size = 'original';
   if (typeof posterSize !== 'undefined') {
@@ -21,5 +21,5 @@ export function buildImageUrl(options: BuildOptions) {
     size = backdropSize;
   }
 
-  return `${baseURL}/${size}/${src}`.replaceAll('//', '/');
+  return `/images/${size}/${src}`.replaceAll('//', '/');
 }
