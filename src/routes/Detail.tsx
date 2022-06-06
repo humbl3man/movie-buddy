@@ -42,7 +42,8 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
   const { data, isLoading, isError, error } = useQuery<Content, AxiosError>(['detail', pathId], () => getDetail({ type: props.type, id: pathId }), {
     retry: false,
     refetchInterval: false,
-    refetchOnMount: false
+    refetchOnMount: false,
+    refetchOnWindowFocus: false
   });
   // similar content query
   const {
@@ -52,7 +53,8 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
     fetchNextPage: fetchNextSimilarContent
   } = useInfiniteQuery<Content[], AxiosError>(['similarContent', pathId], ({ pageParam }) => getSimilar({ id: data?.id!, type: props.type, page: pageParam }), {
     enabled: typeof data?.id !== 'undefined',
-    keepPreviousData: true
+    keepPreviousData: true,
+    refetchOnWindowFocus: false
   });
 
   const { watchlist, addToWatchlist, removeFromWatchlist, loadingWatchlist } = useWatchlistData();
