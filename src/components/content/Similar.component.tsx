@@ -42,11 +42,13 @@ const SimilarItems: React.FC<SimilarProps> = ({ content, type, isLoading, isErro
           </div>
         );
       })}
-      <SimilarLoadMoreContainer>
-        <SimilarLoadMoreButton onClick={loadMore} disabled={page >= 1000 || isLoading} aria-label="Load More" title="Load More">
-          {isLoading ? '...' : <DownArrowIcon size={40} />}
-        </SimilarLoadMoreButton>
-      </SimilarLoadMoreContainer>
+      {page < 5 && (
+        <SimilarLoadMoreContainer>
+          <SimilarLoadMoreButton onClick={loadMore} disabled={page >= 1000 || isLoading} aria-label="Load More" title="Load More">
+            {isLoading ? '...' : <DownArrowIcon size={'40px'} />}
+          </SimilarLoadMoreButton>
+        </SimilarLoadMoreContainer>
+      )}
     </div>
   );
 };

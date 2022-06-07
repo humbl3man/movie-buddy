@@ -61,11 +61,7 @@ const ContentCard: React.FC<ContentCardProps> = (props) => {
             </StyledRating>
           )}
           <StyledCardImageContainer>
-            {props.content.poster_path ? (
-              <img src={buildImageUrl({ src: props.content.poster_path, posterSize: 'w500' })} width="500" height="750" alt={props.content.name || props.content.title} />
-            ) : (
-              <img src={placeholderImg} width="512" height="512" alt={props.content.name || props.content.title} />
-            )}
+            <img src={buildImageUrl(props.content.poster_path, { posterSize: 'w500' })} width="500" height="750" alt={props.content.name || props.content.title} />
           </StyledCardImageContainer>
           <StyledCardBody>
             <p>

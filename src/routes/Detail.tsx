@@ -9,7 +9,6 @@ import { BiChevronUp as UpArrowIcon } from 'react-icons/bi';
 import getDetail from '../api/getDetail';
 import StarIcon from '../components/icons/StarIcon.component';
 import { buildImageUrl } from '../utils/content/buildImageUrl.utils';
-import placeholderImg from '../assets/imagePlaceholder.svg';
 import { Content } from '../typings';
 import {
   StyledBackdropImage,
@@ -56,17 +55,17 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
     keepPreviousData: true,
     refetchOnWindowFocus: false
   });
-
   const { watchlist, addToWatchlist, removeFromWatchlist, loadingWatchlist } = useWatchlistData();
   const [addedToList, setAddedToList] = useState(false);
+  const itemHasSimilarContent = !similarLoading && !similarError && similarContent?.pages[0].length !== 0;
 
-  const handleRemoveAdd = () => {
+  function handleRemoveAdd() {
     if (!addedToList) {
       addToWatchlist(auth.authUser?.uid, props.type, data);
     } else {
       removeFromWatchlist(auth.authUser?.uid, data);
     }
-  };
+  }
 
   useEffect(() => {
     if (!loadingWatchlist && data?.id && auth.authUser) {
@@ -133,17 +132,7 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
 
   return (
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-      {data?.backdrop_path ? (
-        <StyledBackdropImage src={buildImageUrl({ backdropSize: 'w1280', src: data.backdrop_path })} />
-      ) : (
-        <StyledBackdropImage
-          src={placeholderImg}
-          style={{
-            backgroundPosition: 'center'
-          }}
-        />
-      )}
-
+      <StyledBackdropImage src={buildImageUrl(data?.backdrop_path, { backdropSize: 'w1280' })} isPlaceholder={!data?.backdrop_path} />
       <StyledDetailContainer>
         <StyledDetailHeader>
           <StyledBreadCrumbs>
@@ -161,14 +150,14 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
         <motion.div initial={{ y: 30, opacity: 0 }} transition={{ delay: 0.2 }} animate={{ y: 0, opacity: 1 }}>
           <StyledDetailBody ref={detailBodyElementRef}>
             <StyledPosterImage>
-              {data?.poster_path ? <img src={buildImageUrl({ posterSize: 'w500', src: data.poster_path })} alt="" /> : <img src={placeholderImg} alt="" />}
+              <img src={buildImageUrl(data?.poster_path, { posterSize: 'w500' })} alt="" />
             </StyledPosterImage>
 
             <div>
               {data?.tagline && <h4>{data?.tagline}</h4>}
               {data?.overview && <p>{data?.overview}</p>}
-              {data?.vote_average && data.vote_average !== 0 && (
-                <StyledRating>
+              {data && data.vote_average !== 0 && (
+                <StyledRating className="vote-average">
                   <StarIcon gold />
                   <p>{data.vote_average.toFixed(1)}</p>
                 </StyledRating>
@@ -206,44 +195,34 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
                         <p className="large">{data.status}</p>
                       </StyledMetaInfo>
                     )}
-                    {data?.first_air_date && (
-                      <StyledMetaInfo>
-                        <p className="label">First air date</p>
-                        <p className="large">{data.first_air_date}</p>
-                      </StyledMetaInfo>
-                    )}
-                    {data?.last_air_date && (
-                      <StyledMetaInfo>
-                        <p className="label">Last air date</p>
-                        <p className="large">{data.last_air_date}</p>
-                      </StyledMetaInfo>
-                    )}
-                    {data?.number_of_seasons && (
-                      <StyledMetaInfo>
-                        <p className="label">No. of seasons</p>
-                        <p className="large">{data.number_of_seasons}</p>
-                      </StyledMetaInfo>
-                    )}
-                    {data?.number_of_episodes && (
-                      <StyledMetaInfo>
-                        <p className="label">No. of episodes</p>
-                        <p className="large">{data.number_of_episodes}</p>
-                      </StyledMetaInfo>
-                    )}
-                  </StyledColumns>
-                  {data?.episode_run_time && data?.episode_run_time[0] && (
                     <StyledMetaInfo>
-                      <p className="label">Episode run time</p>
-                      <p className="large">{data.episode_run_time[0]} min</p>
+                      <p className="label">First air date</p>
+                      <p className="large">{data?.first_air_date ?? 'N/A'}</p>
                     </StyledMetaInfo>
-                  )}
+                    <StyledMetaInfo>
+                      <p className="label">Last air date</p>
+                      <p className="large">{data?.last_air_date ?? 'N/A'}</p>
+                    </StyledMetaInfo>
+                    <StyledMetaInfo>
+                      <p className="label">No. of seasons</p>
+                      <p className="large">{data?.number_of_seasons ?? 0}</p>
+                    </StyledMetaInfo>
+                    <StyledMetaInfo>
+                      <p className="label">No. of episodes</p>
+                      <p className="large">{data?.number_of_episodes ?? 0}</p>
+                    </StyledMetaInfo>
+                  </StyledColumns>
+                  <StyledMetaInfo>
+                    <p className="label">Episode run time</p>
+                    <p className="large">{data?.episode_run_time[0] ?? 0} min</p>
+                  </StyledMetaInfo>
                 </div>
               )}
 
-              {data?.genres?.length && (
+              {data?.genres?.length !== 0 && (
                 <StyledMetaInfo>
                   <p className="label">Genres</p>
-                  <p className="large">{data.genres.map((g) => g.name).join(', ')}</p>
+                  <p className="large">{data?.genres.map((g) => g.name).join(', ')}</p>
                 </StyledMetaInfo>
               )}
 
@@ -254,26 +233,29 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
               )}
             </div>
           </StyledDetailBody>
-          <StyledDetailFooter>
-            <h4 className="similar-items-title">More Like This:</h4>
-            <SimilarItems
-              loadMore={() => {
-                setPage((prev) => prev + 1);
-                fetchNextSimilarContent({ pageParam: page });
-              }}
-              type={props.type}
-              content={similarContent}
-              isLoading={similarLoading}
-              isError={similarError}
-              page={page}
-            />
-          </StyledDetailFooter>
+          {/* Similar Content (More Like This) */}
+          {itemHasSimilarContent && (
+            <StyledDetailFooter>
+              <h4 className="similar-items-title">More Like This:</h4>
+              <SimilarItems
+                loadMore={() => {
+                  setPage((prev) => prev + 1);
+                  fetchNextSimilarContent({ pageParam: page + 1 });
+                }}
+                type={props.type}
+                content={similarContent}
+                isLoading={similarLoading}
+                isError={similarError}
+                page={page}
+              />
+            </StyledDetailFooter>
+          )}
         </motion.div>
         <AnimatePresence>
           {showBackToTopButton && (
             <motion.div key="back-to-top" initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 5 }}>
               <StyledBackToTopButton onClick={() => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })}>
-                <UpArrowIcon size={'80px'} />
+                <UpArrowIcon size={'40px'} />
               </StyledBackToTopButton>
             </motion.div>
           )}
