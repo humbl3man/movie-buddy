@@ -21,6 +21,7 @@ export type ButtonProps = {
   variant?: buttonVariants;
   fullWidth?: boolean;
   isLoading?: boolean;
+  withIcon?: boolean;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
 export type ButtonLinkProps = ButtonProps & LinkProps;

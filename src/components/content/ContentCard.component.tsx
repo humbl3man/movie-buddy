@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { BiPlusCircle as PlusIcon, BiMinusCircle as MinusIcon } from 'react-icons/bi';
 
 import { Content } from '../../typings';
 import { buildImageUrl } from '../../utils/content/buildImageUrl.utils';
 import StarIcon from '../icons/StarIcon.component';
-import placeholderImg from '../../assets/imagePlaceholder.svg';
 import { StyledCard, StyledRating, StyledCardImageContainer, StyledCardBody, StyledWatchlistButtonContainer } from './ContentCard.styles';
 import { useAuth } from '../../state/auth/authProvider';
 import { useWatchlistData } from '../../state/watchlist/watchlistProvider';
@@ -72,8 +72,16 @@ const ContentCard: React.FC<ContentCardProps> = (props) => {
         </Link>
         {showWatchlistButton && (
           <StyledWatchlistButtonContainer>
-            <Button size={buttonSizes.XSMALL} isLoading={loading} type="button" onClick={handleAddRemove}>
-              {addedToList ? '- Remove from list' : '+ Add to list'}
+            <Button size={buttonSizes.XSMALL} isLoading={loading} type="button" withIcon onClick={handleAddRemove}>
+              {addedToList ? (
+                <>
+                  <MinusIcon size="25px" /> <span>Remove</span>
+                </>
+              ) : (
+                <>
+                  <PlusIcon size="25px" /> <span>Add</span>
+                </>
+              )}
             </Button>
           </StyledWatchlistButtonContainer>
         )}

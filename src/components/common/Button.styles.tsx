@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { ButtonLinkProps, ButtonProps, buttonSizes, buttonVariants } from './Button.types';
 
 const baseStyles = `
-  padding: 1.6rem 2.4rem;
+  padding: 1rem 2.4rem;
   line-height: 1;
   appearance: none;
   border: 0;
@@ -19,7 +19,7 @@ const baseStyles = `
   overflow: hidden;
   font-size: 1.5rem;
   @media screen and (min-width: 1024px) {
-    padding: 1.6rem 2.8rem;
+    padding: 1.2rem 2.8rem;
   }
 `;
 
@@ -164,7 +164,17 @@ function buildStylesFromProps(props: ButtonProps) {
     `
       : `
     ${styles}
-    display: inline-block;
+    ${
+      props.withIcon
+        ? `      display: flex;
+    align-items: center;
+    justify-content: center;
+      span {
+        margin-left: 0.4rem;
+      }
+    `
+        : 'display: inline-block;'
+    }
   `;
   }
 
