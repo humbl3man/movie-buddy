@@ -11,6 +11,7 @@ export const SimilarLoadMoreButton = styled(StyledCirleButton)`
   margin-right: auto;
   transform: translateY(-50%);
   transition: opacity 200ms ease;
+  padding: 0.5rem;
   &:disabled {
     opacity: 0.6;
     cursor: not-allowed;

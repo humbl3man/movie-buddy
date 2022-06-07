@@ -3,16 +3,13 @@ import placeholderImage from '../../assets/imagePlaceholder.svg';
 interface BuildOptions {
   posterSize?: 'w92' | 'w154' | 'w185' | 'w342' | 'w500' | 'w780' | 'original';
   backdropSize?: 'w300' | 'w780' | 'w1280' | 'original';
-  src?: string | undefined;
 }
 
-export function buildImageUrl(options: BuildOptions) {
-  if (!options.src) {
-    return placeholderImage;
-  }
+export function buildImageUrl(imageSrc: string | undefined | null, buildOptions: BuildOptions) {
+  if (!imageSrc) return placeholderImage;
 
-  const baseURL = 'https://image.tmdb.org/t/p/';
-  const { posterSize, backdropSize, src } = options;
+  const baseURL = 'https://image.tmdb.org/t/p';
+  const { posterSize, backdropSize } = buildOptions;
   let size = 'original';
   if (typeof posterSize !== 'undefined') {
     size = posterSize;
@@ -21,5 +18,5 @@ export function buildImageUrl(options: BuildOptions) {
     size = backdropSize;
   }
 
-  return new URL(`${baseURL}t/p/${size}/${src}`.replaceAll('//', '/'), import.meta.url).href;
+  return new URL(`${baseURL}/${size}/${imageSrc}`.replaceAll('//', '/'), import.meta.url).href;
 }

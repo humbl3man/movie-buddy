@@ -25,14 +25,14 @@ function buildStylesFromProps(props: ButtonProps) {
     styles = `
       ${styles}
       padding: 1.2rem 1.8rem;
-      font-size: 1.5rem;
+      font-size: 1.4rem;
     `;
   }
   if (props.size === buttonSizes.XSMALL) {
     styles = `
       ${styles}
       padding: 1rem 1.6rem;
-      font-size: 1.4rem;
+      font-size: 1.3rem;
     `;
   }
   // variants
@@ -49,6 +49,22 @@ function buildStylesFromProps(props: ButtonProps) {
       &:disabled {
         cursor: not-allowed;
         background: var(--primary400);
+      }
+    `;
+  }
+  if (props.variant === buttonVariants.SECONDARY) {
+    styles = `
+      ${styles}
+      background: var(--secondary500);
+      color: var(--white);
+      &:hover,
+      &:focus,
+      &:active {
+        background: var(--secondary600);
+      }
+      &:disabled {
+        cursor: not-allowed;
+        background: var(--secondary400);
       }
     `;
   }
@@ -145,7 +161,17 @@ function buildStylesFromProps(props: ButtonProps) {
     `
       : `
     ${styles}
-    display: inline-block;
+    ${
+      props.withIcon
+        ? `      display: flex;
+    align-items: center;
+    justify-content: center;
+      span {
+        margin-left: 0.4rem;
+      }
+    `
+        : 'display: inline-block;'
+    }
   `;
   }
 
@@ -158,15 +184,13 @@ export const StyledButton = styled.button<ButtonProps>`
 export const StyledButtonLink = styled(Link)<ButtonLinkProps>`
   ${(props) => buildStylesFromProps(props)}
 `;
-export const StyledCirleButton = styled.button<{ width: number; height: number }>`
+export const StyledCirleButton = styled.button`
   appearance: none;
   border: 2px solid var(--primary100);
   color: var(--primary100);
   background: var(--grey900);
-  width: ${(props) => props.width + 'px'};
-  height: ${(props) => props.height + 'px'};
   border-radius: 50%;
-  font-size: 40px;
+  font-size: inherit;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -64,7 +64,7 @@ const Search = () => {
                 <StyledSearchResults {...getMenuProps()}>
                   {searchResults.map((result: any, index: number) => {
                     const url = result.media_type === 'movie' ? `/movie/${result.id}` : `/tv/${result.id}`;
-                    const resultImage = result.poster_path ? buildImageUrl({ src: result.poster_path, posterSize: 'w92' }) : placeholderImg;
+                    const resultImage = result.poster_path ? buildImageUrl(result.poster_path, { posterSize: 'w92' }) : placeholderImg;
                     return (
                       <StyledSearchResult
                         to={url}

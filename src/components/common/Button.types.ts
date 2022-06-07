@@ -8,6 +8,7 @@ export enum buttonSizes {
 }
 export enum buttonVariants {
   PRIMARY = 'primary',
+  SECONDARY = 'secondary',
   TERTARY = 'tertary',
   WARNING = 'warning',
   GOOGLE = 'google',
@@ -20,6 +21,7 @@ export type ButtonProps = {
   variant?: buttonVariants;
   fullWidth?: boolean;
   isLoading?: boolean;
+  withIcon?: boolean;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
 export type ButtonLinkProps = ButtonProps & LinkProps;

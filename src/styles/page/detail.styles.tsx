@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { StyledCirleButton } from '../../components/common/Button.styles';
 
-export const StyledBackdropImage = styled.header<{ src: string }>`
+export const StyledBackdropImage = styled.header<{ src: string; isPlaceholder: boolean }>`
   display: none;
   @media screen and (min-width: 767px) {
     display: block;
@@ -12,7 +12,7 @@ export const StyledBackdropImage = styled.header<{ src: string }>`
     background-size: cover;
     background-repeat: no-repeat;
     min-height: 480px;
-    background-position: top;
+    background-position: ${(props) => (props.isPlaceholder ? 'center' : 'top')};
     background-blend-mode: darken;
   }
   @media screen and (min-width: 1100px) {
@@ -140,7 +140,9 @@ export const StyledBackToTopButton = styled(StyledCirleButton)`
   bottom: 2rem;
   right: 2rem;
   z-index: 10;
-  background-color: var(--tertary600);
-  border-color: var(--tertary600);
-  color: var(--tertary50);
+  border-color: var(--tertary300);
+  color: var(--tertary300);
+  padding: 0.5rem;
+  line-height: 1;
+  box-shadow: 1px 5px 22px rgba(0, 0, 0, 0.5);
 `;

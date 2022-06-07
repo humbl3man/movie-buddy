@@ -48,16 +48,24 @@ export const StyledRating = styled.div`
   background-color: var(--black65);
   color: var(--warning500);
   left: 16px;
-  top: 18px;
+  top: 28px;
   position: absolute;
   z-index: 2;
   display: flex;
   align-items: center;
-  padding: 0.8rem 1.2rem;
   border-radius: 8px;
+  padding: 0.4rem 0.6rem;
   p {
     margin: 0 0 0 0.4rem;
+    font-size: 1.5rem;
     color: var(--warning500);
+  }
+  @media screen and (min-width: 767px) {
+    top: 18px;
+    padding: 0.8rem 1.2rem;
+    p {
+      font-size: 1.6rem;
+    }
   }
 `;
 
@@ -66,4 +74,19 @@ export const StyledWatchlistButtonContainer = styled.div`
   z-index: 100;
   top: -16px;
   right: -6px;
+`;
+
+export const StyledWatchlistButton = styled.button`
+  appearance: none;
+  background: transparent;
+  border: 0;
+  color: var(--primary100);
+  cursor: pointer;
+  padding: 0;
+  &:hover {
+    color: var(--primary300);
+  }
+  &:disabled {
+    opacity: 0.6;
+  }
 `;
