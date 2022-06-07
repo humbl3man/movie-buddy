@@ -3,8 +3,7 @@ import styled from 'styled-components';
 import { ButtonLinkProps, ButtonProps, buttonSizes, buttonVariants } from './Button.types';
 
 const baseStyles = `
-  padding: 1rem 2.4rem;
-  line-height: 1;
+  padding: 1.6rem 3.2rem;
   appearance: none;
   border: 0;
   font-family: inherit;
@@ -17,10 +16,6 @@ const baseStyles = `
   position: relative;
   z-index: 1;
   overflow: hidden;
-  font-size: 1.5rem;
-  @media screen and (min-width: 1024px) {
-    padding: 2rem 2.8rem;
-  }
 `;
 
 function buildStylesFromProps(props: ButtonProps) {
@@ -29,12 +24,14 @@ function buildStylesFromProps(props: ButtonProps) {
   if (props.size === buttonSizes.SMALL) {
     styles = `
       ${styles}
+      padding: 1.2rem 1.8rem;
       font-size: 1.4rem;
     `;
   }
   if (props.size === buttonSizes.XSMALL) {
     styles = `
       ${styles}
+      padding: 1rem 1.6rem;
       font-size: 1.3rem;
     `;
   }
