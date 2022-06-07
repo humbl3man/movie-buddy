@@ -75,3 +75,18 @@ export const StyledWatchlistButtonContainer = styled.div`
   top: -16px;
   right: -6px;
 `;
+
+export const StyledWatchlistButton = styled.button`
+  appearance: none;
+  background: transparent;
+  border: 0;
+  color: var(--primary100);
+  cursor: pointer;
+  padding: 0;
+  &:hover {
+    color: var(--primary300);
+  }
+  &:disabled {
+    opacity: 0.6;
+  }
+`;

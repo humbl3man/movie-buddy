@@ -254,7 +254,7 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
         <AnimatePresence>
           {showBackToTopButton && (
             <motion.div key="back-to-top" initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 5 }}>
-              <StyledBackToTopButton onClick={() => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })}>
+              <StyledBackToTopButton aria-label="Back to top" title="Back to top" onClick={() => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })}>
                 <UpArrowIcon size={'40px'} />
               </StyledBackToTopButton>
             </motion.div>

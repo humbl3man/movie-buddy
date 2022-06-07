@@ -19,7 +19,7 @@ const baseStyles = `
   overflow: hidden;
   font-size: 1.5rem;
   @media screen and (min-width: 1024px) {
-    padding: 1.2rem 2.8rem;
+    padding: 2rem 2.8rem;
   }
 `;
 

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { BiPlusCircle as PlusIcon, BiMinusCircle as MinusIcon } from 'react-icons/bi';
+import { AiFillPlusCircle as PlusIcon, AiFillMinusCircle as MinusIcon } from 'react-icons/ai';
 
 import { Content } from '../../typings';
 import { buildImageUrl } from '../../utils/content/buildImageUrl.utils';
 import StarIcon from '../icons/StarIcon.component';
-import { StyledCard, StyledRating, StyledCardImageContainer, StyledCardBody, StyledWatchlistButtonContainer } from './ContentCard.styles';
+import { StyledCard, StyledRating, StyledCardImageContainer, StyledCardBody, StyledWatchlistButtonContainer, StyledWatchlistButton } from './ContentCard.styles';
 import { useAuth } from '../../state/auth/authProvider';
 import { useWatchlistData } from '../../state/watchlist/watchlistProvider';
 import { Button } from '../common/Button.component';
@@ -24,6 +24,7 @@ const ContentCard: React.FC<ContentCardProps> = (props) => {
   const [loading, setLoading] = useState(false);
   const [addedToList, setAddedToList] = useState<boolean>(false);
   const showWatchlistButton = Boolean(authUser) && props.showWatchlistButton;
+  const watchlistButtonLabel = addedToList ? 'Remove from list' : 'Add to list';
 
   function handleAddRemove(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     setLoading(true);
@@ -72,17 +73,17 @@ const ContentCard: React.FC<ContentCardProps> = (props) => {
         </Link>
         {showWatchlistButton && (
           <StyledWatchlistButtonContainer>
-            <Button size={buttonSizes.XSMALL} isLoading={loading} type="button" withIcon onClick={handleAddRemove}>
+            <StyledWatchlistButton type="button" aria-label={watchlistButtonLabel} title={watchlistButtonLabel} disabled={loading} onClick={handleAddRemove}>
               {addedToList ? (
                 <>
-                  <MinusIcon size="25px" /> <span>Remove</span>
+                  <MinusIcon size="40px" />
                 </>
               ) : (
                 <>
-                  <PlusIcon size="25px" /> <span>Add</span>
+                  <PlusIcon size="40px" />
                 </>
               )}
-            </Button>
+            </StyledWatchlistButton>
           </StyledWatchlistButtonContainer>
         )}
       </StyledCard>
