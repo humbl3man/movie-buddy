@@ -8,6 +8,7 @@ export enum buttonSizes {
 }
 export enum buttonVariants {
   PRIMARY = 'primary',
+  SECONDARY = 'secondary',
   TERTARY = 'tertary',
   WARNING = 'warning',
   GOOGLE = 'google',

@@ -19,6 +19,9 @@ const StyledFilterSelect = styled.ul`
   li {
     padding: 0;
     list-style: none;
+      &:not(:last-of-type) {
+      margin-right: 1rem;
+    }
   }
 `;
 const StyledFilterButton = styled.button<StyledFilterButtonProps>`
@@ -32,16 +35,18 @@ const StyledFilterButton = styled.button<StyledFilterButtonProps>`
   height: 4rem;
   justify-content: center;
   min-width: 80px;
+  border: 2px solid transparent;
+  background: transparent;
   ${(props) => {
     if (props.active) {
       return `
-        background-color: var(--primary400);
-        color: var(--primary50);
+        border-color: var(--warning400);
+        color: var(--warning400);
       `;
     }
     return `
       color: var(--grey300);
-      background: transparent;
+      border-color: transparent;
     `;
   }}
 `;

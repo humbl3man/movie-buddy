@@ -5,7 +5,7 @@ import { ButtonLinkProps, ButtonProps, buttonSizes, buttonVariants } from './But
 export const Button: React.FC<ButtonProps> = ({ size = buttonSizes.NORMAL, variant = buttonVariants.PRIMARY, fullWidth = false, isLoading = false, children, ...rest }) => {
   return (
     <StyledButton disabled={isLoading} size={size} variant={variant} fullWidth={fullWidth} {...rest}>
-      {isLoading ? <span>Loading...</span> : children}
+      {children}
     </StyledButton>
   );
 };
