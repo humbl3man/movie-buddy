@@ -6,11 +6,13 @@ import { useAuth } from '../../state/auth/authProvider';
 import { StyledAuthError, StyledAuthWarning } from '../../styles/page/dashboard.styles';
 import { Button, ButtonLink } from '../common/Button.component';
 import { buttonSizes } from '../common/Button.types';
+import { useWatchlistData } from '../../state/watchlist/watchlistProvider';
+import WatchlistPreview from './WatchlistPreview.component';
 
 const DashboardHome = () => {
   const { authUser, authError, verifyEmail } = useAuth();
+  const { watchlist } = useWatchlistData();
   const [isLoading, setIsLoading] = useState(false);
-
   const [verificationSent, setVerificationSent] = useState(false);
   const handleVerifyEmailClick = () => {
     setIsLoading(true);
@@ -25,6 +27,8 @@ const DashboardHome = () => {
       }
     );
   };
+
+  const numberOfItemsInWatchlist = watchlist?.length ?? 0;
 
   return (
     <>
@@ -68,6 +72,7 @@ const DashboardHome = () => {
           </p>
         </StyledAuthWarning>
       )}
+      <WatchlistPreview watchlistCount={numberOfItemsInWatchlist} />
     </>
   );
 };

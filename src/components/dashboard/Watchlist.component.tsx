@@ -11,7 +11,7 @@ const Watchlist = () => {
   const { watchlist, loadingWatchlist, removeWatchlist } = useWatchlistData();
 
   function handleDeleteWatchlist() {
-    const removeConfirm = confirm('Are you sure you want to delete your watchlist?');
+    const removeConfirm = confirm('Are you sure you want to clear all items in your watchlist?');
     if (removeConfirm) {
       removeWatchlist(authUser?.uid);
     }
@@ -25,20 +25,18 @@ const Watchlist = () => {
             display: 'flex',
             alignItems: 'center'
           }}>
-          <span>
-            {watchlist.length === 0 ? `No` : watchlist.length} Item{watchlist.length === 1 ? '' : 's'} in your list
-          </span>
+          <span>{watchlist.length === 0 ? `Your watchlist is empty` : `${watchlist.length} item${watchlist.length === 1 ? '' : 's'} in your list`}</span>
           {watchlist.length > 0 && (
             <Button
               type="button"
               variant={buttonVariants.DANGER}
               size={buttonSizes.XSMALL}
               style={{
-                marginLeft: '1rem'
+                marginLeft: '2rem'
               }}
               disabled={loadingWatchlist}
               onClick={handleDeleteWatchlist}>
-              Remove all items
+              Clear All
             </Button>
           )}
         </h3>
