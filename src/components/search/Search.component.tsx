@@ -8,12 +8,12 @@ import getMultiSearchResults from '../../api/getMultiSearchResults';
 import { buildImageUrl } from '../../utils/content/buildImageUrl.utils';
 import placeholderImg from '../../assets/imagePlaceholder.svg';
 import XIcon from '../icons/XIcon.component';
-import { StyledSearchWrapper, StyledXButton, StyledSearchResults, StyledSearchResult } from './Search.styles';
+import { StyledSearchWrapper, StyledXButton, StyledSearchResults, StyledSearchResult, StyledSearch } from './Search.styles';
 import { AnimatePresence, motion } from 'framer-motion';
 
 const SEARCH_TIMEOUT: number = 500;
 
-const Search = () => {
+const Search: React.FC<{ onSearchItemSelect?: () => void }> = (props) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const navigate = useNavigate();
@@ -39,6 +39,11 @@ const Search = () => {
   const handleResultChange = (result: any) => {
     const url = result.media_type === 'movie' ? `/movie/${result.id}` : `/tv/${result.id}`;
     navigate(url, { replace: false });
+    setSearchTerm('');
+    setSearchResults([]);
+    if (typeof props.onSearchItemSelect === 'function') {
+      props.onSearchItemSelect();
+    }
   };
 
   return (
@@ -47,9 +52,12 @@ const Search = () => {
         {({ getLabelProps, getInputProps, getItemProps, getMenuProps, highlightedIndex }) => {
           return (
             <div>
-              <InputWrapper label="Search Movies or TV Shows" iconPosition="left" icon={<img src={searchIcon} alt="" aria-hidden />}>
-                <input {...getInputProps()} placeholder=" " value={searchTerm} onChange={handleSearchInputChange} />
-                <label {...getLabelProps()}>Search Movies or TV Shows</label>
+              <StyledSearch>
+                <label {...getLabelProps()} className="sr-only">
+                  Search Movies or TV Shows
+                </label>
+                <input {...getInputProps()} className="search-input" placeholder="Search Movies or TV Shows" value={searchTerm} onChange={handleSearchInputChange} />
+                <img className="search-icon" src={searchIcon} alt="" />
                 <StyledXButton
                   visible={Boolean(searchTerm)}
                   type="button"
@@ -59,7 +67,7 @@ const Search = () => {
                   }}>
                   <XIcon />
                 </StyledXButton>
-              </InputWrapper>
+              </StyledSearch>
               {searchResults.length > 0 && (
                 <StyledSearchResults {...getMenuProps()}>
                   {searchResults.map((result: any, index: number) => {

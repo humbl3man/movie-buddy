@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useInfiniteQuery } from 'react-query';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { BsArrowLeft as LeftArrow } from 'react-icons/bs';
+
 import getPopular from '../api/getPopular';
 import { Button } from '../components/common/Button.component';
 import ContentList from '../components/content/ContentList.component';
-import Search from '../components/search/Search.component';
 import { setContentType } from '../utils/content/setContentType.utils';
 
 const StyledContainer = styled.section`
@@ -49,17 +50,18 @@ const Sort: React.FC<SortProps> = (props) => {
   return (
     <StyledContainer>
       <StyledHeader>
-        <Link to="/">
-          <p className="xSmall">MovieBuddy</p>
+        <Link
+          to="/"
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            padding: 2,
+            color: 'var(--primary300)'
+          }}>
+          <LeftArrow style={{ display: 'inline-block', marginRight: '0.5rem' }} /> <span>Go Home</span>
         </Link>
         <h1>{heading}</h1>
       </StyledHeader>
-      <div
-        style={{
-          marginBottom: '4.8rem'
-        }}>
-        <Search />
-      </div>
       {Boolean(data?.pages) &&
         data?.pages.map((page, i) => {
           return (

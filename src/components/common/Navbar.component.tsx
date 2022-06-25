@@ -7,6 +7,7 @@ import logo from '../../assets/logo.svg';
 import { useAuth } from '../../state/auth/authProvider';
 import { StyledHeader, StyledNavWrapper, StyledNavLinks, StyledWatchlistCount, StyledAvatarImage } from './Navbar.styles';
 import { useWatchlistData } from '../../state/watchlist/watchlistProvider';
+import Search from '../search/Search.component';
 
 const RightArrowSvg = () => {
   return (
@@ -60,6 +61,9 @@ const Navbar = () => {
         </button>
         <StyledNavLinks>
           <ul>
+            <li className="nav-search">
+              <Search onSearchItemSelect={closeMenu} />
+            </li>
             <li>
               <NavLink to="/" onClick={closeMenu}>
                 Home

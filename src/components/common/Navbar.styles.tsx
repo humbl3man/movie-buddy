@@ -8,7 +8,7 @@ export const StyledHeader = styled.header`
   padding-top: 2rem;
   position: relative;
   z-index: 100;
-  overflow-y: hidden;
+  /* overflow-y: hidden; */
 
   .menuToggle,
   .menuClose {
@@ -112,13 +112,10 @@ export const StyledNavLinks = styled.nav`
       &:first-child {
         margin-left: 0;
       }
-      &:last-child {
-        margin-left: 4.8rem;
-      }
     }
   }
   a,
-  button {
+  li:not(.nav-search) button {
     width: 100%;
     color: var(--grey200);
     text-decoration: none;
@@ -144,7 +141,7 @@ export const StyledNavLinks = styled.nav`
     }
   }
 
-  button {
+  li:not(.nav-search) button {
     appearance: none;
     background: none;
     font-family: inherit;
