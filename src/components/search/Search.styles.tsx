@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const StyledSearchWrapper = styled.div`
@@ -48,7 +47,7 @@ export const StyledSearchResults = styled.div`
   background: var(--grey100);
   margin-top: 0.5rem;
   min-width: 370px;
-  max-height: 500px;
+  max-height: 400px;
   overflow-y: auto;
   position: absolute;
   top: 100%;

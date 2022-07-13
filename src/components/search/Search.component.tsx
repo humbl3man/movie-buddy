@@ -1,15 +1,13 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Downshift from 'downshift';
 
-import { InputWrapper } from '../common/Input.component';
 import searchIcon from '../../assets/search-icon.svg';
 import getMultiSearchResults from '../../api/getMultiSearchResults';
 import { buildImageUrl } from '../../utils/content/buildImageUrl.utils';
 import placeholderImg from '../../assets/imagePlaceholder.svg';
 import XIcon from '../icons/XIcon.component';
 import { StyledSearchWrapper, StyledXButton, StyledSearchResults, StyledSearchResult, StyledSearch } from './Search.styles';
-import { AnimatePresence, motion } from 'framer-motion';
 
 const SEARCH_TIMEOUT: number = 500;
 
@@ -17,6 +15,7 @@ const Search: React.FC<{ onSearchItemSelect?: () => void }> = (props) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const navigate = useNavigate();
+  const searchInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -24,8 +23,9 @@ const Search: React.FC<{ onSearchItemSelect?: () => void }> = (props) => {
     window.setTimeout(() => {
       if (e.target.value) {
         getMultiSearchResults({ query: e.target.value })
-          .then((data) => {
-            setSearchResults(data.data.results.filter((result: any) => result.media_type !== 'person'));
+          .then((response) => {
+            const results: any[] = response.data.results.filter((result: any) => result.media_type !== 'person');
+            setSearchResults(results.slice(0, 20));
           })
           .catch((err) => {
             console.error(err);
@@ -46,6 +46,16 @@ const Search: React.FC<{ onSearchItemSelect?: () => void }> = (props) => {
     }
   };
 
+  const handleResultsClear = () => {
+    setSearchTerm('');
+    setSearchResults([]);
+    searchInputRef.current?.focus();
+  };
+
+  const handleSearchBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    setSearchResults([]);
+  };
+
   return (
     <StyledSearchWrapper>
       <Downshift onChange={handleResultChange} itemToString={(result: any) => (result ? result.title || result.name || '' : '')}>
@@ -56,15 +66,17 @@ const Search: React.FC<{ onSearchItemSelect?: () => void }> = (props) => {
                 <label {...getLabelProps()} className="sr-only">
                   Search Movies or TV Shows
                 </label>
-                <input {...getInputProps()} className="search-input" placeholder="Search Movies or TV Shows" value={searchTerm} onChange={handleSearchInputChange} />
+                <input
+                  {...getInputProps()}
+                  className="search-input"
+                  placeholder="Search Movies or TV Shows"
+                  value={searchTerm}
+                  onChange={handleSearchInputChange}
+                  onBlur={handleSearchBlur}
+                  ref={searchInputRef}
+                />
                 <img className="search-icon" src={searchIcon} alt="" />
-                <StyledXButton
-                  visible={Boolean(searchTerm)}
-                  type="button"
-                  onClick={() => {
-                    setSearchTerm('');
-                    setSearchResults([]);
-                  }}>
+                <StyledXButton visible={Boolean(searchTerm)} type="button" onClick={handleResultsClear}>
                   <XIcon />
                 </StyledXButton>
               </StyledSearch>
