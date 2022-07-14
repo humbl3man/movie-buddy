@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const StyledContainer = styled.section`
   display: grid;
+  margin-top: 5rem;
 
   @media screen and (min-width: 767px) {
     grid-template-columns: minmax(300px, 1fr) 1fr;

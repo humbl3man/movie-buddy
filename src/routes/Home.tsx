@@ -4,7 +4,6 @@ import getPopular from '../api/getPopular';
 import { Content, Filter } from '../typings';
 import FilterSelect from '../components/content/FilterSelect.component';
 import ContentList from '../components/content/ContentList.component';
-import Search from '../components/search/Search.component';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { setContentType } from '../utils/content/setContentType.utils';
 import { StyledFeaturedContainer, StyledFeaturedResults, StyledHero } from '../styles/page/home.styles';
@@ -50,9 +49,9 @@ const Home = () => {
     <div>
       <StyledHero>
         <h1>MovieBuddy</h1>
-        <div className="search-wrapper">
-          <Search />
-        </div>
+        <p className="large">
+          MovieBuddy is a website that helps you navigate thousands of Movies and TV shows. Additionally, you can create an account to add any movie or TV show to your watchlist!
+        </p>
         <FilterSelect
           selectedFilter={filter}
           onFilterSelect={(filter) => {

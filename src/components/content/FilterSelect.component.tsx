@@ -11,7 +11,7 @@ type StyledFilterButtonProps = {
 };
 const StyledFilterSelect = styled.ul`
   list-style: none;
-  margin: 0;
+  margin: 4rem 0 0;
   background: var(--black20);
   padding 0.8rem;
   display: flex;

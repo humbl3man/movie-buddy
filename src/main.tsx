@@ -4,18 +4,19 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { GlobalStyle } from './styles/global.styles';
 import App from './App';
-import Home from './routes/Home';
-import Sort from './routes/Sort';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import { AuthContextProvider } from './state/auth/authProvider';
+import { WatchlistProvider } from './state/watchlist/watchlistProvider';
+
+import PasswordReset from './routes/PasswordReset';
 import Detail from './routes/Detail';
 import NotFound from './routes/NotFound';
-import { AuthContextProvider } from './state/auth/authProvider';
+import Home from './routes/Home';
+import Sort from './routes/Sort';
 import Account from './routes/Account';
 import Dashboard from './routes/Dashboard';
 import PrivateRoute from './components/routing/PrivateRoute.component';
-import PasswordReset from './routes/PasswordReset';
-import { WatchlistProvider } from './state/watchlist/watchlistProvider';
 
 const queryClient = new QueryClient();
 

@@ -1,6 +1,7 @@
 import { Outlet, Route, Routes } from 'react-router-dom';
 
 import { StyledDashboardContainer } from '../styles/page/dashboard.styles';
+
 import DashboardHome from '../components/dashboard/Home.component';
 import UpdateName from '../components/dashboard/UpdateName.component';
 import NotFound from './NotFound';
