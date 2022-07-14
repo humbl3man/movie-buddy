@@ -8,7 +8,6 @@ export const StyledHeader = styled.header`
   padding-top: 2rem;
   position: relative;
   z-index: 100;
-  /* overflow-y: hidden; */
 
   .menuToggle,
   .menuClose {
