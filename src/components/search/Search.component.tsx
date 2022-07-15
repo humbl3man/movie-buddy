@@ -24,8 +24,9 @@ const Search: React.FC<{ onSearchItemSelect?: () => void }> = (props) => {
       if (e.target.value) {
         getMultiSearchResults({ query: e.target.value })
           .then((response) => {
-            const results: any[] = response.data.results.filter((result: any) => result.media_type !== 'person');
-            setSearchResults(results.slice(0, 20));
+            // exclude person type from search results
+            const results = response.results.filter((result) => result.media_type !== 'person');
+            setSearchResults(results);
           })
           .catch((err) => {
             console.error(err);
