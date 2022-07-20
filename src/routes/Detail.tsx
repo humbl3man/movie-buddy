@@ -9,7 +9,7 @@ import { BiChevronUp as UpArrowIcon } from 'react-icons/bi';
 import getDetail from '../api/getDetail';
 import StarIcon from '../components/icons/StarIcon.component';
 import { buildImageUrl } from '../utils/content/buildImageUrl.utils';
-import { Content } from '../typings';
+import { Content, MovieCredit } from '../typings';
 import {
   StyledBackdropImage,
   StyledDetailBody,
@@ -29,6 +29,8 @@ import SimilarItems from '../components/content/Similar.component';
 import Loader from '../components/loader/Loader.component';
 import { Button } from '../components/common/Button.component';
 import getSimilar from '../api/getSimilar';
+import Credits from '../components/content/Credits';
+import getMovieCredits from '../api/getMovieCredits';
 
 const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
   const { id: pathId } = useParams();
@@ -55,6 +57,16 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
     keepPreviousData: true,
     refetchOnWindowFocus: false
   });
+  // cast (movie)
+  const {
+    data: movieCredits,
+    status: movieCreditsStatus,
+    error: movieCreditsError
+  } = useQuery<MovieCredit, AxiosError>(['movie_credits', pathId], () => getMovieCredits(pathId), {
+    enabled: props.type === 'movie'
+  });
+  // cast (tv)
+  // TODO: implement
   const { watchlist, addToWatchlist, removeFromWatchlist, loadingWatchlist } = useWatchlistData();
   const [addedToList, setAddedToList] = useState(false);
   const itemHasSimilarContent = !similarLoading && !similarError && similarContent?.pages[0].length !== 0;
@@ -233,10 +245,11 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
               )}
             </div>
           </StyledDetailBody>
+          {props.type === 'movie' && movieCredits?.cast && <Credits data={movieCredits.cast} />}
           {/* Similar Content (More Like This) */}
           {itemHasSimilarContent && (
             <StyledDetailFooter>
-              <h4 className="similar-items-title">More Like This:</h4>
+              <h2 className="h4 similar-items-title">More Like This:</h2>
               <SimilarItems
                 loadMore={() => {
                   setPage((prev) => prev + 1);

@@ -217,6 +217,23 @@ export const GlobalStyle = createGlobalStyle`
       color: var(--white);
     }
   }
+  .pseudo-link {
+    appearance: none;
+    background: transparent;
+    padding: 0;
+    border: 0;
+    text-align: left;
+    font-size: inherit;
+    font-family: inherit;
+    color: var(--grey100);
+    cursor: pointer;
+    font-weight: 600;
+    transition: color 200ms ease;
+    text-decoration: none; 
+    &:hover {
+      color: var(--white);
+    }
+  }
   .caption {
     font-size: 1.4rem;
     line-height: 1.6rem;
