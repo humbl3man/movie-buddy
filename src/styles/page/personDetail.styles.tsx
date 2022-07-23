@@ -4,7 +4,7 @@ export const StyledPersonDetailContainer = styled.div`
   margin-top: 6rem;
   display: grid;
   gap: 6rem;
-  @media screen and (min-width: 640px) {
+  @media screen and (min-width: 767px) {
     grid-template-columns: 320px 1fr;
   }
   @media screen and (min-width: 1024px) {
@@ -17,7 +17,7 @@ export const StyledPersonImage = styled.div`
     width: 100%;
     height: auto;
     object-fit: cover;
-    @media screen and (min-width: 640px) {
+    @media screen and (min-width: 767px) {
       max-width: 320px;
     }
     @media screen and (min-width: 1024px) {

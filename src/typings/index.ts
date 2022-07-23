@@ -9,11 +9,11 @@ export interface Content {
   profile_path?: string;
   type: 'movie' | 'tv';
   genres: { id: string | number; name: string }[];
-  episode_run_time: any[];
+  episode_run_time: number[];
   tagline?: string;
   overview?: string;
   release_date?: string;
-  runtime?: string;
+  runtime?: number;
   status?: string;
   first_air_date?: string;
   last_air_date?: string;
@@ -38,6 +38,19 @@ export interface PersonImage {
   file_path: string | null | undefined;
   height: number;
   width: number;
+}
+
+export interface PersonCastCredit {
+  adult: boolean;
+  id: number;
+  overview: string;
+  character: string;
+  title: string;
+  name: string;
+  credit_id: number;
+  media_type: string;
+  release_date: string;
+  first_air_date: string;
 }
 
 export interface MovieCast {

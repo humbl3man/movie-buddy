@@ -31,6 +31,7 @@ import { Button } from '../components/common/Button.component';
 import getSimilar from '../api/getSimilar';
 import Credits from '../components/content/Credits';
 import getMovieCredits from '../api/getMovieCredits';
+import getTvCredits from '../api/getTvCredits';
 
 const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
   const { id: pathId } = useParams();
@@ -63,10 +64,24 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
     status: movieCreditsStatus,
     error: movieCreditsError
   } = useQuery<MovieCredit, AxiosError>(['movie_credits', pathId], () => getMovieCredits(pathId), {
-    enabled: props.type === 'movie'
+    enabled: props.type === 'movie',
+    retry: false,
+    refetchInterval: false,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false
   });
   // cast (tv)
-  // TODO: implement
+  const {
+    data: tvCredits,
+    status: tvCreditsStatus,
+    error: tvCreditsError
+  } = useQuery<MovieCredit, AxiosError>(['movie_credits', pathId], () => getTvCredits(pathId), {
+    enabled: props.type === 'tv',
+    retry: false,
+    refetchInterval: false,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false
+  });
   const { watchlist, addToWatchlist, removeFromWatchlist, loadingWatchlist } = useWatchlistData();
   const [addedToList, setAddedToList] = useState(false);
   const itemHasSimilarContent = !similarLoading && !similarError && similarContent?.pages[0].length !== 0;
@@ -186,12 +201,10 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
                       <p className="large">{data.release_date}</p>
                     </StyledMetaInfo>
                   )}
-                  {data?.runtime && (
-                    <StyledMetaInfo>
-                      <p className="label">Run time</p>
-                      <p className="large">{data.runtime} min</p>
-                    </StyledMetaInfo>
-                  )}
+                  <StyledMetaInfo>
+                    <p className="label">Run time</p>
+                    <p className="large">{data?.runtime && data?.runtime !== 0 ? `${data.runtime} min` : 'N/A'}</p>
+                  </StyledMetaInfo>
                 </div>
               )}
               {props.type === 'tv' && (
@@ -226,7 +239,7 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
                   </StyledColumns>
                   <StyledMetaInfo>
                     <p className="label">Episode run time</p>
-                    <p className="large">{data?.episode_run_time[0] ?? 0} min</p>
+                    <p className="large">{data?.episode_run_time[0] && data?.episode_run_time[0] !== 0 ? `${data?.episode_run_time[0]} min` : 'N/A'}</p>
                   </StyledMetaInfo>
                 </div>
               )}
@@ -246,6 +259,7 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
             </div>
           </StyledDetailBody>
           {props.type === 'movie' && movieCredits?.cast && <Credits data={movieCredits.cast} />}
+          {props.type === 'tv' && tvCredits?.cast && <Credits data={tvCredits.cast} />}
           {/* Similar Content (More Like This) */}
           {itemHasSimilarContent && (
             <StyledDetailFooter>

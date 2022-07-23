@@ -1,12 +1,10 @@
-import { useInfiniteQuery, useQuery } from 'react-query';
-import { Link, Navigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
 import { AxiosError } from 'axios';
-import { AnimatePresence, motion } from 'framer-motion';
-import { BiChevronUp as UpArrowIcon } from 'react-icons/bi';
+import { motion } from 'framer-motion';
 import { StyledPersonContent, StyledPersonDetailContainer, StyledPersonImage } from '../styles/page/personDetail.styles';
-import { Person, PersonImage } from '../typings';
+import { Person, PersonCastCredit, PersonImage } from '../typings';
 import getPersonDetail from '../api/getPersonDetail';
 import Loader from '../components/loader/Loader.component';
 import getPersonImage from '../api/getPersonImage';
@@ -15,6 +13,7 @@ import placeholderImage from '../assets/imagePlaceholder.svg';
 import { Button } from '../components/common/Button.component';
 import { buttonSizes } from '../components/common/Button.types';
 import getPersonCombinedCredits from '../api/getPersonCombinedCredits';
+import PersonCredits from '../components/content/personDetail/Credits.component';
 
 enum Gender {
   Female = 1,
@@ -79,18 +78,17 @@ const PersonDetail = () => {
     refetchOnWindowFocus: false
   });
   // get person combined credits
-  const {
-    data: creditsData,
-    status: creditsStatus,
-    error: creditsError,
-    isError: isCreditsError
-  } = useQuery(['person_combined_credits', id], () => getPersonCombinedCredits(id), {
-    enabled: !!id,
-    retry: false,
-    refetchInterval: false,
-    refetchOnMount: false,
-    refetchOnWindowFocus: false
-  });
+  const { data: combinedCreditsData, status: combinedCreditsStatus } = useQuery<{ cast: PersonCastCredit[] }, AxiosError>(
+    ['person_combined_credits', id],
+    () => getPersonCombinedCredits(id),
+    {
+      enabled: !!id,
+      retry: false,
+      refetchInterval: false,
+      refetchOnMount: false,
+      refetchOnWindowFocus: false
+    }
+  );
   const maxCharacterCount = 1000;
   const [showMore, setShowMore] = useState(false);
   const [personImage] = imageData?.profiles ?? [];
@@ -169,6 +167,7 @@ const PersonDetail = () => {
           )}
         </StyledPersonContent>
       </StyledPersonDetailContainer>
+      {combinedCreditsStatus === 'success' && combinedCreditsData?.cast && <PersonCredits data={combinedCreditsData.cast} />}
     </motion.div>
   );
 };
