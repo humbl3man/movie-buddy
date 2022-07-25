@@ -258,6 +258,7 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
               )}
             </div>
           </StyledDetailBody>
+          {/* Cast info for movie/tv */}
           {props.type === 'movie' && movieCredits?.cast && <Credits data={movieCredits.cast} />}
           {props.type === 'tv' && tvCredits?.cast && <Credits data={tvCredits.cast} />}
           {/* Similar Content (More Like This) */}

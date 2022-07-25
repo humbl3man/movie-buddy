@@ -1,7 +1,10 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { MovieCast } from '../../typings';
 import { buildImageUrl } from '../../utils/content/buildImageUrl.utils';
+
+import placeHolderImage from '../../assets/placeholder-images/placeholder185x277.svg';
 
 const StyledCredits = styled.div`
   margin: 3rem 0;
@@ -38,6 +41,10 @@ const Credits: React.FC<CreditProps> = (props) => {
       return 0;
     });
 
+  const handleImageError = (event: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    event.currentTarget.src = placeHolderImage;
+  };
+
   return (
     <StyledCredits>
       <h2 className="h4">Cast</h2>
@@ -45,7 +52,7 @@ const Credits: React.FC<CreditProps> = (props) => {
         {cast.map((cast) => {
           return (
             <StyledCastCard to={`/person/${cast.id}`} key={cast.id}>
-              <img src={buildImageUrl(cast.profile_path, { posterSize: 'w185' })} width={185} height={277} alt={cast.name} />
+              <img src={buildImageUrl(cast.profile_path, { posterSize: 'w185' })} onError={handleImageError} width={185} height={277} alt={cast.name} />
               <p>
                 <strong>{cast.name}</strong>
                 <br />
