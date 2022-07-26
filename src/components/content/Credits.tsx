@@ -26,11 +26,16 @@ const StyledCastCard = styled(Link)`
 
 type CreditProps = {
   data: MovieCast[];
+  max?: number;
 };
 
-const Credits: React.FC<CreditProps> = (props) => {
-  const cast = props.data
-    .filter((item) => Boolean(item.profile_path))
+function creditsFilterFn(item: MovieCast) {
+  return Boolean(item.profile_path) && Boolean(item.character) && Boolean(item.name);
+}
+
+const Credits: React.FC<CreditProps> = ({ data, max = 20 }) => {
+  const cast = data
+    .filter(creditsFilterFn)
     .sort((a, b) => {
       if (a.order < b.order) {
         return -1;
@@ -39,7 +44,8 @@ const Credits: React.FC<CreditProps> = (props) => {
         return 1;
       }
       return 0;
-    });
+    })
+    .slice(0, max);
 
   const handleImageError = (event: React.SyntheticEvent<HTMLImageElement, Event>) => {
     event.currentTarget.src = placeHolderImage;

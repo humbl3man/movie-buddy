@@ -63,10 +63,6 @@ const Search: React.FC<{ onSearchItemSelect?: () => void }> = (props) => {
     searchInputRef.current?.focus();
   };
 
-  const handleSearchBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    // setSearchResults([]);
-  };
-
   return (
     <StyledSearchWrapper>
       <Downshift onChange={handleResultChange} itemToString={(result: any) => (result ? result.title || result.name || '' : '')}>
@@ -83,7 +79,6 @@ const Search: React.FC<{ onSearchItemSelect?: () => void }> = (props) => {
                   placeholder="Search Movies or TV Shows"
                   value={searchTerm}
                   onChange={handleSearchInputChange}
-                  onBlur={handleSearchBlur}
                   ref={searchInputRef}
                 />
                 <img className="search-icon" src={searchIcon} alt="" />
@@ -94,7 +89,6 @@ const Search: React.FC<{ onSearchItemSelect?: () => void }> = (props) => {
               {searchResults.length > 0 && (
                 <StyledSearchResults {...getMenuProps()}>
                   {searchResults.map((result: Content, index: number) => {
-                    console.log(result);
                     const url = result.media_type === 'movie' ? `/movie/${result.id}` : `/tv/${result.id}`;
                     let resultImage: string = placeholderImg;
                     if (result.poster_path) {
