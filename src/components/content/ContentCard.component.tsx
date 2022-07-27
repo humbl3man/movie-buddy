@@ -9,8 +9,8 @@ import StarIcon from '../icons/StarIcon.component';
 import { StyledCard, StyledRating, StyledCardImageContainer, StyledCardBody, StyledWatchlistButtonContainer, StyledWatchlistButton } from './ContentCard.styles';
 import { useAuth } from '../../state/auth/authProvider';
 import { useWatchlistData } from '../../state/watchlist/watchlistProvider';
-import { Button } from '../common/Button.component';
-import { buttonSizes } from '../common/Button.types';
+
+import placeholderImage500x750 from '../../assets/placeholder-images/placeholder500x750.svg';
 
 type ContentCardProps = {
   url: string;
@@ -25,6 +25,10 @@ const ContentCard: React.FC<ContentCardProps> = (props) => {
   const [addedToList, setAddedToList] = useState<boolean>(false);
   const showWatchlistButton = Boolean(authUser) && props.showWatchlistButton;
   const watchlistButtonLabel = addedToList ? 'Remove from list' : 'Add to list';
+
+  function handleImageError(event: React.SyntheticEvent<HTMLImageElement, Event>) {
+    event.currentTarget.src = placeholderImage500x750;
+  }
 
   function handleAddRemove(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     setLoading(true);
@@ -62,7 +66,13 @@ const ContentCard: React.FC<ContentCardProps> = (props) => {
             </StyledRating>
           )}
           <StyledCardImageContainer>
-            <img src={buildImageUrl(props.content.poster_path, { posterSize: 'w500' })} width="500" height="750" alt={props.content.name || props.content.title} />
+            <img
+              src={buildImageUrl(props.content.poster_path, { posterSize: 'w500' })}
+              width="500"
+              height="750"
+              onError={handleImageError}
+              alt={props.content.name || props.content.title}
+            />
           </StyledCardImageContainer>
           <StyledCardBody>
             <p>

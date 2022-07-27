@@ -8,6 +8,7 @@ import { buildImageUrl } from '../../utils/content/buildImageUrl.utils';
 import placeholderImg from '../../assets/imagePlaceholder.svg';
 import XIcon from '../icons/XIcon.component';
 import { StyledSearchWrapper, StyledXButton, StyledSearchResults, StyledSearchResult, StyledSearch } from './Search.styles';
+import { Content } from '../../typings';
 
 const SEARCH_TIMEOUT: number = 500;
 
@@ -24,9 +25,7 @@ const Search: React.FC<{ onSearchItemSelect?: () => void }> = (props) => {
       if (e.target.value) {
         getMultiSearchResults({ query: e.target.value })
           .then((response) => {
-            // exclude person type from search results
-            const results = response.results.filter((result) => result.media_type !== 'person');
-            setSearchResults(results);
+            setSearchResults(response.results);
           })
           .catch((err) => {
             console.error(err);
@@ -38,7 +37,18 @@ const Search: React.FC<{ onSearchItemSelect?: () => void }> = (props) => {
   };
 
   const handleResultChange = (result: any) => {
-    const url = result.media_type === 'movie' ? `/movie/${result.id}` : `/tv/${result.id}`;
+    let url = '';
+
+    if (result.media_type === 'movie') {
+      url = `/movie/${result.id}`;
+    }
+    if (result.media_type === 'tv') {
+      url = `/tv/${result.id}`;
+    }
+    if (result.media_type === 'person') {
+      url = `/person/${result.id}`;
+    }
+
     navigate(url, { replace: false });
     setSearchTerm('');
     setSearchResults([]);
@@ -51,10 +61,6 @@ const Search: React.FC<{ onSearchItemSelect?: () => void }> = (props) => {
     setSearchTerm('');
     setSearchResults([]);
     searchInputRef.current?.focus();
-  };
-
-  const handleSearchBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    setSearchResults([]);
   };
 
   return (
@@ -73,7 +79,6 @@ const Search: React.FC<{ onSearchItemSelect?: () => void }> = (props) => {
                   placeholder="Search Movies or TV Shows"
                   value={searchTerm}
                   onChange={handleSearchInputChange}
-                  onBlur={handleSearchBlur}
                   ref={searchInputRef}
                 />
                 <img className="search-icon" src={searchIcon} alt="" />
@@ -83,9 +88,16 @@ const Search: React.FC<{ onSearchItemSelect?: () => void }> = (props) => {
               </StyledSearch>
               {searchResults.length > 0 && (
                 <StyledSearchResults {...getMenuProps()}>
-                  {searchResults.map((result: any, index: number) => {
+                  {searchResults.map((result: Content, index: number) => {
                     const url = result.media_type === 'movie' ? `/movie/${result.id}` : `/tv/${result.id}`;
-                    const resultImage = result.poster_path ? buildImageUrl(result.poster_path, { posterSize: 'w92' }) : placeholderImg;
+                    let resultImage: string = placeholderImg;
+                    if (result.poster_path) {
+                      resultImage = buildImageUrl(result.poster_path, { posterSize: 'w92' });
+                    } else if (result.backdrop_path) {
+                      resultImage = buildImageUrl(result.backdrop_path, { posterSize: 'w92' });
+                    } else if (result.profile_path) {
+                      resultImage = buildImageUrl(result.profile_path, { posterSize: 'w92' });
+                    }
                     return (
                       <StyledSearchResult
                         to={url}
@@ -98,11 +110,7 @@ const Search: React.FC<{ onSearchItemSelect?: () => void }> = (props) => {
                             color: highlightedIndex === index ? 'var(--primary800)' : ''
                           }
                         })}>
-                        {result.poster_path ? (
-                          <img src={resultImage} width={192} height={138} alt={result.title || result.name} />
-                        ) : (
-                          <img src={resultImage} alt={result.title || result.name} width={512} height={512} />
-                        )}{' '}
+                        <img src={resultImage} width={92} height={138} alt={result.title || result.name} />
                         <div>
                           <p className="xSmall" style={{ margin: 0, color: 'var(--grey500)' }}>
                             {result.media_type}

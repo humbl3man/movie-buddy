@@ -9,7 +9,7 @@ import { BiChevronUp as UpArrowIcon } from 'react-icons/bi';
 import getDetail from '../api/getDetail';
 import StarIcon from '../components/icons/StarIcon.component';
 import { buildImageUrl } from '../utils/content/buildImageUrl.utils';
-import { Content } from '../typings';
+import { Content, MovieCredit } from '../typings';
 import {
   StyledBackdropImage,
   StyledDetailBody,
@@ -29,6 +29,9 @@ import SimilarItems from '../components/content/Similar.component';
 import Loader from '../components/loader/Loader.component';
 import { Button } from '../components/common/Button.component';
 import getSimilar from '../api/getSimilar';
+import Credits from '../components/content/Credits';
+import getMovieCredits from '../api/getMovieCredits';
+import getTvCredits from '../api/getTvCredits';
 
 const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
   const { id: pathId } = useParams();
@@ -53,6 +56,30 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
   } = useInfiniteQuery<Content[], AxiosError>(['similarContent', pathId], ({ pageParam }) => getSimilar({ id: data?.id!, type: props.type, page: pageParam }), {
     enabled: typeof data?.id !== 'undefined',
     keepPreviousData: true,
+    refetchOnWindowFocus: false
+  });
+  // cast (movie)
+  const {
+    data: movieCredits,
+    status: movieCreditsStatus,
+    error: movieCreditsError
+  } = useQuery<MovieCredit, AxiosError>(['movie_credits', pathId], () => getMovieCredits(pathId), {
+    enabled: props.type === 'movie',
+    retry: false,
+    refetchInterval: false,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false
+  });
+  // cast (tv)
+  const {
+    data: tvCredits,
+    status: tvCreditsStatus,
+    error: tvCreditsError
+  } = useQuery<MovieCredit, AxiosError>(['movie_credits', pathId], () => getTvCredits(pathId), {
+    enabled: props.type === 'tv',
+    retry: false,
+    refetchInterval: false,
+    refetchOnMount: false,
     refetchOnWindowFocus: false
   });
   const { watchlist, addToWatchlist, removeFromWatchlist, loadingWatchlist } = useWatchlistData();
@@ -174,12 +201,10 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
                       <p className="large">{data.release_date}</p>
                     </StyledMetaInfo>
                   )}
-                  {data?.runtime && (
-                    <StyledMetaInfo>
-                      <p className="label">Run time</p>
-                      <p className="large">{data.runtime} min</p>
-                    </StyledMetaInfo>
-                  )}
+                  <StyledMetaInfo>
+                    <p className="label">Run time</p>
+                    <p className="large">{data?.runtime && data?.runtime !== 0 ? `${data.runtime} min` : 'N/A'}</p>
+                  </StyledMetaInfo>
                 </div>
               )}
               {props.type === 'tv' && (
@@ -214,7 +239,7 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
                   </StyledColumns>
                   <StyledMetaInfo>
                     <p className="label">Episode run time</p>
-                    <p className="large">{data?.episode_run_time[0] ?? 0} min</p>
+                    <p className="large">{data?.episode_run_time[0] && data?.episode_run_time[0] !== 0 ? `${data?.episode_run_time[0]} min` : 'N/A'}</p>
                   </StyledMetaInfo>
                 </div>
               )}
@@ -233,10 +258,13 @@ const Detail: React.FC<{ type: 'movie' | 'tv' }> = (props) => {
               )}
             </div>
           </StyledDetailBody>
+          {/* Cast info for movie/tv */}
+          {props.type === 'movie' && movieCredits?.cast && <Credits data={movieCredits.cast} />}
+          {props.type === 'tv' && tvCredits?.cast && <Credits data={tvCredits.cast} />}
           {/* Similar Content (More Like This) */}
           {itemHasSimilarContent && (
             <StyledDetailFooter>
-              <h4 className="similar-items-title">More Like This:</h4>
+              <h2 className="h4 similar-items-title">More Like This:</h2>
               <SimilarItems
                 loadMore={() => {
                   setPage((prev) => prev + 1);

@@ -23,6 +23,6 @@ export const StyledFeaturedResults = styled.div`
   margin-top: 4rem;
   .featured-title {
     color: var(--grey400);
-    margin-bottom: 5rem;
+    margin-bottom: 3rem;
   }
 `;

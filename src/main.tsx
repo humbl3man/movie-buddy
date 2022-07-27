@@ -17,6 +17,7 @@ import Sort from './routes/Sort';
 import Account from './routes/Account';
 import Dashboard from './routes/Dashboard';
 import PrivateRoute from './components/routing/PrivateRoute.component';
+import PersonDetail from './routes/PersonDetail';
 
 const queryClient = new QueryClient();
 
@@ -53,6 +54,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
                 {/* Detail Pages */}
                 <Route path="movie/:id" element={<Detail type="movie" />} />
                 <Route path="tv/:id" element={<Detail type="tv" />} />
+                {/* Person Detail */}
+                <Route path="person/:id" element={<PersonDetail />} />
                 {/* Everything else - 404 */}
                 <Route path="*" element={<NotFound />} />
               </Route>
