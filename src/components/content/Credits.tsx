@@ -14,15 +14,11 @@ import { buildImageUrl } from '../../utils/content/buildImageUrl.utils';
 import placeHolderImage from '../../assets/placeholder-images/placeholder185x277.svg';
 
 const StyledCredits = styled.div`
-  margin: 3rem 0;
+  margin: 3rem 0 0;
   padding: 3rem 0 0;
   border-top: 1px solid var(--grey700);
 `;
 const StyledCastList = styled.div`
-  /* display: flex; */
-  /* flew-wrap: nowrap; */
-  /* align-items: flex-start; */
-  /* overflow-y: auto; */
   position: relative;
   .swiper-button-next,
   .swiper-button-prev {
@@ -60,7 +56,9 @@ const StyledCastList = styled.div`
 const StyledCastCard = styled(Link)`
   margin-right: 2rem;
   img {
-    max-width: 185px;
+    width: 100%;
+    max-width: 240px;
+    height: auto;
   }
 `;
 
@@ -90,17 +88,34 @@ const Credits: React.FC<CreditProps> = ({ data, max = 20 }) => {
   const handleImageError = (event: React.SyntheticEvent<HTMLImageElement, Event>) => {
     event.currentTarget.src = placeHolderImage;
   };
-
-  // TODO: responsive
   const sliderConfig: SwiperProps = {
-    spaceBetween: 50,
-    slidesPerView: 5,
-    slidesPerGroup: 5,
+    spaceBetween: 20,
+    slidesPerView: 2,
     grabCursor: true,
     modules: [Navigation],
+    // freeMode: {
+    //   enabled: true,
+    //   sticky: true
+    // },
     navigation: {
       nextEl: '.swiper-button-next',
       prevEl: '.swiper-button-prev'
+    },
+    breakpoints: {
+      640: {
+        slidesPerView: 3,
+        slidesPerGroup: 3
+      },
+      800: {
+        slidesPerView: 4,
+        slidesPerGroup: 4,
+        spaceBetween: 30
+      },
+      1024: {
+        slidesPerView: 5,
+        slidesPerGroup: 5,
+        spaceBetween: 40
+      }
     }
   };
 
@@ -119,7 +134,7 @@ const Credits: React.FC<CreditProps> = ({ data, max = 20 }) => {
             return (
               <SwiperSlide key={cast.id}>
                 <StyledCastCard to={`/person/${cast.id}`}>
-                  <img src={buildImageUrl(cast.profile_path, { posterSize: 'w185' })} onError={handleImageError} width={185} height={277} alt={cast.name} />
+                  <img src={buildImageUrl(cast.profile_path, { posterSize: 'w342' })} onError={handleImageError} width={185} height={277} alt={cast.name} />
                   <p>
                     <strong>{cast.name}</strong>
                     <br />

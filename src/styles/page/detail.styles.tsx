@@ -126,7 +126,7 @@ export const StyledSkeletonText = styled.span<{ full?: boolean }>`
 
 export const StyledDetailFooter = styled.section`
   padding-top: 3rem;
-  margin-top: 6rem;
+  margin-top: 3rem;
   border-top: 1px solid var(--grey700);
   .similar-items-title {
     span {
