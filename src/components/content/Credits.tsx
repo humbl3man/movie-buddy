@@ -6,7 +6,6 @@ import { Navigation } from 'swiper';
 import { FaChevronLeft as PrevIcon, FaChevronRight as NextIcon } from 'react-icons/fa';
 
 import 'swiper/css';
-// import 'swiper/css/navigation';
 
 import { MovieCast } from '../../typings';
 import { buildImageUrl } from '../../utils/content/buildImageUrl.utils';
@@ -34,7 +33,6 @@ const StyledCastList = styled.div`
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: 20px;
     &:disabled {
       opacity: 0.2;
     }
@@ -93,10 +91,6 @@ const Credits: React.FC<CreditProps> = ({ data, max = 20 }) => {
     slidesPerView: 2,
     grabCursor: true,
     modules: [Navigation],
-    // freeMode: {
-    //   enabled: true,
-    //   sticky: true
-    // },
     navigation: {
       nextEl: '.swiper-button-next',
       prevEl: '.swiper-button-prev'
@@ -123,10 +117,10 @@ const Credits: React.FC<CreditProps> = ({ data, max = 20 }) => {
     <StyledCredits>
       <h2 className="h4">Cast</h2>
       <StyledCastList>
-        <button className="swiper-button-prev">
+        <button className="swiper-button-prev" aria-label="Previous">
           <PrevIcon />
         </button>
-        <button className="swiper-button-next">
+        <button className="swiper-button-next" aria-label="Next">
           <NextIcon />
         </button>
         <Swiper {...sliderConfig}>
