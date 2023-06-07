@@ -1,8 +1,5 @@
 import styled from 'styled-components';
-
-type LoaderProps = {
-  fullScreen?: boolean;
-};
+import { LoaderProps } from '../../typings';
 
 export const StyledLoadingScreen = styled.div<LoaderProps>`
   display: flex;

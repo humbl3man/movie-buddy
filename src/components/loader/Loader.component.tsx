@@ -1,12 +1,9 @@
+import { LoaderProps } from '../../typings';
 import { StyledLoadingScreen, StyledSpinner } from './Loader.styles';
 
-type LoaderProps = {
-  fullScreen?: boolean;
-};
-
-const Loader: React.FC<LoaderProps> = (props) => {
+const Loader = ({ fullScreen }: LoaderProps) => {
   return (
-    <StyledLoadingScreen fullScreen={props.fullScreen}>
+    <StyledLoadingScreen fullScreen={fullScreen}>
       <StyledSpinner>
         <div></div>
         <div></div>

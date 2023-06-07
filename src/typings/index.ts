@@ -67,3 +67,7 @@ export interface MovieCredit {
   id: number;
   cast: MovieCast[];
 }
+
+export interface LoaderProps {
+  fullScreen?: boolean;
+}
