@@ -26,7 +26,7 @@ const SimilarItems: React.FC<SimilarProps> = ({ content, type, isLoading, isErro
   }
 
   if (!content?.pages) {
-    return <p>No countent found.</p>;
+    return <p>No content found.</p>;
   }
 
   return (
